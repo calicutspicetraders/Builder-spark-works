@@ -208,9 +208,63 @@ export const useGoogleAuth = () => {
           throw new Error(result.error || "Registration failed");
         }
       } else {
-        // Regular login flow (check if user exists)
-        // For now, we'll handle this as a guest login
-        throw new Error("Invite code required for registration");
+        // Regular login flow (check if user exists or allow domain emails)
+        const allowedDomains = ["calicutspicetraders.com", "gmail.com"];
+        const emailDomain = userInfo.email.split("@")[1];
+
+        if (!allowedDomains.includes(emailDomain)) {
+          throw new Error(
+            "Access restricted to authorized email domains. Please contact your administrator.",
+          );
+        }
+
+        // For existing users or domain emails, create/login user
+        const userProfile = {
+          id: `user_${userInfo.sub}`,
+          fullName: userInfo.name,
+          email: userInfo.email,
+          phone: "",
+          jobTitle: userInfo.email.includes("calicutspicetraders.com")
+            ? "Team Member"
+            : "",
+          department: userInfo.email.includes("calicutspicetraders.com")
+            ? "Operations"
+            : "",
+          timezone: "UTC",
+          bio: "",
+          avatar: userInfo.picture,
+          initials: userInfo.name
+            .split(" ")
+            .map((n) => n[0])
+            .join("")
+            .toUpperCase()
+            .slice(0, 2),
+          role: userInfo.email.includes("calicutspicetraders.com")
+            ? "admin"
+            : ("user" as const),
+          preferences: {
+            language: "en",
+            currency: "USD",
+            dateFormat: "dd-mm-yyyy",
+            timeFormat: "24h",
+            defaultDashboard: "overview",
+          },
+          isOnline: true,
+          lastActive: new Date().toISOString(),
+        };
+
+        login(userProfile);
+
+        // Store session info
+        const sessionToken = `session_${Date.now()}_${userInfo.sub}`;
+        const expiresAt = new Date(
+          Date.now() + 24 * 60 * 60 * 1000,
+        ).toISOString(); // 24 hours
+
+        localStorage.setItem("session_token", sessionToken);
+        localStorage.setItem("session_expires", expiresAt);
+
+        return { success: true, user: userProfile };
       }
     } catch (error) {
       console.error("Google sign-in failed:", error);
