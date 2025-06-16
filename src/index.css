@@ -150,9 +150,25 @@
     animation: glow 2s ease-in-out infinite alternate;
   }
 
-  /* Fixed header spacing - ensures content is not covered by 80px fixed header */
+  /* Fixed header spacing - ensures content is not covered by header */
   .header-safe {
-    padding-top: 6rem; /* 96px = 80px header + 16px extra spacing */
+    padding-top: 4.5rem; /* 72px = 64px mobile header + 8px spacing */
+  }
+
+  @screen sm {
+    .header-safe {
+      padding-top: 6rem; /* 96px = 80px desktop header + 16px spacing */
+    }
+  }
+
+  /* Mobile-first responsive navigation */
+  .nav-container {
+    @apply px-4 sm:px-6 lg:px-8;
+    max-width: 100vw;
+  }
+
+  .nav-mobile-friendly {
+    @apply text-sm sm:text-base;
   }
 }
 
