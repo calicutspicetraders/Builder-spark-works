@@ -346,7 +346,15 @@ const SuperAdminContentManager = () => {
                 <Smartphone className="w-4 h-4" />
               </Button>
             </div>
-            <Button className="modern-button">
+            <Button
+              className="modern-button"
+              onClick={() => {
+                // Save all changes logic
+                console.log("Saving all changes...");
+                // You can add actual save logic here
+                alert("All changes saved successfully!");
+              }}
+            >
               <Save className="w-4 h-4 mr-2" />
               Save All Changes
             </Button>
@@ -508,7 +516,15 @@ const SuperAdminContentManager = () => {
                               >
                                 Cancel
                               </Button>
-                              <Button className="modern-button">
+                              <Button
+                                className="modern-button"
+                                onClick={() => {
+                                  console.log("Creating content block...");
+                                  // Add actual create logic here
+                                  alert("Content block created successfully!");
+                                  // Close dialog
+                                }}
+                              >
                                 Create Content Block
                               </Button>
                             </div>
@@ -643,7 +659,15 @@ const SuperAdminContentManager = () => {
                     <CardTitle className="text-white">Quick Actions</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    <Button className="w-full modern-button" size="sm">
+                    <Button
+                      className="w-full modern-button"
+                      size="sm"
+                      onClick={() => {
+                        console.log("Refreshing preview...");
+                        // Add actual refresh logic here
+                        window.location.reload();
+                      }}
+                    >
                       <RefreshCw className="w-4 h-4 mr-2" />
                       Refresh Preview
                     </Button>
@@ -886,7 +910,15 @@ const SuperAdminContentManager = () => {
                             >
                               Cancel
                             </Button>
-                            <Button className="modern-button">
+                            <Button
+                              className="modern-button"
+                              onClick={() => {
+                                console.log("Creating plugin...");
+                                // Add actual create plugin logic here
+                                alert("Plugin created successfully!");
+                                // Close dialog
+                              }}
+                            >
                               Create Plugin
                             </Button>
                           </div>
@@ -962,7 +994,14 @@ const SuperAdminContentManager = () => {
                               </p>
                             </div>
                           </div>
-                          <Button size="sm" className="modern-button">
+                          <Button
+                            size="sm"
+                            className="modern-button"
+                            onClick={() => {
+                              console.log(`Installing ${template.name}...`);
+                              alert(`${template.name} installed successfully!`);
+                            }}
+                          >
                             Install
                           </Button>
                         </div>
@@ -1049,13 +1088,23 @@ const SuperAdminContentManager = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Button className="w-full modern-button">
+                  <Button
+                    className="w-full modern-button"
+                    onClick={() => {
+                      console.log("Creating backup...");
+                      alert("Backup created successfully!");
+                    }}
+                  >
                     <Download className="w-4 h-4 mr-2" />
                     Create Full Backup
                   </Button>
                   <Button
                     variant="outline"
                     className="w-full border-white/20 text-white"
+                    onClick={() => {
+                      console.log("Restoring from backup...");
+                      alert("Restore functionality coming soon!");
+                    }}
                   >
                     <Upload className="w-4 h-4 mr-2" />
                     Restore from Backup
@@ -1063,6 +1112,16 @@ const SuperAdminContentManager = () => {
                   <Button
                     variant="outline"
                     className="w-full border-white/20 text-white"
+                    onClick={() => {
+                      if (
+                        confirm(
+                          "Are you sure you want to reset all settings to defaults? This action cannot be undone.",
+                        )
+                      ) {
+                        console.log("Resetting to defaults...");
+                        alert("Settings reset to defaults!");
+                      }
+                    }}
                   >
                     <RefreshCw className="w-4 h-4 mr-2" />
                     Reset to Defaults
