@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useUser } from "@/contexts/UserContext";
 import {
   Card,
   CardContent,
@@ -37,6 +38,73 @@ import {
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("profile");
+  const { user, updateUser } = useUser();
+
+  // Form state
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    jobTitle: "",
+    department: "",
+    timezone: "",
+    bio: "",
+    language: "",
+    currency: "",
+    dateFormat: "",
+    timeFormat: "",
+    defaultDashboard: "",
+  });
+
+  // Load user data into form when user changes
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        fullName: user.fullName || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        jobTitle: user.jobTitle || "",
+        department: user.department || "",
+        timezone: user.timezone || "UTC",
+        bio: user.bio || "",
+        language: user.preferences.language || "en",
+        currency: user.preferences.currency || "USD",
+        dateFormat: user.preferences.dateFormat || "dd-mm-yyyy",
+        timeFormat: user.preferences.timeFormat || "24h",
+        defaultDashboard: user.preferences.defaultDashboard || "overview",
+      });
+    }
+  }, [user]);
+
+  const handleSaveProfile = () => {
+    if (user) {
+      updateUser({
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        jobTitle: formData.jobTitle,
+        department: formData.department,
+        timezone: formData.timezone,
+        bio: formData.bio,
+      });
+      alert("Profile updated successfully!");
+    }
+  };
+
+  const handleSavePreferences = () => {
+    if (user) {
+      updateUser({
+        preferences: {
+          language: formData.language,
+          currency: formData.currency,
+          dateFormat: formData.dateFormat,
+          timeFormat: formData.timeFormat,
+          defaultDashboard: formData.defaultDashboard,
+        },
+      });
+      alert("Preferences updated successfully!");
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 header-safe">
@@ -92,13 +160,15 @@ const Settings = () => {
                 {/* Profile Picture */}
                 <div className="flex items-center space-x-4">
                   <Avatar className="h-20 w-20">
-                    <AvatarImage src="/api/placeholder/80/80" alt="Profile" />
-                    <AvatarFallback className="text-lg">JD</AvatarFallback>
+                    <AvatarImage src={user?.avatar || ""} alt="Profile" />
+                    <AvatarFallback className="text-lg">
+                      {user?.initials || "U"}
+                    </AvatarFallback>
                   </Avatar>
-                  <div className="space-y-2">
-                    <Button variant="outline" size="sm">
-                      <Upload className="w-4 h-4 mr-2" />
-                      Change Photo
+                  <Button className="modern-button" onClick={handleSaveProfile}>
+                    <Save className="w-4 h-4 mr-2" />
+                    Save Profile
+                  </Button>
                     </Button>
                     <p className="text-sm text-muted-foreground">
                       JPG, PNG or GIF. Max size 2MB.
@@ -112,7 +182,8 @@ const Settings = () => {
                     <Label htmlFor="full-name">Full Name</Label>
                     <Input
                       id="full-name"
-                      defaultValue="John Doe"
+                      value={formData.fullName}
+                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                       placeholder="Enter your full name"
                     />
                   </div>
@@ -121,7 +192,8 @@ const Settings = () => {
                     <Input
                       id="email"
                       type="email"
-                      defaultValue="john@calicutspicetraders.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="Enter your email"
                     />
                   </div>
@@ -129,7 +201,8 @@ const Settings = () => {
                     <Label htmlFor="phone">Phone Number</Label>
                     <Input
                       id="phone"
-                      defaultValue="+91 9876543210"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="Enter your phone number"
                     />
                   </div>
@@ -137,13 +210,17 @@ const Settings = () => {
                     <Label htmlFor="title">Job Title</Label>
                     <Input
                       id="title"
-                      defaultValue="Export Manager"
+                      value={formData.jobTitle}
+                      onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
                       placeholder="Enter your job title"
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="department">Department</Label>
-                    <Select defaultValue="export">
+                    <Select
+                      value={formData.department}
+                      onValueChange={(value) => setFormData({ ...formData, department: value })}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select department" />
                       </SelectTrigger>
@@ -162,7 +239,10 @@ const Settings = () => {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="timezone">Timezone</Label>
-                    <Select defaultValue="ist">
+                    <Select
+                      value={formData.timezone}
+                      onValueChange={(value) => setFormData({ ...formData, timezone: value })}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select timezone" />
                       </SelectTrigger>
@@ -188,7 +268,8 @@ const Settings = () => {
                     id="bio"
                     placeholder="Tell us about yourself..."
                     className="min-h-[100px]"
-                    defaultValue="Experienced export manager specializing in spice trade with international markets."
+                    value={formData.bio}
+                    onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                   />
                 </div>
               </div>
