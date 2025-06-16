@@ -54,7 +54,7 @@ import {
   RefreshCw,
   Zap,
   Package,
-  Plugin,
+  Puzzle,
   Paintbrush,
 } from "lucide-react";
 
@@ -377,7 +377,7 @@ const SuperAdminContentManager = () => {
               value="plugins"
               className="rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white"
             >
-              <Plugin className="w-4 h-4 mr-2" />
+              <Puzzle className="w-4 h-4 mr-2" />
               Plugins
             </TabsTrigger>
             <TabsTrigger
@@ -535,7 +535,7 @@ const SuperAdminContentManager = () => {
                                 <Sparkles className="w-full h-full text-white" />
                               )}
                               {block.type === "plugin" && (
-                                <Plugin className="w-full h-full text-white" />
+                                <Puzzle className="w-full h-full text-white" />
                               )}
                               {block.type === "custom" && (
                                 <Code className="w-full h-full text-white" />
@@ -896,7 +896,7 @@ const SuperAdminContentManager = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-12">
-                    <Plugin className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                    <Puzzle className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                     <h3 className="text-lg font-medium text-white mb-2">
                       No plugins installed
                     </h3>
