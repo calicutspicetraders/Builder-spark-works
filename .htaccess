@@ -1,5 +1,9 @@
-# Hostinger Production .htaccess
+# 🚀 Hostinger Production .htaccess - Calicut Spice Traders Workspace
 # Optimized for workspace.calicutspicetraders.com
+
+# ====================================
+# 🔧 PERFORMANCE OPTIMIZATION
+# ====================================
 
 # Enable compression for better performance
 <IfModule mod_deflate.c>
@@ -14,109 +18,273 @@
     AddOutputFilterByType DEFLATE application/javascript
     AddOutputFilterByType DEFLATE application/x-javascript
     AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/font-woff
+    AddOutputFilterByType DEFLATE application/font-woff2
+    AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
 
-# Browser caching for static assets
+# Browser caching for static assets (Hostinger optimized)
 <IfModule mod_expires.c>
     ExpiresActive On
+    
+    # Images - 1 month
     ExpiresByType image/jpg "access plus 1 month"
     ExpiresByType image/jpeg "access plus 1 month"
     ExpiresByType image/gif "access plus 1 month"
     ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
     ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS and JavaScript - 1 month
     ExpiresByType text/css "access plus 1 month"
-    ExpiresByType application/pdf "access plus 1 month"
-    ExpiresByType text/javascript "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
     ExpiresByType application/x-javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    
+    # Fonts - 1 year
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+    ExpiresByType application/x-font-ttf "access plus 1 year"
+    ExpiresByType font/opentype "access plus 1 year"
+    
+    # Documents and data - 1 hour
+    ExpiresByType application/pdf "access plus 1 month"
     ExpiresByType application/json "access plus 1 hour"
     ExpiresByType text/html "access plus 1 hour"
+    ExpiresByType text/xml "access plus 1 hour"
 </IfModule>
 
 # Cache control headers
 <IfModule mod_headers.c>
     # Cache static assets for 1 month
-    <FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$">
-        Header set Cache-Control "max-age=2592000, public"
+    <FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|webp)$">
+        Header set Cache-Control "max-age=2592000, public, immutable"
+        Header set Pragma "public"
     </FilesMatch>
     
-    # Cache HTML for 1 hour
+    # Cache HTML for 1 hour (dynamic content)
     <FilesMatch "\.(html|htm)$">
-        Header set Cache-Control "max-age=3600, public"
+        Header set Cache-Control "max-age=3600, public, must-revalidate"
     </FilesMatch>
     
-    # Don't cache API responses
+    # Don't cache PHP/API responses
     <FilesMatch "\.(php)$">
-        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Cache-Control "no-cache, no-store, must-revalidate, private"
         Header set Pragma "no-cache"
         Header set Expires "0"
     </FilesMatch>
     
-    # Security headers
-    Header always set X-Frame-Options "SAMEORIGIN"
-    Header always set X-Content-Type-Options "nosniff"
-    Header always set X-XSS-Protection "1; mode=block"
-    Header always set Referrer-Policy "strict-origin-when-cross-origin"
-    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    # ====================================
+    # 🔒 SECURITY HEADERS
+    # ====================================
     
-    # CORS headers for API
-    Header always set Access-Control-Allow-Origin "https://workspace.calicutspicetraders.com"
-    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-    Header always set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    # Prevent clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # Prevent MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # XSS Protection
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Permissions Policy (restrict dangerous features)
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(self)"
+    
+    # Content Security Policy (basic)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://accounts.google.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://accounts.google.com"
+    
+    # ====================================
+    # 🌐 CORS HEADERS (API specific)
+    # ====================================
+    
+    # CORS for API endpoints
+    <FilesMatch "\.(php)$">
+        Header always set Access-Control-Allow-Origin "https://workspace.calicutspicetraders.com"
+        Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Header always set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+        Header always set Access-Control-Allow-Credentials "true"
+    </FilesMatch>
 </IfModule>
 
-# Rewrite engine
+# ====================================
+# 🔄 URL REWRITING
+# ====================================
+
 RewriteEngine On
 
-# Force HTTPS
+# Force HTTPS (Hostinger SSL)
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Handle API routing
-RewriteRule ^api/(.*)$ api/$1 [L]
+# Force www removal (workspace.calicutspicetraders.com)
+RewriteCond %{HTTP_HOST} ^www\.workspace\.calicutspicetraders\.com [NC]
+RewriteRule ^(.*)$ https://workspace.calicutspicetraders.com/$1 [L,R=301]
 
-# Handle React Router (SPA)
+# Handle API routing (preserve query strings)
+RewriteRule ^api/(.*)$ api/$1 [L,QSA]
+
+# Handle React Router (SPA) - must be last
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/api/
+RewriteCond %{REQUEST_URI} !^/config/
 RewriteRule . /index.html [L]
 
-# Security: Block access to sensitive files
+# ====================================
+# 🔒 SECURITY RULES
+# ====================================
+
+# Block access to sensitive files
 <FilesMatch "^\.">
     Order allow,deny
     Deny from all
 </FilesMatch>
 
-<FilesMatch "\.(env|sql|log|config)$">
+# Block access to configuration and sensitive files
+<FilesMatch "\.(env|sql|log|config|bak|backup|old|tmp|ini)$">
     Order allow,deny
     Deny from all
 </FilesMatch>
 
-# Block access to config directory
-RedirectMatch 404 ^/config/
-
-# Limit file upload size (Hostinger limit)
-LimitRequestBody 52428800
-
-# PHP security settings
-<IfModule mod_php.c>
-    php_flag display_errors Off
-    php_flag log_errors On
-    php_value error_log /home/u272045696/domains/workspace.calicutspicetraders.com/public_html/error.log
-    php_value upload_max_filesize 50M
-    php_value post_max_size 50M
-    php_value max_execution_time 60
-    php_value memory_limit 1536M
-    php_value max_input_vars 3000
-</IfModule>
+# Block access to directories
+RedirectMatch 404 ^/(config|src|node_modules)/
 
 # Prevent access to backup files
-<FilesMatch "\.(bak|backup|old|tmp)$">
+<FilesMatch "\.(bak|backup|old|tmp|swp)$">
     Order allow,deny
     Deny from all
 </FilesMatch>
 
-# Custom error pages
+# Prevent script execution in uploads directory
+<Directory "uploads">
+    <FilesMatch "\.(php|php3|php4|php5|phtml|pl|py|jsp|asp|sh|cgi)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</Directory>
+
+# ====================================
+# 🚫 BLOCK MALICIOUS REQUESTS
+# ====================================
+
+# Block common attack patterns
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=http:// [OR]
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=https:// [OR]
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=(\.\.//?)+ [OR]
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=/([a-z0-9_.]//?)+ [OR]
+RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [OR]
+RewriteCond %{QUERY_STRING} (\.\./|%2e%2e%2f|%2e%2e/|\.\.%2f|%2e\.%2f|%2e\./|\.%2e%2f|\.%2e/) [OR]
+RewriteCond %{QUERY_STRING} ftp\: [OR]
+RewriteCond %{QUERY_STRING} http\: [OR]
+RewriteCond %{QUERY_STRING} https\: [OR]
+RewriteCond %{QUERY_STRING} \=\|w\| [OR]
+RewriteCond %{QUERY_STRING} ^(.*)/self/(.*)$ [OR]
+RewriteCond %{QUERY_STRING} ^(.*)cPath=http://(.*)$ [OR]
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} ^.*(\[|\]|\(|\)|<|>).* [OR]
+RewriteCond %{QUERY_STRING} ^.*(union|insert|drop|update|delete|concat|create|select).* [NC]
+RewriteRule .* - [F,L]
+
+# Block suspicious user agents
+RewriteCond %{HTTP_USER_AGENT} ^$ [OR]
+RewriteCond %{HTTP_USER_AGENT} ^(java|wget|curl|python|libwww|lwp-trivial|msie|masscan|nikto) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} (sqlmap|netsparker|whatweb|appscan) [NC]
+RewriteRule .* - [F,L]
+
+# ====================================
+# 🔧 PHP OPTIMIZATION (Hostinger)
+# ====================================
+
+<IfModule mod_php.c>
+    # Error handling
+    php_flag display_errors Off
+    php_flag log_errors On
+    php_value error_log error.log
+    
+    # Performance settings (Hostinger optimized)
+    php_value memory_limit 1536M
+    php_value max_execution_time 60
+    php_value max_input_time 60
+    php_value upload_max_filesize 50M
+    php_value post_max_size 50M
+    php_value max_input_vars 3000
+    php_value max_file_uploads 20
+    
+    # Session optimization
+    php_value session.gc_maxlifetime 3600
+    php_value session.cache_expire 180
+    php_value session.cookie_httponly 1
+    php_value session.cookie_secure 1
+    
+    # OPcache settings (if available)
+    php_flag opcache.enable 1
+    php_value opcache.memory_consumption 128
+    php_value opcache.max_accelerated_files 4000
+    php_value opcache.revalidate_freq 60
+</IfModule>
+
+# ====================================
+# 📱 MOBILE OPTIMIZATION
+# ====================================
+
+# Add Vary header for mobile detection
+<IfModule mod_headers.c>
+    Header append Vary User-Agent
+</IfModule>
+
+# ====================================
+# 🚫 RATE LIMITING (Basic)
+# ====================================
+
+# Limit concurrent connections per IP (if mod_evasive available)
+<IfModule mod_evasive24.c>
+    DOSHashTableSize    2048
+    DOSPageCount        10
+    DOSPageInterval     1
+    DOSSiteCount        100
+    DOSSiteInterval     1
+    DOSBlockingPeriod   600
+</IfModule>
+
+# ====================================
+# 📄 CUSTOM ERROR PAGES
+# ====================================
+
 ErrorDocument 404 /index.html
 ErrorDocument 403 /index.html
 ErrorDocument 500 /index.html
+
+# ====================================
+# 🔧 FILE UPLOAD OPTIMIZATION
+# ====================================
+
+# Limit request body size (50MB for file uploads)
+LimitRequestBody 52428800
+
+# ====================================
+# 📝 ETAG OPTIMIZATION
+# ====================================
+
+# Remove ETags (use Cache-Control instead)
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
+
+# ====================================
+# 🎯 FINAL OPTIMIZATIONS
+# ====================================
+
+# Disable server signature for security
+ServerSignature Off
+
+# Optimize for Hostinger shared hosting
+Options -Indexes -MultiViews +FollowSymLinks
+
+# End of Hostinger optimized .htaccess
