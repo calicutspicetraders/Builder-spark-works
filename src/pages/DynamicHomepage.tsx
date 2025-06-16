@@ -31,6 +31,7 @@ import {
   Play,
   Phone,
   Video,
+  UserPlus,
 } from "lucide-react";
 
 const DynamicHomepage = () => {
