@@ -178,29 +178,34 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
       )}
 
       {/* Google Sign-In Button */}
-      {(inviteCode ? inviteInfo : false) && (
-        <div className="flex flex-col items-center space-y-4">
-          {loading && (
-            <div className="flex items-center space-x-2 text-blue-600">
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Signing you in...</span>
-            </div>
-          )}
+      <div className="flex flex-col items-center space-y-4">
+        {loading && (
+          <div className="flex items-center space-x-2 text-blue-600">
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span>Signing you in...</span>
+          </div>
+        )}
 
-          <div
-            ref={googleButtonRef}
-            className={`${loading ? "opacity-50 pointer-events-none" : ""} ${className}`}
-          />
+        <div
+          ref={googleButtonRef}
+          className={`${loading ? "opacity-50 pointer-events-none" : ""} ${className}`}
+        />
 
-          {inviteCode && inviteInfo && (
-            <p className="text-sm text-gray-600 text-center max-w-sm">
-              By continuing, you agree to join{" "}
-              {inviteInfo.metadata?.company_name || "the organization"} and
-              accept their terms of service.
-            </p>
-          )}
-        </div>
-      )}
+        {inviteCode && inviteInfo && (
+          <p className="text-sm text-gray-600 text-center max-w-sm">
+            By continuing, you agree to join{" "}
+            {inviteInfo.metadata?.company_name || "the organization"} and accept
+            their terms of service.
+          </p>
+        )}
+
+        {!inviteCode && (
+          <p className="text-sm text-gray-600 text-center max-w-sm">
+            Existing users: Sign in with your Google account to access the
+            platform.
+          </p>
+        )}
+      </div>
 
       {/* Error Display */}
       {error && !isValidatingInvite && (
