@@ -37,10 +37,9 @@ const SuperAdminLogin = () => {
     setTimeout(() => {
       // Check against environment variables or API
       const validSuperAdminEmail =
-        process.env.VITE_SUPERADMIN_EMAIL || "admin@yourcompany.com";
+        import.meta.env.VITE_SUPERADMIN_EMAIL || "admin@yourcompany.com";
       const validSuperAdminPassword =
-        process.env.VITE_SUPERADMIN_PASSWORD || "admin123";
-
+        import.meta.env.VITE_SUPERADMIN_PASSWORD || "admin123";
       if (
         email === validSuperAdminEmail &&
         password === validSuperAdminPassword
