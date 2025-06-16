@@ -163,17 +163,17 @@ const Index = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-              <Link to="/admin">
-                <Button className="modern-button text-lg px-8 py-4 h-auto">
+              <Link to="/admin" className="touch-manipulation">
+                <Button className="modern-button text-lg px-8 py-4 h-auto w-full sm:w-auto hover:scale-105 active:scale-95 transition-transform duration-200">
                   <Rocket className="mr-3 w-6 h-6" />
                   Launch Dashboard
                   <ArrowRight className="ml-3 w-6 h-6" />
                 </Button>
               </Link>
-              <Link to="/communication">
+              <Link to="/communication" className="touch-manipulation">
                 <Button
                   variant="outline"
-                  className="text-lg px-8 py-4 h-auto border-white/20 text-white hover:bg-white/10 backdrop-blur-sm rounded-2xl"
+                  className="text-lg px-8 py-4 h-auto w-full sm:w-auto border-white/20 text-white hover:bg-white/10 backdrop-blur-sm rounded-2xl hover:scale-105 active:scale-95 transition-all duration-200"
                 >
                   <Play className="mr-3 w-5 h-5" />
                   Watch Demo

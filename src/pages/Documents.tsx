@@ -202,7 +202,7 @@ const Documents = () => {
             </Button>
             <Dialog open={isGeneratorOpen} onOpenChange={setIsGeneratorOpen}>
               <DialogTrigger asChild>
-                <Button className="modern-button">
+                <Button className="modern-button hover:scale-105 active:scale-95 transition-transform duration-200 touch-manipulation">
                   <Sparkles className="w-4 h-4 mr-2" />
                   AI Generator
                 </Button>

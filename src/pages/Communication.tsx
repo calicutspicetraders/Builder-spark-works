@@ -165,13 +165,20 @@ const Communication = () => {
           </div>
 
           <div className="flex items-center space-x-3 mt-4 md:mt-0">
-            <Button onClick={startVideoCall} className="modern-button">
+            <Button
+              onClick={startVideoCall}
+              className="modern-button hover:scale-105 active:scale-95 transition-transform duration-200 touch-manipulation"
+            >
               <Video className="w-4 h-4 mr-2" />
               Start Video Call
             </Button>
             <Button
               variant="outline"
-              className="border-white/20 text-white hover:bg-white/10 rounded-2xl"
+              className="border-white/20 text-white hover:bg-white/10 rounded-2xl hover:scale-105 active:scale-95 transition-all duration-200 touch-manipulation"
+              onClick={() => {
+                console.log("Audio call clicked");
+                // Audio call functionality would go here
+              }}
             >
               <Phone className="w-4 h-4 mr-2" />
               Audio Call
