@@ -149,6 +149,11 @@
   .animate-glow {
     animation: glow 2s ease-in-out infinite alternate;
   }
+
+  /* Fixed header spacing - ensures content is not covered by 80px fixed header */
+  .header-safe {
+    padding-top: 6rem; /* 96px = 80px header + 16px extra spacing */
+  }
 }
 
 @keyframes float {
