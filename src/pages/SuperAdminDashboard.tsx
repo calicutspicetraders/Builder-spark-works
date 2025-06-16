@@ -35,6 +35,7 @@ import {
   Layers,
   Sparkles,
   ArrowRight,
+  UserPlus,
 } from "lucide-react";
 
 const SuperAdminDashboard = () => {
@@ -58,6 +59,14 @@ const SuperAdminDashboard = () => {
       icon: Paintbrush,
       href: "/superadmin/content",
       gradient: "from-purple-500 to-pink-500",
+      featured: true,
+    },
+    {
+      title: "Invite Manager",
+      description: "Send user invitations and manage access control",
+      icon: Users,
+      href: "/superadmin/invites",
+      gradient: "from-blue-500 to-cyan-500",
       featured: true,
     },
     {
