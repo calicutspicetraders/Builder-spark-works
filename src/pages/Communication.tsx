@@ -47,6 +47,7 @@ import {
 const Communication = () => {
   const [activeTab, setActiveTab] = useState("messages");
   const [isCallActive, setIsCallActive] = useState(false);
+  const [isVideoCall, setIsVideoCall] = useState(true);
   const [isVideoEnabled, setIsVideoEnabled] = useState(true);
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
@@ -76,6 +77,7 @@ const Communication = () => {
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
+      setIsVideoCall(true);
       setIsCallActive(true);
     } catch (error: any) {
       // Handle different types of media errors gracefully
@@ -84,6 +86,7 @@ const Communication = () => {
         error.name === "DevicesNotFoundError"
       ) {
         // No camera/microphone found - this is normal in development
+        setIsVideoCall(true);
         setIsCallActive(true); // Allow UI testing without actual devices
       } else if (
         error.name === "NotAllowedError" ||
@@ -96,6 +99,52 @@ const Communication = () => {
         alert("Video calling is not supported in this browser.");
       } else {
         // Generic error - don't show to user in production
+        setIsVideoCall(true);
+        setIsCallActive(true); // Allow UI testing
+      }
+    }
+  };
+
+  const startAudioCall = async () => {
+    try {
+      // Check if mediaDevices is supported
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error("Media devices not supported in this browser");
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: false,
+        audio: true,
+      });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+      setIsVideoCall(false);
+      setIsVideoEnabled(false); // Disable video for audio calls
+      setIsCallActive(true);
+    } catch (error: any) {
+      // Handle different types of media errors gracefully
+      if (
+        error.name === "NotFoundError" ||
+        error.name === "DevicesNotFoundError"
+      ) {
+        // No microphone found - this is normal in development
+        setIsVideoCall(false);
+        setIsVideoEnabled(false);
+        setIsCallActive(true); // Allow UI testing without actual devices
+      } else if (
+        error.name === "NotAllowedError" ||
+        error.name === "PermissionDeniedError"
+      ) {
+        alert(
+          "Microphone access denied. Please enable permissions to use audio calling.",
+        );
+      } else if (error.name === "NotSupportedError") {
+        alert("Audio calling is not supported in this browser.");
+      } else {
+        // Generic error - don't show to user in production
+        setIsVideoCall(false);
+        setIsVideoEnabled(false);
         setIsCallActive(true); // Allow UI testing
       }
     }
@@ -192,10 +241,7 @@ const Communication = () => {
             <Button
               variant="outline"
               className="border-white/20 text-white hover:bg-white/10 rounded-2xl hover:scale-105 active:scale-95 transition-all duration-200 touch-manipulation"
-              onClick={() => {
-                console.log("Audio call clicked");
-                // Audio call functionality would go here
-              }}
+              onClick={startAudioCall}
             >
               <Phone className="w-4 h-4 mr-2" />
               Audio Call
@@ -211,7 +257,7 @@ const Communication = () => {
                 <CardHeader className="flex flex-row items-center justify-between">
                   <div>
                     <CardTitle className="text-white">
-                      Video Conference
+                      {isVideoCall ? "Video Conference" : "Audio Call"}
                     </CardTitle>
                     <CardDescription className="text-gray-400">
                       Connected with Export Team
@@ -223,12 +269,32 @@ const Communication = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="relative">
-                    <video
-                      ref={videoRef}
-                      autoPlay
-                      muted
-                      className="w-full h-96 bg-gray-900 rounded-2xl object-cover"
-                    />
+                    {isVideoCall ? (
+                      <video
+                        ref={videoRef}
+                        autoPlay
+                        muted
+                        className="w-full h-96 bg-gray-900 rounded-2xl object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-96 bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl flex flex-col items-center justify-center">
+                        <div className="w-24 h-24 rounded-full bg-gradient-to-r from-emerald-500 to-blue-600 flex items-center justify-center mb-4">
+                          <Phone className="w-12 h-12 text-white" />
+                        </div>
+                        <h3 className="text-xl font-semibold text-white mb-2">
+                          Audio Call
+                        </h3>
+                        <p className="text-gray-400">
+                          Connected to Export Team
+                        </p>
+                        <div className="flex items-center space-x-2 mt-4">
+                          <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                          <span className="text-emerald-400 text-sm">
+                            Call Active
+                          </span>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Video call controls */}
                     <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center space-x-4">
@@ -627,7 +693,10 @@ const Communication = () => {
                   <p className="text-gray-400 text-sm mb-6">
                     Crystal clear voice communication
                   </p>
-                  <Button className="modern-button w-full">
+                  <Button
+                    onClick={startAudioCall}
+                    className="modern-button w-full"
+                  >
                     <Phone className="w-4 h-4 mr-2" />
                     Start Audio Call
                   </Button>
