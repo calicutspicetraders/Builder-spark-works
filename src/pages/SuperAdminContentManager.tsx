@@ -731,7 +731,14 @@ const SuperAdminContentManager = () => {
                         }}
                       />
                       <label htmlFor="file-upload">
-                        <Button className="modern-button" asChild>
+                        <Button
+                          className="modern-button"
+                          asChild
+                          onClick={(e) => {
+                            e.preventDefault();
+                            document.getElementById("file-upload")?.click();
+                          }}
+                        >
                           <span>Browse Files</span>
                         </Button>
                       </label>
@@ -767,7 +774,28 @@ const SuperAdminContentManager = () => {
                             <p className="text-xs text-gray-400 mb-3">
                               48x48 current
                             </p>
-                            <Button size="sm" className="modern-button w-full">
+                            <Button
+                              size="sm"
+                              className="modern-button w-full"
+                              onClick={() => {
+                                // Create file input
+                                const input = document.createElement("input");
+                                input.type = "file";
+                                input.accept = "image/*";
+                                input.onchange = (e) => {
+                                  const file = (e.target as HTMLInputElement)
+                                    .files?.[0];
+                                  if (file) {
+                                    console.log(
+                                      "Replacing main logo with:",
+                                      file.name,
+                                    );
+                                    handleFileUpload(file, "logo");
+                                  }
+                                };
+                                input.click();
+                              }}
+                            >
                               <Upload className="w-3 h-3 mr-1" />
                               Replace
                             </Button>
@@ -790,6 +818,24 @@ const SuperAdminContentManager = () => {
                               size="sm"
                               variant="outline"
                               className="border-white/20 text-white w-full"
+                              onClick={() => {
+                                // Create file input for favicon
+                                const input = document.createElement("input");
+                                input.type = "file";
+                                input.accept = "image/*";
+                                input.onchange = (e) => {
+                                  const file = (e.target as HTMLInputElement)
+                                    .files?.[0];
+                                  if (file) {
+                                    console.log(
+                                      "Replacing favicon with:",
+                                      file.name,
+                                    );
+                                    handleFileUpload(file, "logo");
+                                  }
+                                };
+                                input.click();
+                              }}
                             >
                               <Upload className="w-3 h-3 mr-1" />
                               Replace
