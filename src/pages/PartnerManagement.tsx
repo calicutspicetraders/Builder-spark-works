@@ -116,7 +116,7 @@ const PartnerManagement = () => {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="partner@example.com"
+                    placeholder="partner@company.com"
                     className="col-span-3"
                   />
                 </div>
