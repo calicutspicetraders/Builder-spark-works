@@ -172,30 +172,52 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {workspaceFeatures.map((feature, index) => {
               const Icon = feature.icon;
+              const getFeatureRoute = (title: string) => {
+                switch (title) {
+                  case "Analytics Dashboard":
+                    return "/analytics";
+                  case "Document Management":
+                    return "/documents";
+                  case "Team Communication":
+                    return "/communication";
+                  case "Shipment Tracking":
+                    return "/shipments";
+                  case "Compliance Calendar":
+                    return "/compliance";
+                  case "Partner Management":
+                    return "/partners";
+                  default:
+                    return "/admin";
+                }
+              };
+
               return (
-                <Card
-                  key={index}
-                  className="group hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/20"
-                >
-                  <CardHeader className="text-center">
-                    <div className="mx-auto mb-4 p-3 rounded-lg bg-primary/10">
-                      <Icon className={`h-8 w-8 ${feature.color}`} />
-                    </div>
-                    <CardTitle className="text-xl">{feature.title}</CardTitle>
-                    <CardDescription>{feature.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex justify-center">
-                      <Badge
-                        variant="outline"
-                        className="group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
-                      >
-                        <Settings className="w-3 h-3 mr-1" />
-                        Available
-                      </Badge>
-                    </div>
-                  </CardContent>
-                </Card>
+                <Link key={index} to={getFeatureRoute(feature.title)}>
+                  <Card className="group hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/20 cursor-pointer h-full">
+                    <CardHeader className="text-center">
+                      <div className="mx-auto mb-4 p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                        <Icon
+                          className={`h-8 w-8 ${feature.color} group-hover:scale-110 transition-transform`}
+                        />
+                      </div>
+                      <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                        {feature.title}
+                      </CardTitle>
+                      <CardDescription>{feature.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex justify-center">
+                        <Badge
+                          variant="outline"
+                          className="group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                        >
+                          <ArrowRight className="w-3 h-3 mr-1" />
+                          Access Now
+                        </Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
               );
             })}
           </div>

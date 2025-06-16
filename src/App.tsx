@@ -10,6 +10,10 @@ import CRM from "./pages/CRM";
 import Documents from "./pages/Documents";
 import Communication from "./pages/Communication";
 import Analytics from "./pages/Analytics";
+import ShipmentTracking from "./pages/ShipmentTracking";
+import ComplianceCalendar from "./pages/ComplianceCalendar";
+import PartnerManagement from "./pages/PartnerManagement";
+import Settings from "./pages/Settings";
 import SuperAdmin from "./pages/SuperAdmin";
 import SuperAdminLogin from "./pages/SuperAdminLogin";
 import NotFound from "./pages/NotFound";
@@ -46,6 +50,10 @@ const App = () => (
             <Route path="/documents" element={<Documents />} />
             <Route path="/communication" element={<Communication />} />
             <Route path="/analytics" element={<Analytics />} />
+            <Route path="/shipments" element={<ShipmentTracking />} />
+            <Route path="/compliance" element={<ComplianceCalendar />} />
+            <Route path="/partners" element={<PartnerManagement />} />
+            <Route path="/settings" element={<Settings />} />
 
             {/* SuperAdmin Routes - Separate Authentication */}
             <Route path="/superadmin/login" element={<SuperAdminLogin />} />

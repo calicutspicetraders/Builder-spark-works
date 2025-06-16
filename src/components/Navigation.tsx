@@ -19,6 +19,7 @@ import {
   FileText,
   MessageSquare,
   BarChart3,
+  Package,
   Settings,
   LogOut,
   Bell,
@@ -33,10 +34,11 @@ const Navigation = () => {
   const navigationItems = [
     { href: "/", label: "Home", icon: Home },
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/analytics", label: "Analytics", icon: BarChart3 },
+    { href: "/shipments", label: "Shipments", icon: Package },
     { href: "/crm", label: "CRM & Sales", icon: Users },
     { href: "/documents", label: "Documents", icon: FileText },
     { href: "/communication", label: "Communication", icon: MessageSquare },
-    { href: "/analytics", label: "Analytics", icon: BarChart3 },
   ];
 
   const NavItems = ({ isMobile = false }) => (
@@ -116,10 +118,12 @@ const Navigation = () => {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
-              </DropdownMenuItem>
+              <Link to="/settings">
+                <DropdownMenuItem>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuSeparator />
               <Link to="/superadmin/login">
                 <DropdownMenuItem className="text-red-600 focus:text-red-600">
