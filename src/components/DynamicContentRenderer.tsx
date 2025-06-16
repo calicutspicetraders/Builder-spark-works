@@ -51,25 +51,41 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
   const { data: contentData, isLoading } = useQuery({
     queryKey: ["content-blocks", page, position],
     queryFn: async () => {
+      // Check if we're in development and API might not be available
       try {
-        const response = await fetch(`/api/superadmin/preview?page=${page}`);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
+
+        const response = await fetch(`/api/superadmin/preview?page=${page}`, {
+          signal: controller.signal,
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+
+        clearTimeout(timeoutId);
+
         if (!response.ok) {
           // If API not available, return empty data instead of throwing
-          console.warn(
-            `API endpoint not available: /api/superadmin/preview?page=${page}`,
-          );
           return { content_blocks: [], plugins: [], settings: {} };
         }
         return response.json();
-      } catch (error) {
-        // Fallback to empty data if fetch fails
-        console.warn("Content API not available, using fallback data:", error);
+      } catch (error: any) {
+        // Silently handle fetch errors - common in development when API isn't running
+        if (error.name === "AbortError") {
+          // Request was aborted due to timeout
+          return { content_blocks: [], plugins: [], settings: {} };
+        }
+        // Network error, CORS error, etc. - don't log in production
         return { content_blocks: [], plugins: [], settings: {} };
       }
     },
-    staleTime: 30000, // Cache for 30 seconds
+    staleTime: 60000, // Cache for 1 minute
     refetchOnWindowFocus: false,
     retry: false, // Don't retry failed requests
+    retryOnMount: false,
+    refetchOnReconnect: false,
   });
 
   // Get content blocks for this position
@@ -337,23 +353,39 @@ export const useDynamicContent = (page: string, position?: string) => {
     queryKey: ["dynamic-content", page, position],
     queryFn: async () => {
       try {
-        const response = await fetch(`/api/superadmin/preview?page=${page}`);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
+
+        const response = await fetch(`/api/superadmin/preview?page=${page}`, {
+          signal: controller.signal,
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+
+        clearTimeout(timeoutId);
+
         if (!response.ok) {
           // If API not available, return empty data instead of throwing
-          console.warn(
-            `API endpoint not available: /api/superadmin/preview?page=${page}`,
-          );
           return { content_blocks: [], plugins: [], settings: {} };
         }
         return response.json();
-      } catch (error) {
-        // Fallback to empty data if fetch fails
-        console.warn("Content API not available, using fallback data:", error);
+      } catch (error: any) {
+        // Silently handle fetch errors - common in development when API isn't running
+        if (error.name === "AbortError") {
+          // Request was aborted due to timeout
+          return { content_blocks: [], plugins: [], settings: {} };
+        }
+        // Network error, CORS error, etc. - return empty data silently
         return { content_blocks: [], plugins: [], settings: {} };
       }
     },
-    staleTime: 30000,
+    staleTime: 60000, // Cache for 1 minute
     retry: false, // Don't retry failed requests
+    retryOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   const contentBlocks = useMemo(() => {
