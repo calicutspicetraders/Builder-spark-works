@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { UserProvider } from "./contexts/UserContext";
 import Navigation from "./components/Navigation";
 import Index from "./pages/Index";
 import DynamicHomepage from "./pages/DynamicHomepage";
@@ -43,56 +44,58 @@ const ProtectedSuperAdminRoute = ({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <div className="min-h-screen bg-background">
-          <Toaster />
-          <Sonner />
-          <Navigation />
-          <Routes>
-            <Route path="/" element={<DynamicHomepage />} />
-            <Route path="/static" element={<Index />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/communication" element={<Communication />} />
-            <Route path="/documents" element={<Documents />} />
-            <Route path="/crm" element={<CRM />} />
-            <Route path="/shipments" element={<ShipmentTracking />} />
-            <Route path="/compliance" element={<ComplianceCalendar />} />
-            <Route path="/partners" element={<PartnerManagement />} />
-            <Route path="/settings" element={<Settings />} />
+      <UserProvider>
+        <BrowserRouter>
+          <div className="min-h-screen bg-background">
+            <Toaster />
+            <Sonner />
+            <Navigation />
+            <Routes>
+              <Route path="/" element={<DynamicHomepage />} />
+              <Route path="/static" element={<Index />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/communication" element={<Communication />} />
+              <Route path="/documents" element={<Documents />} />
+              <Route path="/crm" element={<CRM />} />
+              <Route path="/shipments" element={<ShipmentTracking />} />
+              <Route path="/compliance" element={<ComplianceCalendar />} />
+              <Route path="/partners" element={<PartnerManagement />} />
+              <Route path="/settings" element={<Settings />} />
 
-            {/* SuperAdmin Routes */}
-            <Route path="/superadmin/login" element={<SuperAdminLogin />} />
-            <Route
-              path="/superadmin"
-              element={
-                <ProtectedSuperAdminRoute>
-                  <SuperAdminDashboard />
-                </ProtectedSuperAdminRoute>
-              }
-            />
-            <Route
-              path="/superadmin/system"
-              element={
-                <ProtectedSuperAdminRoute>
-                  <SuperAdmin />
-                </ProtectedSuperAdminRoute>
-              }
-            />
-            <Route
-              path="/superadmin/content"
-              element={
-                <ProtectedSuperAdminRoute>
-                  <SuperAdminContentManager />
-                </ProtectedSuperAdminRoute>
-              }
-            />
+              {/* SuperAdmin Routes */}
+              <Route path="/superadmin/login" element={<SuperAdminLogin />} />
+              <Route
+                path="/superadmin"
+                element={
+                  <ProtectedSuperAdminRoute>
+                    <SuperAdminDashboard />
+                  </ProtectedSuperAdminRoute>
+                }
+              />
+              <Route
+                path="/superadmin/system"
+                element={
+                  <ProtectedSuperAdminRoute>
+                    <SuperAdmin />
+                  </ProtectedSuperAdminRoute>
+                }
+              />
+              <Route
+                path="/superadmin/content"
+                element={
+                  <ProtectedSuperAdminRoute>
+                    <SuperAdminContentManager />
+                  </ProtectedSuperAdminRoute>
+                }
+              />
 
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </UserProvider>
     </QueryClientProvider>
   );
 }
