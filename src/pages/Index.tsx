@@ -7,7 +7,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import Navigation from "@/components/Navigation";
 import {
   ArrowRight,
   Globe,
@@ -132,9 +131,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-
+    <>
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary/5 via-background to-accent/5 border-b">
         <div className="container mx-auto px-4 py-20">
@@ -375,7 +372,7 @@ const Index = () => {
           </div>
         </div>
       </footer>
-    </div>
+    </>
   );
 };
 
