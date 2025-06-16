@@ -180,6 +180,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       user: null,
       isAuthenticated: false,
     });
+
+    // Don't redirect here - let the Navigation component handle it
+    // This allows for proper cleanup before redirect
   };
 
   // REMOVED: ensureUser function to prevent auto-login issues
