@@ -289,6 +289,67 @@ const DynamicHomepage = () => {
         <ContentPosition page="home" position="after-hero" />
       </section>
 
+      {/* Authentication Section - Only show if not authenticated or has invite */}
+      {showAuthSection && (
+        <section className="py-16 relative">
+          <div className="container mx-auto px-6">
+            <div className="max-w-2xl mx-auto">
+              <div className="modern-card text-center">
+                <div className="p-8">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 p-3">
+                    {inviteCode ? (
+                      <UserPlus className="w-full h-full text-white" />
+                    ) : (
+                      <Shield className="w-full h-full text-white" />
+                    )}
+                  </div>
+
+                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                    {inviteCode
+                      ? "Welcome to Our Platform!"
+                      : "Secure Access Required"}
+                  </h2>
+
+                  <p className="text-gray-400 mb-8">
+                    {inviteCode
+                      ? "Complete your registration to access your personalized workspace"
+                      : "This platform requires an invitation to join. Please contact your administrator for access."}
+                  </p>
+
+                  <GoogleLoginButton
+                    onSuccess={(user) => {
+                      console.log("Login successful:", user);
+                      setShowAuthSection(false);
+                    }}
+                    onError={(error) => {
+                      console.error("Login failed:", error);
+                    }}
+                    className="w-full flex justify-center"
+                  />
+
+                  {!inviteCode && (
+                    <div className="mt-8 pt-6 border-t border-white/10">
+                      <p className="text-sm text-gray-500 mb-4">
+                        Are you a system administrator?
+                      </p>
+                      <Link to="/superadmin/login">
+                        <Button
+                          variant="outline"
+                          className="border-white/20 text-white hover:bg-white/10"
+                        >
+                          <Shield className="w-4 h-4 mr-2" />
+                          SuperAdmin Access
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Dynamic Content Before Features */}
       <ContentPosition page="home" position="before-features" />
 
