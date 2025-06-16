@@ -56,6 +56,7 @@ import {
   Package,
   Puzzle,
   Paintbrush,
+  MessageSquare,
 } from "lucide-react";
 
 interface ContentBlock {
