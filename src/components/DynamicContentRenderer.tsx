@@ -73,7 +73,7 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
   });
 
   // Get content blocks for this position
-  const visibleBlocks = useMemo(() => {
+  const contentBlocks = useMemo(() => {
     if (!contentData?.content_blocks) return [];
 
     return contentData.content_blocks.filter(
@@ -81,16 +81,6 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
         block.page === page && block.position === position && block.isActive,
     );
   }, [contentData, page, position]);
-
-  // If loading or no content and no default content, return null
-  if (isLoading && !defaultContent) {
-    return null;
-  }
-
-  // If no content blocks and no default content, return null
-  if (visibleBlocks.length === 0 && !defaultContent) {
-    return null;
-  }
   const plugins = useMemo(() => {
     if (!contentData?.plugins) return [];
 
@@ -309,28 +299,21 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
     return true;
   };
 
+  // Handle loading state
   if (isLoading) {
     return defaultContent || null;
   }
 
+  // Filter content blocks by device visibility
   const visibleBlocks = contentBlocks.filter(isVisibleOnCurrentDevice);
 
+  // If no visible blocks, return default content
   if (visibleBlocks.length === 0) {
     return defaultContent || null;
   }
 
-  // If we have content blocks, render them
-  if (visibleBlocks.length > 0) {
-    return <>{visibleBlocks.map(renderContentBlock)}</>;
-  }
-
-  // Otherwise, render default content if available
-  if (defaultContent) {
-    return <div className={className}>{defaultContent}</div>;
-  }
-
-  // No content at all
-  return null;
+  // Render visible content blocks
+  return <>{visibleBlocks.map(renderContentBlock)}</>;
 };
 
 // Higher-order component for easy integration
