@@ -77,6 +77,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // Debug logging to track state changes
+  useEffect(() => {
+    console.log("User state changed:", {
+      user: user?.fullName || null,
+      isAuthenticated,
+    });
+  }, [user, isAuthenticated]);
+
   // Load user data from localStorage on mount
   useEffect(() => {
     const savedUser = localStorage.getItem("user_data");
