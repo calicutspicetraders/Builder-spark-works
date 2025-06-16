@@ -23,6 +23,7 @@ import {
   LogOut,
   Bell,
   Leaf,
+  Shield,
 } from "lucide-react";
 
 const Navigation = () => {
@@ -119,6 +120,14 @@ const Navigation = () => {
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <Link to="/superadmin/login">
+                <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                  <Shield className="mr-2 h-4 w-4" />
+                  <span>SuperAdmin</span>
+                </DropdownMenuItem>
+              </Link>
+              <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Log out</span>
