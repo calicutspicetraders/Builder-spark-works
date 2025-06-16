@@ -170,22 +170,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   };
 
-  // Auto-create user if accessing app without login (but not after explicit logout)
-  useEffect(() => {
-    // Only create default user if:
-    // 1. Not already authenticated
-    // 2. Not on login page
-    // 3. No explicit logout happened (check if localStorage was intentionally cleared)
-    const hasBeenLoggedOut = localStorage.getItem("user_logged_out") === "true";
-
-    if (
-      !isAuthenticated &&
-      !window.location.pathname.includes("/login") &&
-      !hasBeenLoggedOut
-    ) {
-      ensureUser();
-    }
-  }, [isAuthenticated]);
+  // DISABLED: Auto-create user (this was preventing logout from working)
+  // Users should explicitly authenticate rather than auto-creating accounts
+  // useEffect(() => {
+  //   const hasBeenLoggedOut = localStorage.getItem("user_logged_out") === "true";
+  //   if (!isAuthenticated && !window.location.pathname.includes("/login") && !hasBeenLoggedOut) {
+  //     ensureUser();
+  //   }
+  // }, [isAuthenticated]);
 
   return (
     <UserContext.Provider
