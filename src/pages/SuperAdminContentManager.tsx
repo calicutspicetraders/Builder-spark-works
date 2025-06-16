@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -57,6 +58,7 @@ import {
   Puzzle,
   Paintbrush,
   MessageSquare,
+  ArrowLeft,
 } from "lucide-react";
 
 interface ContentBlock {
@@ -320,6 +322,15 @@ const SuperAdminContentManager = () => {
           </div>
 
           <div className="flex items-center space-x-3 mt-4 md:mt-0">
+            <Link to="/superadmin">
+              <Button
+                variant="outline"
+                className="border-white/20 text-white hover:bg-white/10"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Dashboard
+              </Button>
+            </Link>
             <div className="flex items-center space-x-2 bg-white/5 rounded-2xl p-2">
               <Button
                 variant={previewMode === "desktop" ? "default" : "ghost"}
