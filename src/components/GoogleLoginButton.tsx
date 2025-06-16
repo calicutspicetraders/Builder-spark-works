@@ -35,7 +35,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const clientId = process.env.VITE_GOOGLE_CLIENT_ID;
+        const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
         if (!clientId) {
           setError(
             "Google Client ID not configured. Please contact your administrator.",
