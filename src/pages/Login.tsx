@@ -63,6 +63,75 @@ const Login: React.FC = () => {
     // Error handling is done within GoogleLoginButton component
   };
 
+  const handleFormLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      // Validate form
+      if (!email || !password) {
+        throw new Error("Please enter both email and password");
+      }
+
+      // Check if it's a domain email
+      const emailDomain = email.split("@")[1];
+      const allowedDomains = ["calicutspicetraders.com", "gmail.com"];
+
+      if (!allowedDomains.includes(emailDomain)) {
+        throw new Error(
+          "Only @calicutspicetraders.com and @gmail.com emails are allowed",
+        );
+      }
+
+      // For demo purposes, we'll accept any password for domain emails
+      // In production, this should validate against a backend
+      if (emailDomain === "calicutspicetraders.com" || password.length >= 6) {
+        const userProfile = {
+          id: `user_${Date.now()}`,
+          fullName: email
+            .split("@")[0]
+            .replace(/[._]/g, " ")
+            .replace(/\b\w/g, (l) => l.toUpperCase()),
+          email: email,
+          phone: "",
+          jobTitle:
+            emailDomain === "calicutspicetraders.com" ? "Team Member" : "User",
+          department:
+            emailDomain === "calicutspicetraders.com"
+              ? "Operations"
+              : "External",
+          timezone: "UTC",
+          bio: "",
+          avatar: "",
+          initials: email.substring(0, 2).toUpperCase(),
+          role:
+            emailDomain === "calicutspicetraders.com"
+              ? "admin"
+              : ("user" as const),
+          preferences: {
+            language: "en",
+            currency: "USD",
+            dateFormat: "dd-mm-yyyy",
+            timeFormat: "24h",
+            defaultDashboard: "overview",
+          },
+          isOnline: true,
+          lastActive: new Date().toISOString(),
+        };
+
+        login(userProfile);
+        navigate("/admin");
+      } else {
+        throw new Error("Invalid password. Minimum 6 characters required.");
+      }
+    } catch (error: any) {
+      setError(error.message || "Login failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const features = [
     {
       icon: Ship,
