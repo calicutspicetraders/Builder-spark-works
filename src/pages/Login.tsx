@@ -300,45 +300,149 @@ const Login: React.FC = () => {
               </CardHeader>
 
               <CardContent className="space-y-6">
-                {/* Google Login Section */}
-                <div className="space-y-4">
-                  <GoogleLoginButton
-                    onSuccess={handleLoginSuccess}
-                    onError={handleLoginError}
-                    className="w-full"
-                  />
-                </div>
+                {/* Error Display */}
+                {error && (
+                  <Alert className="border-red-200 bg-red-50/10 backdrop-blur-sm">
+                    <Shield className="h-4 w-4 text-red-400" />
+                    <AlertDescription className="text-red-300">
+                      {error}
+                    </AlertDescription>
+                  </Alert>
+                )}
 
-                {!inviteCode && (
-                  <>
-                    <div className="relative">
-                      <Separator className="bg-white/20" />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="bg-slate-800 px-3 text-sm text-blue-100/70">
-                          Need Access?
-                        </span>
+                {/* Username/Password Login Form */}
+                <form onSubmit={handleFormLogin} className="space-y-4">
+                  <div className="space-y-4">
+                    {/* Email Field */}
+                    <div className="space-y-2">
+                      <Label
+                        htmlFor="email"
+                        className="text-white text-sm font-medium"
+                      >
+                        Email Address
+                      </Label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-3 h-4 w-4 text-blue-300" />
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="info@calicutspicetraders.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200/50 focus:border-emerald-400 focus:ring-emerald-400/50"
+                          disabled={isLoading}
+                          required
+                        />
                       </div>
                     </div>
 
-                    <div className="text-center space-y-4">
-                      <p className="text-sm text-blue-100/70">
-                        This platform is invitation-only. Contact your
-                        administrator to request access.
+                    {/* Password Field */}
+                    <div className="space-y-2">
+                      <Label
+                        htmlFor="password"
+                        className="text-white text-sm font-medium"
+                      >
+                        Password
+                      </Label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-3 h-4 w-4 text-blue-300" />
+                        <Input
+                          id="password"
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Enter your password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          className="pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200/50 focus:border-emerald-400 focus:ring-emerald-400/50"
+                          disabled={isLoading}
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-3 text-blue-300 hover:text-white transition-colors"
+                          disabled={isLoading}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Login Button */}
+                    <Button
+                      type="submit"
+                      className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Signing In...
+                        </>
+                      ) : (
+                        <>
+                          <Shield className="mr-2 h-4 w-4" />
+                          Sign In
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </form>
+
+                {/* Divider */}
+                <div className="relative">
+                  <Separator className="bg-white/20" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="bg-slate-800 px-4 text-sm text-blue-100/70 font-medium">
+                      OR
+                    </span>
+                  </div>
+                </div>
+
+                {/* Google Login Section - Centered */}
+                <div className="flex justify-center">
+                  <div className="w-full max-w-sm">
+                    <GoogleLoginButton
+                      onSuccess={handleLoginSuccess}
+                      onError={handleLoginError}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+
+                {/* Help Text */}
+                <div className="text-center space-y-3">
+                  <p className="text-sm text-blue-100/70">
+                    <strong>Domain emails:</strong> @calicutspicetraders.com
+                    (any password)
+                    <br />
+                    <strong>Gmail accounts:</strong> Use Google sign-in above
+                  </p>
+
+                  {!inviteCode && (
+                    <div className="pt-2 border-t border-white/10">
+                      <p className="text-xs text-blue-100/50 mb-3">
+                        Need access? Contact your administrator for an
+                        invitation.
                       </p>
                       <Button
                         variant="outline"
-                        className="w-full border-white/20 text-white hover:bg-white/10 hover:border-white/30"
+                        size="sm"
+                        className="border-white/20 text-white hover:bg-white/10 hover:border-white/30"
                         onClick={() => {
                           window.location.href =
                             "mailto:admin@calicutspicetraders.com?subject=Access Request - CST Workspace";
                         }}
                       >
-                        Request Access
-                        <ArrowRight className="ml-2 h-4 w-4" />
+                        Contact Administrator
+                        <ArrowRight className="ml-2 h-3 w-3" />
                       </Button>
                     </div>
-                  </>
-                )}
+                  )}
+                </div>
 
                 {/* Footer Links */}
                 <div className="text-center pt-4 border-t border-white/10">
