@@ -67,7 +67,41 @@ const Communication = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const conversations: any[] = [];
+  const conversations = [
+    {
+      id: 1,
+      name: "Export Team",
+      type: "group",
+      lastMessage: "Let's schedule the shipment review meeting",
+      timestamp: "2 min ago",
+      unread: 2,
+      avatar: "ET",
+      role: "Internal Team",
+      isOnline: true,
+    },
+    {
+      id: 2,
+      name: "Rajesh Kumar",
+      type: "individual",
+      lastMessage: "Thanks for the export documentation",
+      timestamp: "15 min ago",
+      unread: 0,
+      avatar: "RK",
+      role: "Logistics Manager",
+      isOnline: true,
+    },
+    {
+      id: 3,
+      name: "Global Spice Importers",
+      type: "external",
+      lastMessage: "When can we expect the next shipment?",
+      timestamp: "1 hour ago",
+      unread: 1,
+      avatar: "GS",
+      role: "Customer",
+      isOnline: false,
+    },
+  ];
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
