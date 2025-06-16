@@ -346,26 +346,160 @@ const AdminDashboard = () => {
 
         {/* Markets Tab */}
         <TabsContent value="markets" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Globe className="w-5 h-5 mr-2" />
-                Market Intelligence
-              </CardTitle>
-              <CardDescription>
-                Real-time market data and trends
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-12">
-                <Globe className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                <h3 className="text-lg font-medium mb-2">No market data</h3>
-                <p className="text-muted-foreground">
-                  Market intelligence will appear as you expand your business
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Market Intelligence */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Globe className="w-5 h-5 mr-2" />
+                  Market Intelligence
+                </CardTitle>
+                <CardDescription>
+                  Real-time market data and trends
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                    <div>
+                      <p className="text-sm font-medium text-green-900">
+                        Cardamom
+                      </p>
+                      <p className="text-xs text-green-600">India → UAE</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-bold text-green-900">
+                        ₹2,450/kg
+                      </p>
+                      <div className="flex items-center text-xs text-green-600">
+                        <TrendingUp className="w-3 h-3 mr-1" />
+                        +2.5%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                    <div>
+                      <p className="text-sm font-medium text-yellow-900">
+                        Black Pepper
+                      </p>
+                      <p className="text-xs text-yellow-600">India → Europe</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-bold text-yellow-900">
+                        ₹890/kg
+                      </p>
+                      <div className="flex items-center text-xs text-yellow-600">
+                        <TrendingDown className="w-3 h-3 mr-1" />
+                        -1.2%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                    <div>
+                      <p className="text-sm font-medium text-blue-900">
+                        Turmeric
+                      </p>
+                      <p className="text-xs text-blue-600">India → USA</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-bold text-blue-900">₹185/kg</p>
+                      <div className="flex items-center text-xs text-blue-600">
+                        <TrendingUp className="w-3 h-3 mr-1" />
+                        +0.8%
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => navigate("/analytics")}
+                  >
+                    <BarChart3 className="w-4 h-4 mr-2" />
+                    View Detailed Analytics
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Market Opportunities */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Star className="w-5 h-5 mr-2" />
+                  Market Opportunities
+                </CardTitle>
+                <CardDescription>
+                  Trending opportunities and high-demand markets
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                      <MapPin className="w-4 h-4 text-green-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">
+                        Germany - Organic Spices
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        High demand, premium pricing
+                      </p>
+                    </div>
+                    <Badge variant="secondary" className="text-xs">
+                      Hot
+                    </Badge>
+                  </div>
+
+                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                      <MapPin className="w-4 h-4 text-blue-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">
+                        Japan - Premium Cardamom
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Growing market, high margins
+                      </p>
+                    </div>
+                    <Badge variant="secondary" className="text-xs">
+                      New
+                    </Badge>
+                  </div>
+
+                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                    <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                      <MapPin className="w-4 h-4 text-purple-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">
+                        Australia - Curry Blends
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Expanding demand
+                      </p>
+                    </div>
+                    <Badge variant="secondary" className="text-xs">
+                      Growth
+                    </Badge>
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => navigate("/crm")}
+                  >
+                    <Users className="w-4 h-4 mr-2" />
+                    Explore Market Connections
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
