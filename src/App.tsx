@@ -157,46 +157,55 @@ const AppContent = () => {
           }
         />
 
-            {/* SuperAdmin Routes */}
-            <Route path="/superadmin/login" element={<SuperAdminLogin />} />
-            <Route
-              path="/superadmin"
-              element={
-                <ProtectedSuperAdminRoute>
-                  <SuperAdminDashboard />
-                </ProtectedSuperAdminRoute>
-              }
-            />
-            <Route
-              path="/superadmin/system"
-              element={
-                <ProtectedSuperAdminRoute>
-                  <SuperAdmin />
-                </ProtectedSuperAdminRoute>
-              }
-            />
-            <Route
-              path="/superadmin/content"
-              element={
-                <ProtectedSuperAdminRoute>
-                  <SuperAdminContentManager />
-                </ProtectedSuperAdminRoute>
-              }
-            />
-            <Route
-              path="/superadmin/invites"
-              element={
-                <ProtectedSuperAdminRoute>
-                  <SuperAdminInviteManager />
-                </ProtectedSuperAdminRoute>
-              }
-            />
+        {/* SuperAdmin Routes */}
+        <Route path="/superadmin/login" element={<SuperAdminLogin />} />
+        <Route
+          path="/superadmin"
+          element={
+            <ProtectedSuperAdminRoute>
+              <SuperAdminDashboard />
+            </ProtectedSuperAdminRoute>
+          }
+        />
+        <Route
+          path="/superadmin/system"
+          element={
+            <ProtectedSuperAdminRoute>
+              <SuperAdmin />
+            </ProtectedSuperAdminRoute>
+          }
+        />
+        <Route
+          path="/superadmin/content"
+          element={
+            <ProtectedSuperAdminRoute>
+              <SuperAdminContentManager />
+            </ProtectedSuperAdminRoute>
+          }
+        />
+        <Route
+          path="/superadmin/invites"
+          element={
+            <ProtectedSuperAdminRoute>
+              <SuperAdminInviteManager />
+            </ProtectedSuperAdminRoute>
+          }
+        />
 
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
+        {/* Catch-all route */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <UserProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
       </UserProvider>
     </QueryClientProvider>
   );
