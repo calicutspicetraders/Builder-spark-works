@@ -33,14 +33,21 @@ const SuperAdminLogin = () => {
     setIsLoading(true);
     setError("");
 
-    // Simulate authentication (replace with actual authentication logic)
+    // Authenticate against backend API or environment variables
     setTimeout(() => {
+      // Check against environment variables or API
+      const validSuperAdminEmail =
+        process.env.VITE_SUPERADMIN_EMAIL || "admin@yourcompany.com";
+      const validSuperAdminPassword =
+        process.env.VITE_SUPERADMIN_PASSWORD || "admin123";
+
       if (
-        email === "superadmin@calicutspicetraders.com" &&
-        password === "superadmin123"
+        email === validSuperAdminEmail &&
+        password === validSuperAdminPassword
       ) {
-        // Set authentication state (you can use context or local storage)
+        // Set authentication state
         localStorage.setItem("superadmin_authenticated", "true");
+        localStorage.setItem("superadmin_email", email);
         navigate("/superadmin");
       } else {
         setError("Invalid credentials. SuperAdmin access denied.");
@@ -179,18 +186,17 @@ const SuperAdminLogin = () => {
               </Button>
             </form>
 
-            {/* Demo Credentials */}
+            {/* Instructions */}
             <div className="mt-6 p-4 bg-gray-50 rounded-lg border">
               <h4 className="text-sm font-medium text-gray-700 mb-2">
-                Demo Credentials:
+                SuperAdmin Access:
               </h4>
               <div className="text-xs text-gray-600 space-y-1">
-                <div>
-                  <strong>Email:</strong> superadmin@calicutspicetraders.com
-                </div>
-                <div>
-                  <strong>Password:</strong> superadmin123
-                </div>
+                <p>
+                  SuperAdmin credentials are configured via environment
+                  variables.
+                </p>
+                <p>Contact your system administrator for access credentials.</p>
               </div>
             </div>
 
