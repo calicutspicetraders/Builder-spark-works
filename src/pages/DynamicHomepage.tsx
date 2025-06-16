@@ -35,6 +35,19 @@ import {
 
 const DynamicHomepage = () => {
   const { contentBlocks, settings } = useDynamicContent("home");
+  const { user, isAuthenticated } = useUser();
+  const [searchParams] = useSearchParams();
+  const [showAuthSection, setShowAuthSection] = useState(false);
+
+  // Check if there's an invite code in the URL
+  const inviteCode = searchParams.get("invite");
+
+  // Show auth section if not authenticated or if there's an invite code
+  React.useEffect(() => {
+    if (!isAuthenticated || inviteCode) {
+      setShowAuthSection(true);
+    }
+  }, [isAuthenticated, inviteCode]);
 
   // Get dynamic values with fallbacks
   const siteTitle = getContentValue(
