@@ -48,7 +48,6 @@ import {
   File,
   Image,
   FileSpreadsheet,
-  FilePdf,
 } from "lucide-react";
 
 const Documents = () => {
@@ -219,7 +218,7 @@ const Documents = () => {
   const getFileIcon = (format) => {
     switch (format) {
       case "pdf":
-        return <FilePdf className="w-5 h-5 text-red-600" />;
+        return <FileText className="w-5 h-5 text-red-600" />;
       case "xlsx":
       case "xls":
         return <FileSpreadsheet className="w-5 h-5 text-green-600" />;
