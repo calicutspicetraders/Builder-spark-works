@@ -37,6 +37,14 @@ const Login: React.FC = () => {
   const { user, isAuthenticated, login } = useUser();
   const inviteCode = searchParams.get("invite");
 
+  // Form state
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [loginMethod, setLoginMethod] = useState<"form" | "google">("form");
+
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated && user) {
