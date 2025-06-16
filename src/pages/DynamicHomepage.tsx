@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import GoogleLoginButton from "@/components/GoogleLoginButton";
+import { useUser } from "@/contexts/UserContext";
 import DynamicContentRenderer, {
   useDynamicContent,
   ContentPosition,
