@@ -81,8 +81,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   useEffect(() => {
     const savedUser = localStorage.getItem("user_data");
     const authToken = localStorage.getItem("auth_token");
+    const hasBeenLoggedOut = localStorage.getItem("user_logged_out") === "true";
 
-    if (savedUser && authToken) {
+    // Only restore user if they haven't explicitly logged out
+    if (savedUser && authToken && !hasBeenLoggedOut) {
       try {
         const userData = JSON.parse(savedUser);
         setUser(userData);
@@ -123,6 +125,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setIsAuthenticated(true);
     localStorage.setItem("auth_token", "authenticated");
     localStorage.setItem("user_data", JSON.stringify(userWithInitials));
+    // Clear logout flag when user logs in
+    localStorage.removeItem("user_logged_out");
   };
 
   const updateUser = (userData: Partial<User>) => {
@@ -146,6 +150,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     localStorage.removeItem("user_data");
     localStorage.removeItem("auth_token");
     localStorage.removeItem("superadmin_authenticated");
+    localStorage.removeItem("session_token");
+    localStorage.removeItem("session_expires");
+    // Set logout flag to prevent automatic user recreation
+    localStorage.setItem("user_logged_out", "true");
   };
 
   // Create default user if none exists and user tries to access the app
@@ -162,10 +170,19 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   };
 
-  // Auto-create user if accessing app without login
+  // Auto-create user if accessing app without login (but not after explicit logout)
   useEffect(() => {
-    // Only create default user if not already authenticated and not on login page
-    if (!isAuthenticated && !window.location.pathname.includes("/login")) {
+    // Only create default user if:
+    // 1. Not already authenticated
+    // 2. Not on login page
+    // 3. No explicit logout happened (check if localStorage was intentionally cleared)
+    const hasBeenLoggedOut = localStorage.getItem("user_logged_out") === "true";
+
+    if (
+      !isAuthenticated &&
+      !window.location.pathname.includes("/login") &&
+      !hasBeenLoggedOut
+    ) {
       ensureUser();
     }
   }, [isAuthenticated]);
