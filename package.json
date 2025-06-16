@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "typecheck": "tsc",
     "deploy:hostinger": "./deploy.sh",
+    "deploy:static": "./deploy-static.sh",
     "validate:deployment": "./validate-deployment.sh",
     "health:check": "curl https://workspace.calicutspicetraders.com/config/health_check.php"
   },

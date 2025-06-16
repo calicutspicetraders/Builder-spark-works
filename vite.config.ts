@@ -10,13 +10,17 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  // Hostinger optimization
+  // Hostinger static hosting optimization
+  base: "./", // Use relative paths for static hosting
   build: {
     target: "es2015",
     minify: true,
     cssMinify: true,
     reportCompressedSize: false,
     chunkSizeWarningLimit: 1000,
+    outDir: "dist",
+    assetsDir: "assets",
+    sourcemap: false, // Disable source maps for production
     rollupOptions: {
       output: {
         manualChunks: {
@@ -26,6 +30,10 @@ export default defineConfig({
           charts: ["recharts"],
           icons: ["lucide-react"],
         },
+        // Optimize file names for web hosting
+        entryFileNames: "assets/[name]-[hash].js",
+        chunkFileNames: "assets/[name]-[hash].js",
+        assetFileNames: "assets/[name]-[hash].[ext]",
       },
     },
   },
