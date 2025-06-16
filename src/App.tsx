@@ -19,6 +19,7 @@ import SuperAdmin from "./pages/SuperAdmin";
 import SuperAdminDashboard from "./pages/SuperAdminDashboard";
 import SuperAdminLogin from "./pages/SuperAdminLogin";
 import SuperAdminContentManager from "./pages/SuperAdminContentManager";
+import SuperAdminInviteManager from "./pages/SuperAdminInviteManager";
 import NotFound from "./pages/NotFound";
 import "./App.css";
 
@@ -86,6 +87,14 @@ function App() {
                 element={
                   <ProtectedSuperAdminRoute>
                     <SuperAdminContentManager />
+                  </ProtectedSuperAdminRoute>
+                }
+              />
+              <Route
+                path="/superadmin/invites"
+                element={
+                  <ProtectedSuperAdminRoute>
+                    <SuperAdminInviteManager />
                   </ProtectedSuperAdminRoute>
                 }
               />
