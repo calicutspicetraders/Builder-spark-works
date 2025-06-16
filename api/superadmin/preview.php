@@ -17,9 +17,134 @@ class PreviewAPI {
     public function __construct() {
         try {
             $this->pdo = getDBConnection();
+            $this->initializeTables();
         } catch (Exception $e) {
             // If database connection fails, we'll return empty data
             $this->pdo = null;
+        }
+    }
+
+    private function initializeTables() {
+        if (!$this->pdo) return;
+
+        try {
+            // Content blocks table (simplified without foreign keys)
+            $sql = "CREATE TABLE IF NOT EXISTS content_blocks (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                type ENUM('text', 'image', 'logo', 'plugin', 'custom') NOT NULL,
+                name VARCHAR(255) NOT NULL,
+                content JSON NOT NULL,
+                page VARCHAR(100) NOT NULL,
+                position VARCHAR(100) NOT NULL,
+                is_active BOOLEAN DEFAULT TRUE,
+                metadata JSON DEFAULT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                INDEX idx_page_position (page, position),
+                INDEX idx_type_active (type, is_active)
+            )";
+            $this->pdo->exec($sql);
+
+            // Plugins table (simplified without foreign keys)
+            $sql = "CREATE TABLE IF NOT EXISTS custom_plugins (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
+                description TEXT,
+                code LONGTEXT NOT NULL,
+                type ENUM('component', 'script', 'style') NOT NULL,
+                is_active BOOLEAN DEFAULT TRUE,
+                pages JSON DEFAULT NULL,
+                version VARCHAR(50) DEFAULT '1.0.0',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                INDEX idx_type_active (type, is_active)
+            )";
+            $this->pdo->exec($sql);
+
+            // Website settings table
+            $sql = "CREATE TABLE IF NOT EXISTS website_settings (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                setting_key VARCHAR(255) UNIQUE NOT NULL,
+                setting_value JSON NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            )";
+            $this->pdo->exec($sql);
+
+            // Insert default content if tables are empty
+            $this->insertDefaultContent();
+
+        } catch (Exception $e) {
+            error_log("Table initialization error: " . $e->getMessage());
+        }
+    }
+
+    private function insertDefaultContent() {
+        try {
+            // Check if we already have content
+            $stmt = $this->pdo->query("SELECT COUNT(*) FROM content_blocks");
+            $count = $stmt->fetchColumn();
+
+            if ($count == 0) {
+                // Insert default navigation content
+                $defaultBlocks = [
+                    [
+                        'type' => 'logo',
+                        'name' => 'Main Logo',
+                        'content' => json_encode([
+                            'url' => '/placeholder.svg',
+                            'alt' => 'Calicut Spice Traders',
+                            'width' => 48,
+                            'height' => 48
+                        ]),
+                        'page' => 'navigation',
+                        'position' => 'header-left',
+                        'is_active' => 1,
+                        'metadata' => json_encode([
+                            'className' => 'company-logo',
+                            'responsive' => [
+                                'mobile' => true,
+                                'tablet' => true,
+                                'desktop' => true
+                            ]
+                        ])
+                    ],
+                    [
+                        'type' => 'text',
+                        'name' => 'Company Name',
+                        'content' => json_encode([
+                            'text' => 'Calicut Spice Traders',
+                            'tag' => 'h1',
+                            'styling' => [
+                                'fontSize' => '20px',
+                                'fontWeight' => '700'
+                            ]
+                        ]),
+                        'page' => 'navigation',
+                        'position' => 'header-center',
+                        'is_active' => 1
+                    ]
+                ];
+
+                $stmt = $this->pdo->prepare("
+                    INSERT INTO content_blocks (type, name, content, page, position, is_active, metadata)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                ");
+
+                foreach ($defaultBlocks as $block) {
+                    $stmt->execute([
+                        $block['type'],
+                        $block['name'],
+                        $block['content'],
+                        $block['page'],
+                        $block['position'],
+                        $block['is_active'],
+                        $block['metadata'] ?? null
+                    ]);
+                }
+            }
+        } catch (Exception $e) {
+            error_log("Default content insertion error: " . $e->getMessage());
         }
     }
 
@@ -37,8 +162,8 @@ class PreviewAPI {
         try {
             // Get content blocks for the page
             $stmt = $this->pdo->prepare("
-                SELECT id, type, name, content, page, position, is_active as isActive, metadata 
-                FROM content_blocks 
+                SELECT id, type, name, content, page, position, is_active as isActive, metadata
+                FROM content_blocks
                 WHERE page = ? OR page = 'all'
                 ORDER BY created_at ASC
             ");
@@ -54,8 +179,8 @@ class PreviewAPI {
 
             // Get plugins
             $stmt = $this->pdo->prepare("
-                SELECT id, name, description, code, type, is_active as isActive, pages 
-                FROM custom_plugins 
+                SELECT id, name, description, code, type, is_active as isActive, pages
+                FROM custom_plugins
                 WHERE is_active = 1 AND (pages LIKE ? OR pages LIKE '%all%')
                 ORDER BY created_at ASC
             ");
@@ -154,7 +279,7 @@ try {
     $page = $_GET['page'] ?? 'home';
     $api = new PreviewAPI();
     $result = $api->getPreviewData($page);
-    
+
     echo json_encode($result);
 } catch (Exception $e) {
     http_response_code(500);
