@@ -280,9 +280,11 @@ const Navigation = () => {
                   e.preventDefault();
                   console.log("Logout button clicked, current user:", user);
                   logout();
-                  console.log("Logout function called, redirecting...");
-                  // Immediate redirect to homepage
-                  window.location.href = "/";
+                  console.log(
+                    "Logout function called, redirecting to login...",
+                  );
+                  // Immediate redirect to login page
+                  window.location.href = "/login";
                 }}
               >
                 <LogOut className="mr-3 h-4 w-4" />
