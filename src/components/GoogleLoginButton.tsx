@@ -215,21 +215,23 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
         </Alert>
       )}
 
-      {/* No Invite Code State */}
-      {!inviteCode && (
-        <div className="text-center py-8">
-          <Shield className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+      {/* No Invite Code State - Only show for new users who tried and failed */}
+      {!inviteCode && error && (
+        <div className="text-center py-6 mt-4 border-t border-gray-200">
+          <Shield className="mx-auto h-10 w-10 text-gray-400 mb-3" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Access Restricted
+            Need Access?
           </h3>
-          <p className="text-gray-600 mb-4">
-            This platform requires an invitation to join. If you believe you
-            should have access, please contact your system administrator.
+          <p className="text-gray-600 mb-4 text-sm">
+            If you're a new user or having trouble signing in, please contact
+            your administrator for assistance.
           </p>
           <Button
             variant="outline"
+            size="sm"
             onClick={() => {
-              window.location.href = "mailto:admin@yourcompany.com";
+              window.location.href =
+                "mailto:admin@calicutspicetraders.com?subject=Access Request - CST Workspace";
             }}
           >
             Contact Administrator
