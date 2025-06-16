@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams, Link } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -58,13 +59,28 @@ import {
   HardDrive,
   Cpu,
   Globe,
+  ArrowLeft,
 } from "lucide-react";
 
 const SuperAdmin = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState("plugins");
   const [isInstallPluginOpen, setIsInstallPluginOpen] = useState(false);
   const [isCustomCodeOpen, setIsCustomCodeOpen] = useState(false);
   const [customCode, setCustomCode] = useState("");
+
+  // Handle tab routing
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    setSearchParams({ tab: value });
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 header-safe">
@@ -82,6 +98,12 @@ const SuperAdmin = () => {
         </div>
 
         <div className="flex items-center space-x-3 mt-4 md:mt-0">
+          <Link to="/superadmin">
+            <Button variant="outline">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Dashboard
+            </Button>
+          </Link>
           <Button variant="outline">
             <Monitor className="w-4 h-4 mr-2" />
             System Status
@@ -159,7 +181,7 @@ const SuperAdmin = () => {
       {/* Main SuperAdmin Interface */}
       <Tabs
         value={activeTab}
-        onValueChange={setActiveTab}
+        onValueChange={handleTabChange}
         className="space-y-6"
       >
         <TabsList className="grid w-full grid-cols-6">
