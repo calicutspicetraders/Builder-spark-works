@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# Handle SuperAdmin Content Manager API
+RewriteRule ^superadmin/content-blocks/?$ superadmin/content-manager.php [L]
+RewriteRule ^superadmin/content-blocks/([0-9]+)/?$ superadmin/content-manager.php?id=$1 [L]
+RewriteRule ^superadmin/plugins/?$ superadmin/content-manager.php?endpoint=plugins [L]
+RewriteRule ^superadmin/upload/?$ superadmin/content-manager.php?endpoint=upload [L]
+
+# Handle Preview API
+RewriteRule ^superadmin/preview/?$ superadmin/preview.php [L,QSA]
+
+# Allow OPTIONS for CORS
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
