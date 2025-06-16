@@ -276,12 +276,13 @@ const Navigation = () => {
               <DropdownMenuSeparator className="bg-white/10" />
               <DropdownMenuItem
                 className="p-3 hover:bg-red-500/20 rounded-xl m-1 transition-all duration-200 cursor-pointer text-red-400 focus:text-red-400 focus:bg-red-500/20"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  console.log("Logout button clicked, current user:", user);
                   logout();
-                  // Force a page reload to ensure clean state
-                  setTimeout(() => {
-                    window.location.reload();
-                  }, 100);
+                  console.log("Logout function called, redirecting...");
+                  // Immediate redirect to homepage
+                  window.location.href = "/";
                 }}
               >
                 <LogOut className="mr-3 h-4 w-4" />

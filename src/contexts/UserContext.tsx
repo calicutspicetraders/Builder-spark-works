@@ -145,15 +145,33 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   };
 
   const logout = () => {
+    console.log("Logout initiated"); // Debug log
+
+    // Clear all React state immediately
     setUser(null);
     setIsAuthenticated(false);
-    localStorage.removeItem("user_data");
-    localStorage.removeItem("auth_token");
-    localStorage.removeItem("superadmin_authenticated");
-    localStorage.removeItem("session_token");
-    localStorage.removeItem("session_expires");
+
+    // Clear all localStorage keys that might contain user data
+    const keysToRemove = [
+      "user_data",
+      "auth_token",
+      "superadmin_authenticated",
+      "session_token",
+      "session_expires",
+      "google_auth_state",
+    ];
+
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+
     // Set logout flag to prevent automatic user recreation
     localStorage.setItem("user_logged_out", "true");
+
+    console.log("Logout completed, user should be null:", {
+      user: null,
+      isAuthenticated: false,
+    });
   };
 
   // Create default user if none exists and user tries to access the app
