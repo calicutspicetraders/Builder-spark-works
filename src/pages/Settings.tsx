@@ -169,7 +169,6 @@ const Settings = () => {
                     <Save className="w-4 h-4 mr-2" />
                     Save Profile
                   </Button>
-                    </Button>
                     <p className="text-sm text-muted-foreground">
                       JPG, PNG or GIF. Max size 2MB.
                     </p>
