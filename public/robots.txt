@@ -1,14 +1,38 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
+# Robots.txt for workspace.calicutspicetraders.com
+# Production-ready SEO configuration
 
 User-agent: *
 Allow: /
+
+# Allow main pages
+Allow: /
+Allow: /admin
+Allow: /analytics
+Allow: /documents
+Allow: /communication
+
+# Block sensitive areas
+Disallow: /api/
+Disallow: /config/
+Disallow: /superadmin/
+Disallow: /.env
+Disallow: /error.log
+
+# Block admin and authentication pages
+Disallow: /superadmin
+Disallow: /login
+
+# Block file extensions
+Disallow: /*.php$
+Disallow: /*.sql$
+Disallow: /*.log$
+
+# Allow CSS and JS for better indexing
+Allow: /*.css$
+Allow: /*.js$
+
+# Sitemap location
+Sitemap: https://workspace.calicutspicetraders.com/sitemap.xml
+
+# Crawl delay (be respectful)
+Crawl-delay: 1
