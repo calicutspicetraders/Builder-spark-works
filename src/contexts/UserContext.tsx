@@ -174,19 +174,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     });
   };
 
-  // Create default user if none exists and user tries to access the app
-  const ensureUser = () => {
-    if (!user && !isAuthenticated) {
-      const newUser: User = {
-        ...defaultUser,
-        id: "user_" + Date.now(),
-        fullName: "User", // Will be updated when they fill profile
-        email: "user@company.com", // Will be updated when they fill profile
-        initials: "U",
-      };
-      login(newUser);
-    }
-  };
+  // REMOVED: ensureUser function to prevent auto-login issues
+  // Users must explicitly authenticate through Google OAuth or other methods
 
   // DISABLED: Auto-create user (this was preventing logout from working)
   // Users should explicitly authenticate rather than auto-creating accounts
