@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useUser } from "@/contexts/UserContext";
 import DynamicContentRenderer, {
   useDynamicContent,
   getContentValue,
@@ -39,6 +40,7 @@ const Navigation = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
+  const { user, logout } = useUser();
 
   const navigationItems = [
     {
@@ -205,9 +207,9 @@ const Navigation = () => {
                 className="relative h-10 w-10 rounded-2xl hover:scale-110 transition-all duration-300"
               >
                 <Avatar className="h-10 w-10 ring-2 ring-emerald-400/50">
-                  <AvatarImage src="/api/placeholder/40/40" alt="User" />
+                  <AvatarImage src={user?.avatar || ""} alt="User" />
                   <AvatarFallback className="bg-gradient-to-br from-emerald-400 to-blue-600 text-white font-semibold">
-                    JD
+                    {user?.initials || "U"}
                   </AvatarFallback>
                 </Avatar>
                 <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-emerald-400 border-2 border-black animate-pulse" />
@@ -221,14 +223,16 @@ const Navigation = () => {
               <DropdownMenuLabel className="font-normal p-4">
                 <div className="flex flex-col space-y-2">
                   <p className="text-sm font-semibold leading-none text-white">
-                    John Doe
+                    {user?.fullName || "User"}
                   </p>
                   <p className="text-xs leading-none text-gray-400">
-                    john@calicutspicetraders.com
+                    {user?.email || "user@company.com"}
                   </p>
                   <div className="flex items-center space-x-2 mt-2">
                     <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-xs text-emerald-400">Online</span>
+                    <span className="text-xs text-emerald-400">
+                      {user?.isOnline ? "Online" : "Offline"}
+                    </span>
                   </div>
                 </div>
               </DropdownMenuLabel>
@@ -258,9 +262,7 @@ const Navigation = () => {
               <DropdownMenuItem
                 className="p-3 hover:bg-white/10 rounded-xl m-1 transition-all duration-200 cursor-pointer"
                 onClick={() => {
-                  // Clear authentication state
-                  localStorage.removeItem("superadmin_authenticated");
-                  // You can add more logout logic here like clearing user data
+                  logout();
                   console.log("User logged out");
                   // Optionally redirect to login page
                   window.location.href = "/";
