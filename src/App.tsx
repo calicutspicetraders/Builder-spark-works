@@ -56,14 +56,14 @@ const App = () => {
             <Route path="/settings" element={<Settings />} />
 
             {/* SuperAdmin Routes - Separate Authentication */}
-            <Route path="/superadmin/login" element={<SuperAdminLogin />} />
-            <Route path="/superadmin" element={<SuperAdmin />} />
-            <Route path="/superadmin/content" element={<SuperAdminContentManager />} />
-              path="/superadmin"
+            <Route
+              path="/superadmin/content"
               element={
                 <ProtectedSuperAdminRoute>
-                  <div className="min-h-screen bg-background">
-                    <SuperAdmin />
+                  <SuperAdminContentManager />
+                </ProtectedSuperAdminRoute>
+              }
+            />
                   </div>
                 </ProtectedSuperAdminRoute>
               }
