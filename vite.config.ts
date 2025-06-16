@@ -13,17 +13,10 @@ export default defineConfig({
   // Hostinger optimization
   build: {
     target: "es2015",
-    minify: "terser",
+    minify: true,
     cssMinify: true,
     reportCompressedSize: false,
     chunkSizeWarningLimit: 1000,
-    terserOptions: {
-      compress: {
-        drop_console: true, // Remove console.logs in production
-        drop_debugger: true,
-        pure_funcs: ["console.log", "console.debug"],
-      },
-    },
   },
   server: {
     host: true,
