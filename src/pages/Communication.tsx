@@ -52,7 +52,17 @@ const Communication = () => {
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [newMessage, setNewMessage] = useState("");
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<any[]>([
+    {
+      id: 1,
+      sender: "Export Team",
+      content: "Welcome to the communication hub! How can we help you today?",
+      timestamp: "10:30 AM",
+      type: "text",
+      sent: false,
+      avatar: "ET",
+    },
+  ]);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -714,7 +724,14 @@ const Communication = () => {
                   <p className="text-gray-400 text-sm mb-6">
                     Multi-participant video conference
                   </p>
-                  <Button className="modern-button w-full">
+                  <Button
+                    onClick={() =>
+                      alert(
+                        "Meeting scheduling feature coming soon! You can integrate with Google Calendar or Microsoft Teams.",
+                      )
+                    }
+                    className="modern-button w-full"
+                  >
                     <Users className="w-4 h-4 mr-2" />
                     Schedule Meeting
                   </Button>
@@ -746,7 +763,14 @@ const Communication = () => {
                   <p className="text-gray-400 mb-6">
                     Schedule your first team meeting to get started
                   </p>
-                  <Button className="modern-button">
+                  <Button
+                    onClick={() =>
+                      alert(
+                        "Meeting scheduling feature coming soon! You can integrate with Google Calendar or Microsoft Teams.",
+                      )
+                    }
+                    className="modern-button"
+                  >
                     <Plus className="w-4 h-4 mr-2" />
                     Schedule Meeting
                   </Button>
