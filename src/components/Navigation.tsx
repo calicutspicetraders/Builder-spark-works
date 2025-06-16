@@ -121,7 +121,7 @@ const Navigation = () => {
             <Icon
               className={`h-4 w-4 ${isActive ? "animate-pulse" : "group-hover:animate-bounce"}`}
             />
-            <span className={isMobile ? "block" : "hidden xl:block"}>
+            <span className={isMobile ? "block" : "hidden lg:block"}>
               {item.label}
             </span>
             {isActive && (
@@ -135,18 +135,21 @@ const Navigation = () => {
 
   return (
     <header className="fixed top-0 z-50 w-full glass-nav border-b border-white/10">
-      <div className="container flex h-20 items-center justify-between px-6">
+      <div className="container mx-auto flex h-16 sm:h-20 items-center justify-between px-4 sm:px-6 max-w-7xl">
         {/* Logo */}
-        <Link to="/" className="flex items-center space-x-3 group">
+        <Link
+          to="/"
+          className="flex items-center space-x-2 sm:space-x-3 group flex-shrink-0"
+        >
           <DynamicContentRenderer
             page="navigation"
             position="header-left"
             defaultContent={
               <div className="relative">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-blue-600 p-2 group-hover:scale-110 transition-all duration-300 animate-glow">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-blue-600 p-2 group-hover:scale-110 transition-all duration-300 animate-glow">
                   <Sparkles className="h-full w-full text-white" />
                 </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 animate-pulse" />
+                <div className="absolute -top-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 animate-pulse" />
               </div>
             }
           />
@@ -155,10 +158,15 @@ const Navigation = () => {
             position="header-center"
             defaultContent={
               <div className="hidden sm:block">
-                <h1 className="text-xl font-bold gradient-text">
-                  Calicut Spice Traders
+                <h1 className="text-lg sm:text-xl font-bold gradient-text">
+                  <span className="hidden md:inline">
+                    Calicut Spice Traders
+                  </span>
+                  <span className="md:hidden">CST Workspace</span>
                 </h1>
-                <p className="text-xs text-gray-400">Modern Workspace</p>
+                <p className="text-xs text-gray-400 hidden lg:block">
+                  Modern Workspace
+                </p>
               </div>
             }
           />
@@ -170,7 +178,7 @@ const Navigation = () => {
         </nav>
 
         {/* Right Side Actions */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
           <DynamicContentRenderer
             page="navigation"
             position="header-right-before"
@@ -180,7 +188,7 @@ const Navigation = () => {
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
-            className="relative w-10 h-10 rounded-2xl hover:bg-white/10 transition-all duration-300 hover:scale-110"
+            className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-2xl hover:bg-white/10 transition-all duration-300 hover:scale-110"
           >
             {isDark ? (
               <Sun className="h-4 w-4 text-yellow-400 animate-spin" />
@@ -193,7 +201,7 @@ const Navigation = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="relative w-10 h-10 rounded-2xl hover:bg-white/10 transition-all duration-300 hover:scale-110 active:scale-95 touch-manipulation"
+            className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-2xl hover:bg-white/10 transition-all duration-300 hover:scale-110 active:scale-95 touch-manipulation"
             onClick={() => {
               // Add notification handling logic here
               // TODO: Implement notification system
@@ -211,15 +219,15 @@ const Navigation = () => {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="relative h-10 w-10 rounded-2xl hover:scale-110 transition-all duration-300"
+                className="relative h-8 w-8 sm:h-10 sm:w-10 rounded-2xl hover:scale-110 transition-all duration-300"
               >
-                <Avatar className="h-10 w-10 ring-2 ring-emerald-400/50">
+                <Avatar className="h-8 w-8 sm:h-10 sm:w-10 ring-2 ring-emerald-400/50">
                   <AvatarImage src={user?.avatar || ""} alt="User" />
-                  <AvatarFallback className="bg-gradient-to-br from-emerald-400 to-blue-600 text-white font-semibold">
+                  <AvatarFallback className="bg-gradient-to-br from-emerald-400 to-blue-600 text-white font-semibold text-xs sm:text-sm">
                     {user?.initials || "U"}
                   </AvatarFallback>
                 </Avatar>
-                <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-emerald-400 border-2 border-black animate-pulse" />
+                <div className="absolute -bottom-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-emerald-400 border-2 border-black animate-pulse" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -287,9 +295,9 @@ const Navigation = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="w-10 h-10 rounded-2xl hover:bg-white/10"
+                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-2xl hover:bg-white/10"
                 >
-                  <Menu className="h-5 w-5 text-gray-300" />
+                  <Menu className="h-4 w-4 sm:h-5 sm:w-5 text-gray-300" />
                 </Button>
               </SheetTrigger>
               <SheetContent
