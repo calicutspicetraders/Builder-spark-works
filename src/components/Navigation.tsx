@@ -15,6 +15,7 @@ import {
   Menu,
   Home,
   LayoutDashboard,
+  Users,
   FileText,
   MessageSquare,
   BarChart3,
@@ -31,6 +32,7 @@ const Navigation = () => {
   const navigationItems = [
     { href: "/", label: "Home", icon: Home },
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/crm", label: "CRM & Sales", icon: Users },
     { href: "/documents", label: "Documents", icon: FileText },
     { href: "/communication", label: "Communication", icon: MessageSquare },
     { href: "/analytics", label: "Analytics", icon: BarChart3 },

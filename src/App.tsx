@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Index from "./pages/Index";
 import AdminDashboard from "./pages/AdminDashboard";
+import CRM from "./pages/CRM";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/crm" element={<CRM />} />
             {/* Placeholder routes for future implementation */}
             <Route path="/documents" element={<NotFound />} />
             <Route path="/communication" element={<NotFound />} />

@@ -116,14 +116,23 @@ const Index = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button size="lg" className="text-lg px-8">
-                <BarChart3 className="mr-2 w-5 h-5" />
-                Access Dashboard
-                <ArrowRight className="ml-2 w-5 h-5" />
+              <Button size="lg" className="text-lg px-8" asChild>
+                <a href="/admin">
+                  <BarChart3 className="mr-2 w-5 h-5" />
+                  Access Dashboard
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </a>
               </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8">
-                <MessageSquare className="mr-2 w-5 h-5" />
-                Team Communication
+              <Button
+                variant="outline"
+                size="lg"
+                className="text-lg px-8"
+                asChild
+              >
+                <a href="/communication">
+                  <MessageSquare className="mr-2 w-5 h-5" />
+                  Team Communication
+                </a>
               </Button>
             </div>
 
@@ -246,13 +255,22 @@ const Index = () => {
                   for access to collaboration tools and business data.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button size="lg" className="mx-auto">
-                    <BarChart3 className="mr-2 w-5 h-5" />
-                    Access Workspace Dashboard
+                  <Button size="lg" className="mx-auto" asChild>
+                    <a href="/admin">
+                      <BarChart3 className="mr-2 w-5 h-5" />
+                      Access Workspace Dashboard
+                    </a>
                   </Button>
-                  <Button variant="outline" size="lg" className="mx-auto">
-                    <MessageSquare className="mr-2 w-5 h-5" />
-                    Partner Login
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="mx-auto"
+                    asChild
+                  >
+                    <a href="/crm">
+                      <Users className="mr-2 w-5 h-5" />
+                      CRM & Sales
+                    </a>
                   </Button>
                 </div>
               </CardContent>
