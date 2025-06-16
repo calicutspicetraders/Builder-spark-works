@@ -9,6 +9,9 @@ RewriteRule ^superadmin/upload/?$ superadmin/content-manager.php?endpoint=upload
 # Handle Preview API
 RewriteRule ^superadmin/preview/?$ superadmin/preview.php [L,QSA]
 
+# Handle Invite Manager API
+RewriteRule ^superadmin/invite-manager/?$ superadmin/invite-manager.php [L,QSA]
+
 # Allow OPTIONS for CORS
 RewriteCond %{REQUEST_METHOD} OPTIONS
 RewriteRule ^(.*)$ $1 [R=200,L]
