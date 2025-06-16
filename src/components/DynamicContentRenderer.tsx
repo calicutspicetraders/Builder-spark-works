@@ -49,14 +49,27 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
 
   // Fetch content blocks and plugins for this page/position
   const { data: contentData, isLoading } = useQuery({
-    queryKey: ["dynamic-content", page, position],
+    queryKey: ["content-blocks", page, position],
     queryFn: async () => {
-      const response = await fetch(`/api/superadmin/preview?page=${page}`);
-      if (!response.ok) throw new Error("Failed to fetch content");
-      return response.json();
+      try {
+        const response = await fetch(`/api/superadmin/preview?page=${page}`);
+        if (!response.ok) {
+          // If API not available, return empty data instead of throwing
+          console.warn(
+            `API endpoint not available: /api/superadmin/preview?page=${page}`,
+          );
+          return { content_blocks: [], plugins: [], settings: {} };
+        }
+        return response.json();
+      } catch (error) {
+        // Fallback to empty data if fetch fails
+        console.warn("Content API not available, using fallback data:", error);
+        return { content_blocks: [], plugins: [], settings: {} };
+      }
     },
     staleTime: 30000, // Cache for 30 seconds
     refetchOnWindowFocus: false,
+    retry: false, // Don't retry failed requests
   });
 
   // Filter content blocks for this position
@@ -321,11 +334,24 @@ export const useDynamicContent = (page: string, position?: string) => {
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["dynamic-content", page, position],
     queryFn: async () => {
-      const response = await fetch(`/api/superadmin/preview?page=${page}`);
-      if (!response.ok) throw new Error("Failed to fetch content");
-      return response.json();
+      try {
+        const response = await fetch(`/api/superadmin/preview?page=${page}`);
+        if (!response.ok) {
+          // If API not available, return empty data instead of throwing
+          console.warn(
+            `API endpoint not available: /api/superadmin/preview?page=${page}`,
+          );
+          return { content_blocks: [], plugins: [], settings: {} };
+        }
+        return response.json();
+      } catch (error) {
+        // Fallback to empty data if fetch fails
+        console.warn("Content API not available, using fallback data:", error);
+        return { content_blocks: [], plugins: [], settings: {} };
+      }
     },
     staleTime: 30000,
+    retry: false, // Don't retry failed requests
   });
 
   const contentBlocks = useMemo(() => {
