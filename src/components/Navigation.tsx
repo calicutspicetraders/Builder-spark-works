@@ -275,15 +275,17 @@ const Navigation = () => {
               </Link>
               <DropdownMenuSeparator className="bg-white/10" />
               <DropdownMenuItem
-                className="p-3 hover:bg-white/10 rounded-xl m-1 transition-all duration-200 cursor-pointer"
+                className="p-3 hover:bg-red-500/20 rounded-xl m-1 transition-all duration-200 cursor-pointer text-red-400 focus:text-red-400 focus:bg-red-500/20"
                 onClick={() => {
                   logout();
-                  // Optionally redirect to login page
-                  window.location.href = "/";
+                  // Force a page reload to ensure clean state
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 100);
                 }}
               >
-                <LogOut className="mr-3 h-4 w-4 text-gray-400" />
-                <span className="text-white">Log out</span>
+                <LogOut className="mr-3 h-4 w-4" />
+                <span>Log out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
