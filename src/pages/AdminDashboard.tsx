@@ -8,9 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   BarChart3,
   TrendingUp,
@@ -38,131 +36,6 @@ import {
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
 
-  // Mock data for dashboard
-  const dashboardStats = [
-    {
-      title: "Total Export Volume",
-      value: "127.5 MT",
-      change: "+12.5%",
-      trend: "up",
-      icon: Package,
-      color: "text-green-600",
-    },
-    {
-      title: "Active Shipments",
-      value: "23",
-      change: "+3",
-      trend: "up",
-      icon: Truck,
-      color: "text-blue-600",
-    },
-    {
-      title: "Monthly Revenue",
-      value: "₹45.2L",
-      change: "+8.3%",
-      trend: "up",
-      icon: DollarSign,
-      color: "text-purple-600",
-    },
-    {
-      title: "Compliance Score",
-      value: "98.5%",
-      change: "-0.5%",
-      trend: "down",
-      icon: Star,
-      color: "text-orange-600",
-    },
-  ];
-
-  const recentShipments = [
-    {
-      id: "SP-2024-001",
-      destination: "Dubai, UAE",
-      product: "Cardamom (AAA Grade)",
-      quantity: "5.2 MT",
-      status: "In Transit",
-      eta: "Dec 28, 2024",
-      statusColor: "bg-blue-100 text-blue-800",
-    },
-    {
-      id: "SP-2024-002",
-      destination: "London, UK",
-      product: "Black Pepper",
-      quantity: "3.8 MT",
-      status: "Customs",
-      eta: "Dec 30, 2024",
-      statusColor: "bg-yellow-100 text-yellow-800",
-    },
-    {
-      id: "SP-2024-003",
-      destination: "Kuwait City",
-      product: "Turmeric Powder",
-      quantity: "7.1 MT",
-      status: "Delivered",
-      eta: "Completed",
-      statusColor: "bg-green-100 text-green-800",
-    },
-  ];
-
-  const complianceAlerts = [
-    {
-      type: "warning",
-      title: "FSSAI Certificate Renewal",
-      description: "Certificate expires in 30 days",
-      priority: "High",
-      dueDate: "Jan 15, 2025",
-    },
-    {
-      type: "info",
-      title: "ISO 22000 Audit Scheduled",
-      description: "Annual compliance audit next month",
-      priority: "Medium",
-      dueDate: "Feb 10, 2025",
-    },
-    {
-      type: "success",
-      title: "UAE Halal Certification",
-      description: "Successfully renewed for 2 years",
-      priority: "Low",
-      dueDate: "Completed",
-    },
-  ];
-
-  const teamMembers = [
-    {
-      name: "Rajesh Kumar",
-      role: "Export Manager",
-      status: "online",
-      avatar: "RK",
-    },
-    {
-      name: "Priya Nair",
-      role: "Quality Controller",
-      status: "away",
-      avatar: "PN",
-    },
-    {
-      name: "Mohammed Ali",
-      role: "Documentation",
-      status: "online",
-      avatar: "MA",
-    },
-    {
-      name: "Suresh Menon",
-      role: "Logistics",
-      status: "offline",
-      avatar: "SM",
-    },
-    { name: "Lakshmi Pillai", role: "Finance", status: "online", avatar: "LP" },
-  ];
-
-  const marketData = [
-    { market: "UAE", demand: 85, price: "High", trend: "up" },
-    { market: "Kuwait", demand: 72, price: "Medium", trend: "stable" },
-    { market: "UK", demand: 91, price: "Premium", trend: "up" },
-    { market: "Nigeria", demand: 68, price: "Competitive", trend: "down" },
-  ];
-
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
@@ -189,37 +62,72 @@ const AdminDashboard = () => {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {dashboardStats.map((stat, index) => {
-          const Icon = stat.icon;
-          return (
-            <Card key={index} className="hover:shadow-lg transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  {stat.title}
-                </CardTitle>
-                <Icon className={`h-4 w-4 ${stat.color}`} />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <div className="flex items-center text-xs text-muted-foreground">
-                  {stat.trend === "up" ? (
-                    <TrendingUp className="w-3 h-3 mr-1 text-green-600" />
-                  ) : (
-                    <TrendingDown className="w-3 h-3 mr-1 text-red-600" />
-                  )}
-                  <span
-                    className={
-                      stat.trend === "up" ? "text-green-600" : "text-red-600"
-                    }
-                  >
-                    {stat.change}
-                  </span>
-                  <span className="ml-1">from last month</span>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Total Export Volume
+            </CardTitle>
+            <Package className="h-4 w-4 text-green-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">0 MT</div>
+            <div className="flex items-center text-xs text-muted-foreground">
+              <TrendingUp className="w-3 h-3 mr-1 text-green-600" />
+              <span className="text-green-600">0%</span>
+              <span className="ml-1">from last month</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Active Shipments
+            </CardTitle>
+            <Truck className="h-4 w-4 text-blue-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">0</div>
+            <div className="flex items-center text-xs text-muted-foreground">
+              <TrendingUp className="w-3 h-3 mr-1 text-green-600" />
+              <span className="text-green-600">0</span>
+              <span className="ml-1">new shipments</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Monthly Revenue
+            </CardTitle>
+            <DollarSign className="h-4 w-4 text-purple-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">₹0</div>
+            <div className="flex items-center text-xs text-muted-foreground">
+              <TrendingUp className="w-3 h-3 mr-1 text-green-600" />
+              <span className="text-green-600">0%</span>
+              <span className="ml-1">from last month</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Compliance Score
+            </CardTitle>
+            <Star className="h-4 w-4 text-orange-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">100%</div>
+            <div className="flex items-center text-xs text-muted-foreground">
+              <CheckCircle className="w-3 h-3 mr-1 text-green-600" />
+              <span className="text-green-600">All certificates valid</span>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Main Content Tabs */}
@@ -238,9 +146,9 @@ const AdminDashboard = () => {
 
         {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Recent Shipments */}
-            <Card className="lg:col-span-2">
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Truck className="w-5 h-5 mr-2" />
@@ -251,83 +159,40 @@ const AdminDashboard = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {recentShipments.map((shipment, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between p-4 border rounded-lg"
-                    >
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-1">
-                          <span className="font-medium">{shipment.id}</span>
-                          <Badge className={shipment.statusColor}>
-                            {shipment.status}
-                          </Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          {shipment.product}
-                        </p>
-                        <div className="flex items-center text-xs text-muted-foreground mt-1">
-                          <MapPin className="w-3 h-3 mr-1" />
-                          {shipment.destination}
-                          <span className="mx-2">•</span>
-                          {shipment.quantity}
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm font-medium">{shipment.eta}</p>
-                      </div>
-                    </div>
-                  ))}
+                <div className="text-center py-8">
+                  <Truck className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                  <h3 className="text-lg font-medium mb-2">No shipments yet</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Create your first shipment to start tracking exports
+                  </p>
+                  <Button>
+                    <Plus className="w-4 h-4 mr-2" />
+                    New Shipment
+                  </Button>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Compliance Alerts */}
+            {/* Compliance Status */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <AlertTriangle className="w-5 h-5 mr-2" />
-                  Compliance Alerts
+                  Compliance Status
                 </CardTitle>
                 <CardDescription>
-                  Important compliance deadlines
+                  Important compliance deadlines and alerts
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {complianceAlerts.map((alert, index) => (
-                    <div
-                      key={index}
-                      className="flex items-start space-x-3 p-3 border rounded-lg"
-                    >
-                      <div className="flex-shrink-0">
-                        {alert.type === "warning" && (
-                          <AlertTriangle className="w-4 h-4 text-yellow-600" />
-                        )}
-                        {alert.type === "info" && (
-                          <Bell className="w-4 h-4 text-blue-600" />
-                        )}
-                        {alert.type === "success" && (
-                          <CheckCircle className="w-4 h-4 text-green-600" />
-                        )}
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">{alert.title}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {alert.description}
-                        </p>
-                        <div className="flex items-center justify-between mt-2">
-                          <Badge variant="outline" className="text-xs">
-                            {alert.priority}
-                          </Badge>
-                          <span className="text-xs text-muted-foreground">
-                            {alert.dueDate}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                <div className="text-center py-8">
+                  <CheckCircle className="mx-auto h-12 w-12 text-green-600 mb-4" />
+                  <h3 className="text-lg font-medium mb-2">
+                    All systems green
+                  </h3>
+                  <p className="text-muted-foreground">
+                    No compliance issues detected
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -344,16 +209,16 @@ const AdminDashboard = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-muted-foreground">
-                <Package className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>
-                  Detailed shipment management interface will be implemented
-                  here.
+              <div className="text-center py-12">
+                <Package className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                <h3 className="text-lg font-medium mb-2">No shipments found</h3>
+                <p className="text-muted-foreground mb-4">
+                  Start tracking your export shipments here
                 </p>
-                <p className="text-sm mt-2">
-                  Features: Tracking, documentation, customs status, delivery
-                  confirmations
-                </p>
+                <Button>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Create First Shipment
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -369,15 +234,18 @@ const AdminDashboard = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-muted-foreground">
-                <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>
-                  Comprehensive compliance dashboard will be implemented here.
+              <div className="text-center py-12">
+                <FileText className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                <h3 className="text-lg font-medium mb-2">
+                  Setup compliance tracking
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  Upload certificates and set renewal reminders
                 </p>
-                <p className="text-sm mt-2">
-                  Features: Certificate tracking, renewal alerts, audit
-                  management, regulatory updates
-                </p>
+                <Button>
+                  <Upload className="w-4 h-4 mr-2" />
+                  Upload Certificates
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -396,41 +264,18 @@ const AdminDashboard = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {teamMembers.map((member, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center space-x-3 p-4 border rounded-lg"
-                  >
-                    <div className="relative">
-                      <Avatar>
-                        <AvatarFallback>{member.avatar}</AvatarFallback>
-                      </Avatar>
-                      <div
-                        className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-background ${
-                          member.status === "online"
-                            ? "bg-green-500"
-                            : member.status === "away"
-                              ? "bg-yellow-500"
-                              : "bg-gray-400"
-                        }`}
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-sm">{member.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {member.role}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-6 text-center text-muted-foreground">
-                <MessageSquare className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                <p className="text-sm">
-                  Communication hub and team collaboration tools will be
-                  implemented here.
+              <div className="text-center py-12">
+                <Users className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                <h3 className="text-lg font-medium mb-2">
+                  Invite team members
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  Add your partners to start collaborating
                 </p>
+                <Button>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Invite Team
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -449,42 +294,11 @@ const AdminDashboard = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-6">
-                {marketData.map((market, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-4 border rounded-lg"
-                  >
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <h4 className="font-medium">{market.market}</h4>
-                        <Badge variant="outline">{market.price}</Badge>
-                        {market.trend === "up" && (
-                          <TrendingUp className="w-4 h-4 text-green-600" />
-                        )}
-                        {market.trend === "down" && (
-                          <TrendingDown className="w-4 h-4 text-red-600" />
-                        )}
-                        {market.trend === "stable" && (
-                          <div className="w-4 h-4 rounded bg-yellow-400" />
-                        )}
-                      </div>
-                      <div className="space-y-1">
-                        <div className="flex justify-between text-sm">
-                          <span>Demand Level</span>
-                          <span>{market.demand}%</span>
-                        </div>
-                        <Progress value={market.demand} className="h-2" />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-6 text-center text-muted-foreground">
-                <BarChart3 className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                <p className="text-sm">
-                  Advanced market analytics and business intelligence will be
-                  implemented here.
+              <div className="text-center py-12">
+                <Globe className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                <h3 className="text-lg font-medium mb-2">No market data</h3>
+                <p className="text-muted-foreground">
+                  Market intelligence will appear as you expand your business
                 </p>
               </div>
             </CardContent>
