@@ -17,6 +17,21 @@ export default defineConfig({
     cssMinify: true,
     reportCompressedSize: false,
     chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom"],
+          router: ["react-router-dom"],
+          ui: [
+            "@radix-ui/react-alert-dialog",
+            "@radix-ui/react-avatar",
+            "@radix-ui/react-button",
+          ],
+          charts: ["recharts"],
+          icons: ["lucide-react"],
+        },
+      },
+    },
   },
   server: {
     host: true,

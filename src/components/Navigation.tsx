@@ -189,7 +189,7 @@ const Navigation = () => {
             className="relative w-10 h-10 rounded-2xl hover:bg-white/10 transition-all duration-300 hover:scale-110 active:scale-95 touch-manipulation"
             onClick={() => {
               // Add notification handling logic here
-              console.log("Notifications clicked");
+              // TODO: Implement notification system
             }}
             aria-label="Notifications"
           >
@@ -263,7 +263,6 @@ const Navigation = () => {
                 className="p-3 hover:bg-white/10 rounded-xl m-1 transition-all duration-200 cursor-pointer"
                 onClick={() => {
                   logout();
-                  console.log("User logged out");
                   // Optionally redirect to login page
                   window.location.href = "/";
                 }}

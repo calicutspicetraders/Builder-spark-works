@@ -319,11 +319,10 @@ const DynamicHomepage = () => {
 
                   <GoogleLoginButton
                     onSuccess={(user) => {
-                      console.log("Login successful:", user);
                       setShowAuthSection(false);
                     }}
                     onError={(error) => {
-                      console.error("Login failed:", error);
+                      // Handle login error silently or show user-friendly message
                     }}
                     className="w-full flex justify-center"
                   />
