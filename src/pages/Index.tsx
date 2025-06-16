@@ -120,7 +120,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen pt-24">
       {/* Hero Section with Glassmorphism */}
       <section className="relative overflow-hidden">
         {/* Animated background elements */}

@@ -144,7 +144,7 @@ const Communication = () => {
   };
 
   return (
-    <div className="min-h-screen pt-20 bg-gradient-to-br from-slate-900 via-gray-900 to-black">
+    <div className="min-h-screen pt-24 bg-gradient-to-br from-slate-900 via-gray-900 to-black">
       <div className="container mx-auto px-6 py-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
