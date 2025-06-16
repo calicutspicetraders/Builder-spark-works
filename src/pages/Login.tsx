@@ -210,7 +210,7 @@ const Login: React.FC = () => {
                 <CardDescription className="text-blue-100/70 text-base">
                   {inviteCode
                     ? "You've been invited to join our platform. Please sign in to complete your registration."
-                    : "Sign in to access your workspace and manage global spice trading operations."}
+                    : "Sign in with your Google account to access the workspace. Domain emails (@calicutspicetraders.com) and approved Gmail accounts are supported."}
                 </CardDescription>
               </CardHeader>
 
