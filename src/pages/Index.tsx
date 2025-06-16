@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 import {
   ArrowRight,
   Globe,
@@ -117,11 +118,11 @@ const Index = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button size="lg" className="text-lg px-8" asChild>
-                <a href="/admin">
+                <Link to="/admin">
                   <BarChart3 className="mr-2 w-5 h-5" />
                   Access Dashboard
                   <ArrowRight className="ml-2 w-5 h-5" />
-                </a>
+                </Link>
               </Button>
               <Button
                 variant="outline"
@@ -129,10 +130,10 @@ const Index = () => {
                 className="text-lg px-8"
                 asChild
               >
-                <a href="/communication">
+                <Link to="/communication">
                   <MessageSquare className="mr-2 w-5 h-5" />
                   Team Communication
-                </a>
+                </Link>
               </Button>
             </div>
 
@@ -256,10 +257,10 @@ const Index = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button size="lg" className="mx-auto" asChild>
-                    <a href="/admin">
+                    <Link to="/admin">
                       <BarChart3 className="mr-2 w-5 h-5" />
                       Access Workspace Dashboard
-                    </a>
+                    </Link>
                   </Button>
                   <Button
                     variant="outline"
@@ -267,10 +268,10 @@ const Index = () => {
                     className="mx-auto"
                     asChild
                   >
-                    <a href="/crm">
+                    <Link to="/crm">
                       <Users className="mr-2 w-5 h-5" />
                       CRM & Sales
-                    </a>
+                    </Link>
                   </Button>
                 </div>
               </CardContent>
