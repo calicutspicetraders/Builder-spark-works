@@ -163,11 +163,16 @@ const Navigation = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="relative w-10 h-10 rounded-2xl hover:bg-white/10 transition-all duration-300 hover:scale-110"
+            className="relative w-10 h-10 rounded-2xl hover:bg-white/10 transition-all duration-300 hover:scale-110 active:scale-95 touch-manipulation"
+            onClick={() => {
+              // Add notification handling logic here
+              console.log("Notifications clicked");
+            }}
+            aria-label="Notifications"
           >
             <Bell className="h-4 w-4 text-gray-300" />
             <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-[10px] text-white flex items-center justify-center font-semibold animate-bounce">
-              3
+              0
             </span>
           </Button>
 

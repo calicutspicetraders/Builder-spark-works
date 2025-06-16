@@ -58,92 +58,12 @@ const Communication = () => {
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [newMessage, setNewMessage] = useState("");
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      sender: "Rajesh Kumar",
-      content: "Good morning team! 🌅 UAE shipment SP-2024-001 update:",
-      timestamp: "09:15 AM",
-      type: "text",
-      sent: false,
-      avatar: "RK",
-    },
-    {
-      id: 2,
-      sender: "Rajesh Kumar",
-      content:
-        "✅ Customs clearance completed\n✅ Documents verified\n🚚 In transit to Dubai warehouse",
-      timestamp: "09:16 AM",
-      type: "text",
-      sent: false,
-      avatar: "RK",
-    },
-    {
-      id: 3,
-      sender: "You",
-      content: "Excellent! What's the expected delivery date? 📅",
-      timestamp: "09:18 AM",
-      type: "text",
-      sent: true,
-      avatar: "YO",
-    },
-    {
-      id: 4,
-      sender: "Mohammed Ali",
-      content: "Based on current logistics, delivery expected by Dec 28th ⏰",
-      timestamp: "09:20 AM",
-      type: "text",
-      sent: false,
-      avatar: "MA",
-    },
-  ]);
+  const [messages, setMessages] = useState<any[]>([]);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const conversations = [
-    {
-      id: 1,
-      name: "Export Team 🚚",
-      lastMessage: "UAE shipment has cleared customs ✅",
-      timestamp: "2 min ago",
-      unread: 3,
-      avatar: "ET",
-      online: true,
-      type: "group",
-    },
-    {
-      id: 2,
-      name: "Rajesh Kumar",
-      lastMessage: "Quality certificates ready 📋",
-      timestamp: "15 min ago",
-      unread: 1,
-      avatar: "RK",
-      online: true,
-      type: "direct",
-      role: "Export Manager",
-    },
-    {
-      id: 3,
-      name: "Quality Control",
-      lastMessage: "Lab results uploaded 🧪",
-      timestamp: "1 hour ago",
-      unread: 0,
-      avatar: "QC",
-      online: false,
-      type: "group",
-    },
-    {
-      id: 4,
-      name: "Al-Baraka Trading 🇦🇪",
-      lastMessage: "Payment processing confirmed 💳",
-      timestamp: "3 hours ago",
-      unread: 0,
-      avatar: "AB",
-      online: true,
-      type: "external",
-    },
-  ];
+  const conversations: any[] = [];
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -403,184 +323,247 @@ const Communication = () => {
                   </div>
                 </CardHeader>
                 <CardContent className="p-0">
-                  <div className="space-y-1 p-4">
-                    {conversations.map((conversation) => (
-                      <div
-                        key={conversation.id}
-                        className="flex items-center space-x-3 p-3 cursor-pointer hover:bg-white/5 rounded-2xl transition-all duration-200 group"
-                      >
-                        <div className="relative">
-                          <Avatar className="h-12 w-12 ring-2 ring-white/10">
-                            <AvatarFallback className="bg-gradient-to-r from-emerald-400 to-blue-500 text-white font-semibold">
-                              {conversation.avatar}
-                            </AvatarFallback>
-                          </Avatar>
-                          {conversation.online && (
-                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-gray-900 animate-pulse" />
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-2">
-                              <p className="text-sm font-medium text-white truncate group-hover:text-emerald-400 transition-colors">
-                                {conversation.name}
-                              </p>
-                              {conversation.type === "group" && (
-                                <Users className="w-3 h-3 text-gray-400" />
-                              )}
-                              {conversation.type === "external" && (
-                                <Globe className="w-3 h-3 text-blue-400" />
-                              )}
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <span className="text-xs text-gray-400">
-                                {conversation.timestamp}
-                              </span>
-                              {conversation.unread > 0 && (
-                                <Badge className="h-5 w-5 p-0 text-xs bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-full flex items-center justify-center">
-                                  {conversation.unread}
-                                </Badge>
-                              )}
-                            </div>
+                  {conversations.length > 0 ? (
+                    <div className="space-y-1 p-4">
+                      {conversations.map((conversation) => (
+                        <div
+                          key={conversation.id}
+                          className="flex items-center space-x-3 p-3 cursor-pointer hover:bg-white/5 rounded-2xl transition-all duration-200 group"
+                        >
+                          <div className="relative">
+                            <Avatar className="h-12 w-12 ring-2 ring-white/10">
+                              <AvatarFallback className="bg-gradient-to-r from-emerald-400 to-blue-500 text-white font-semibold">
+                                {conversation.avatar}
+                              </AvatarFallback>
+                            </Avatar>
+                            {conversation.online && (
+                              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-gray-900 animate-pulse" />
+                            )}
                           </div>
-                          <p className="text-xs text-gray-400 truncate mt-1">
-                            {conversation.lastMessage}
-                          </p>
-                          {conversation.role && (
-                            <p className="text-xs text-blue-400 mt-1">
-                              {conversation.role}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-2">
+                                <p className="text-sm font-medium text-white truncate group-hover:text-emerald-400 transition-colors">
+                                  {conversation.name}
+                                </p>
+                                {conversation.type === "group" && (
+                                  <Users className="w-3 h-3 text-gray-400" />
+                                )}
+                                {conversation.type === "external" && (
+                                  <Globe className="w-3 h-3 text-blue-400" />
+                                )}
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <span className="text-xs text-gray-400">
+                                  {conversation.timestamp}
+                                </span>
+                                {conversation.unread > 0 && (
+                                  <Badge className="h-5 w-5 p-0 text-xs bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-full flex items-center justify-center">
+                                    {conversation.unread}
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                            <p className="text-xs text-gray-400 truncate mt-1">
+                              {conversation.lastMessage}
                             </p>
-                          )}
+                            {conversation.role && (
+                              <p className="text-xs text-blue-400 mt-1">
+                                {conversation.role}
+                              </p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-12">
+                      <Users className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                      <h3 className="text-lg font-medium text-white mb-2">
+                        No conversations yet
+                      </h3>
+                      <p className="text-gray-400 mb-4">
+                        Start by inviting team members to begin collaborating
+                      </p>
+                      <Button className="modern-button">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Invite Team
+                      </Button>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 
               {/* Chat Interface */}
               <Card className="modern-card lg:col-span-2 flex flex-col overflow-hidden">
-                <CardHeader className="pb-3 border-b border-white/10">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <Avatar className="h-10 w-10">
-                        <AvatarFallback className="bg-gradient-to-r from-emerald-400 to-blue-500 text-white">
-                          ET
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <CardTitle className="text-white text-lg">
-                          Export Team
-                        </CardTitle>
-                        <CardDescription className="text-gray-400">
-                          5 members • 3 online
-                        </CardDescription>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={startVideoCall}
-                        className="text-gray-400 hover:text-white"
-                      >
-                        <Video className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-gray-400 hover:text-white"
-                      >
-                        <Phone className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-gray-400 hover:text-white"
-                      >
-                        <MoreVertical className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </CardHeader>
-
-                {/* Messages Area */}
-                <CardContent className="flex-1 overflow-y-auto p-4 space-y-4">
-                  {messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`flex ${message.sent ? "justify-end" : "justify-start"}`}
-                    >
-                      <div
-                        className={`max-w-[70%] rounded-2xl p-4 ${
-                          message.sent
-                            ? "bg-gradient-to-r from-emerald-500 to-blue-600 text-white ml-12"
-                            : "bg-white/5 text-white backdrop-blur-sm mr-12"
-                        }`}
-                      >
-                        {!message.sent && (
-                          <div className="flex items-center space-x-2 mb-2">
-                            <Avatar className="w-6 h-6">
-                              <AvatarFallback className="bg-gradient-to-r from-purple-400 to-pink-500 text-white text-xs">
-                                {message.avatar}
-                              </AvatarFallback>
-                            </Avatar>
-                            <p className="text-xs font-medium text-blue-400">
-                              {message.sender}
-                            </p>
+                {conversations.length > 0 ? (
+                  <>
+                    <CardHeader className="pb-3 border-b border-white/10">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <Avatar className="h-10 w-10">
+                            <AvatarFallback className="bg-gradient-to-r from-emerald-400 to-blue-500 text-white">
+                              ET
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <CardTitle className="text-white text-lg">
+                              Export Team
+                            </CardTitle>
+                            <CardDescription className="text-gray-400">
+                              Select a conversation to start chatting
+                            </CardDescription>
                           </div>
-                        )}
-                        <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                          {message.content}
-                        </p>
-                        <p
-                          className={`text-xs mt-2 ${
-                            message.sent ? "text-white/70" : "text-gray-400"
-                          }`}
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={startVideoCall}
+                            className="text-gray-400 hover:text-white"
+                          >
+                            <Video className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-gray-400 hover:text-white"
+                          >
+                            <Phone className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-gray-400 hover:text-white"
+                          >
+                            <MoreVertical className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </CardHeader>
+
+                    {/* Messages Area */}
+                    <CardContent className="flex-1 overflow-y-auto p-4 space-y-4">
+                      {messages.length > 0 ? (
+                        <>
+                          {messages.map((message) => (
+                            <div
+                              key={message.id}
+                              className={`flex ${message.sent ? "justify-end" : "justify-start"}`}
+                            >
+                              <div
+                                className={`max-w-[70%] rounded-2xl p-4 ${
+                                  message.sent
+                                    ? "bg-gradient-to-r from-emerald-500 to-blue-600 text-white ml-12"
+                                    : "bg-white/5 text-white backdrop-blur-sm mr-12"
+                                }`}
+                              >
+                                {!message.sent && (
+                                  <div className="flex items-center space-x-2 mb-2">
+                                    <Avatar className="w-6 h-6">
+                                      <AvatarFallback className="bg-gradient-to-r from-purple-400 to-pink-500 text-white text-xs">
+                                        {message.avatar}
+                                      </AvatarFallback>
+                                    </Avatar>
+                                    <p className="text-xs font-medium text-blue-400">
+                                      {message.sender}
+                                    </p>
+                                  </div>
+                                )}
+                                <p className="text-sm whitespace-pre-wrap leading-relaxed">
+                                  {message.content}
+                                </p>
+                                <p
+                                  className={`text-xs mt-2 ${
+                                    message.sent
+                                      ? "text-white/70"
+                                      : "text-gray-400"
+                                  }`}
+                                >
+                                  {message.timestamp}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                          <div ref={messagesEndRef} />
+                        </>
+                      ) : (
+                        <div className="text-center py-12">
+                          <MessageSquare className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                          <h3 className="text-lg font-medium text-white mb-2">
+                            Start a conversation
+                          </h3>
+                          <p className="text-gray-400">
+                            Send your first message to begin chatting
+                          </p>
+                        </div>
+                      )}
+                    </CardContent>
+
+                    {/* Message Input */}
+                    <div className="border-t border-white/10 p-4">
+                      <div className="flex items-center space-x-3">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-gray-400 hover:text-white"
                         >
-                          {message.timestamp}
-                        </p>
+                          <Paperclip className="w-4 h-4" />
+                        </Button>
+                        <div className="flex-1 relative">
+                          <Input
+                            placeholder="Type your message..."
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                            className="bg-white/5 border-white/10 text-white placeholder-gray-400 rounded-2xl pr-12 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                          />
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+                          >
+                            <Smile className="w-4 h-4" />
+                          </Button>
+                        </div>
+                        <Button
+                          onClick={sendMessage}
+                          disabled={!newMessage.trim()}
+                          className="modern-button px-6"
+                        >
+                          <Send className="w-4 h-4" />
+                        </Button>
                       </div>
                     </div>
-                  ))}
-                  <div ref={messagesEndRef} />
-                </CardContent>
-
-                {/* Message Input */}
-                <div className="border-t border-white/10 p-4">
-                  <div className="flex items-center space-x-3">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-gray-400 hover:text-white"
-                    >
-                      <Paperclip className="w-4 h-4" />
-                    </Button>
-                    <div className="flex-1 relative">
-                      <Input
-                        placeholder="Type your message..."
-                        value={newMessage}
-                        onChange={(e) => setNewMessage(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                        className="bg-white/5 border-white/10 text-white placeholder-gray-400 rounded-2xl pr-12 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                      />
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
-                      >
-                        <Smile className="w-4 h-4" />
-                      </Button>
+                  </>
+                ) : (
+                  <CardContent className="flex-1 flex items-center justify-center">
+                    <div className="text-center py-12">
+                      <MessageSquare className="mx-auto h-16 w-16 text-gray-400 mb-6" />
+                      <h3 className="text-xl font-medium text-white mb-3">
+                        Welcome to Communication Hub
+                      </h3>
+                      <p className="text-gray-400 mb-6 max-w-md">
+                        Invite team members and start conversations to
+                        collaborate on your spice export business
+                      </p>
+                      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                        <Button className="modern-button">
+                          <Plus className="w-4 h-4 mr-2" />
+                          Invite Team
+                        </Button>
+                        <Button
+                          onClick={startVideoCall}
+                          variant="outline"
+                          className="border-white/20 text-white hover:bg-white/10"
+                        >
+                          <Video className="w-4 h-4 mr-2" />
+                          Test Video Call
+                        </Button>
+                      </div>
                     </div>
-                    <Button
-                      onClick={sendMessage}
-                      disabled={!newMessage.trim()}
-                      className="modern-button px-6"
-                    >
-                      <Send className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
+                  </CardContent>
+                )}
               </Card>
             </div>
           </TabsContent>

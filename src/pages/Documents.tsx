@@ -132,34 +132,7 @@ const Documents = () => {
     },
   ];
 
-  const recentDocuments = [
-    {
-      id: 1,
-      name: "UAE Export Certificate - SP2024001",
-      type: "AI Generated",
-      category: "export",
-      size: "2.4 MB",
-      format: "pdf",
-      uploadedBy: "AI Assistant",
-      uploadDate: "2024-12-22",
-      status: "generated",
-      aiGenerated: true,
-      confidence: 98,
-    },
-    {
-      id: 2,
-      name: "Quality Report - Cardamom AAA",
-      type: "AI Generated",
-      category: "quality",
-      size: "1.8 MB",
-      format: "pdf",
-      uploadedBy: "AI Assistant",
-      uploadDate: "2024-12-22",
-      status: "generated",
-      aiGenerated: true,
-      confidence: 95,
-    },
-  ];
+  const recentDocuments: any[] = [];
 
   const getFileIcon = (format: string, aiGenerated: boolean = false) => {
     if (aiGenerated) {
