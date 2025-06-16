@@ -15,7 +15,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+  SheetHeader,
+} from "@/components/ui/sheet";
+import { VisuallyHidden } from "@/components/ui/visually-hidden";
 import {
   Menu,
   Home,
@@ -289,6 +296,11 @@ const Navigation = () => {
                 side="right"
                 className="w-80 glass-card border-l border-white/20"
               >
+                <VisuallyHidden>
+                  <SheetHeader>
+                    <SheetTitle>Navigation Menu</SheetTitle>
+                  </SheetHeader>
+                </VisuallyHidden>
                 <div className="flex flex-col space-y-6 mt-8">
                   <div className="px-2">
                     <h2 className="text-lg font-bold gradient-text mb-2">
