@@ -7,6 +7,7 @@ import Navigation from "./components/Navigation";
 import Index from "./pages/Index";
 import AdminDashboard from "./pages/AdminDashboard";
 import CRM from "./pages/CRM";
+import Documents from "./pages/Documents";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,8 +24,8 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/crm" element={<CRM />} />
+            <Route path="/documents" element={<Documents />} />
             {/* Placeholder routes for future implementation */}
-            <Route path="/documents" element={<NotFound />} />
             <Route path="/communication" element={<NotFound />} />
             <Route path="/analytics" element={<NotFound />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
