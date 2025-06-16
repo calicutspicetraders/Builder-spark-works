@@ -22,11 +22,7 @@ export default defineConfig({
         manualChunks: {
           vendor: ["react", "react-dom"],
           router: ["react-router-dom"],
-          ui: [
-            "@radix-ui/react-alert-dialog",
-            "@radix-ui/react-avatar",
-            "@radix-ui/react-button",
-          ],
+          ui: ["@radix-ui/react-alert-dialog", "@radix-ui/react-avatar"],
           charts: ["recharts"],
           icons: ["lucide-react"],
         },
