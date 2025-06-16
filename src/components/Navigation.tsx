@@ -255,7 +255,17 @@ const Navigation = () => {
                 </DropdownMenuItem>
               </Link>
               <DropdownMenuSeparator className="bg-white/10" />
-              <DropdownMenuItem className="p-3 hover:bg-white/10 rounded-xl m-1 transition-all duration-200">
+              <DropdownMenuItem
+                className="p-3 hover:bg-white/10 rounded-xl m-1 transition-all duration-200 cursor-pointer"
+                onClick={() => {
+                  // Clear authentication state
+                  localStorage.removeItem("superadmin_authenticated");
+                  // You can add more logout logic here like clearing user data
+                  console.log("User logged out");
+                  // Optionally redirect to login page
+                  window.location.href = "/";
+                }}
+              >
                 <LogOut className="mr-3 h-4 w-4 text-gray-400" />
                 <span className="text-white">Log out</span>
               </DropdownMenuItem>

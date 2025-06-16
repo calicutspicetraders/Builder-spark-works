@@ -15,6 +15,7 @@ import ComplianceCalendar from "./pages/ComplianceCalendar";
 import PartnerManagement from "./pages/PartnerManagement";
 import Settings from "./pages/Settings";
 import SuperAdmin from "./pages/SuperAdmin";
+import SuperAdminDashboard from "./pages/SuperAdminDashboard";
 import SuperAdminLogin from "./pages/SuperAdminLogin";
 import SuperAdminContentManager from "./pages/SuperAdminContentManager";
 import NotFound from "./pages/NotFound";
@@ -64,6 +65,14 @@ function App() {
             <Route path="/superadmin/login" element={<SuperAdminLogin />} />
             <Route
               path="/superadmin"
+              element={
+                <ProtectedSuperAdminRoute>
+                  <SuperAdminDashboard />
+                </ProtectedSuperAdminRoute>
+              }
+            />
+            <Route
+              path="/superadmin/system"
               element={
                 <ProtectedSuperAdminRoute>
                   <SuperAdmin />
