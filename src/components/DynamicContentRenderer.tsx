@@ -72,8 +72,8 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
     retry: false, // Don't retry failed requests
   });
 
-  // Filter content blocks for this position
-  const contentBlocks = useMemo(() => {
+  // Get content blocks for this position
+  const visibleBlocks = useMemo(() => {
     if (!contentData?.content_blocks) return [];
 
     return contentData.content_blocks.filter(
@@ -82,7 +82,15 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
     );
   }, [contentData, page, position]);
 
-  // Filter plugins for this page
+  // If loading or no content and no default content, return null
+  if (isLoading && !defaultContent) {
+    return null;
+  }
+
+  // If no content blocks and no default content, return null
+  if (visibleBlocks.length === 0 && !defaultContent) {
+    return null;
+  }
   const plugins = useMemo(() => {
     if (!contentData?.plugins) return [];
 
@@ -311,7 +319,18 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
     return defaultContent || null;
   }
 
-  return <>{visibleBlocks.map(renderContentBlock)}</>;
+  // If we have content blocks, render them
+  if (visibleBlocks.length > 0) {
+    return <>{visibleBlocks.map(renderContentBlock)}</>;
+  }
+
+  // Otherwise, render default content if available
+  if (defaultContent) {
+    return <div className={className}>{defaultContent}</div>;
+  }
+
+  // No content at all
+  return null;
 };
 
 // Higher-order component for easy integration
