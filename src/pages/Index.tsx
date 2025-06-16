@@ -10,11 +10,9 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
+  Sparkles,
+  Zap,
   Globe,
-  Shield,
-  Star,
-  Leaf,
-  Award,
   TrendingUp,
   Users,
   Package,
@@ -23,7 +21,15 @@ import {
   MessageSquare,
   Calendar,
   Settings,
-  Lock,
+  Shield,
+  Star,
+  Rocket,
+  Heart,
+  Target,
+  Layers,
+  Play,
+  Phone,
+  Video,
 } from "lucide-react";
 
 const Index = () => {
@@ -31,38 +37,50 @@ const Index = () => {
     {
       icon: BarChart3,
       title: "Analytics Dashboard",
-      description: "Real-time export analytics and business intelligence",
-      color: "text-blue-600",
+      description: "AI-powered insights and real-time business intelligence",
+      color: "from-blue-500 to-cyan-500",
+      route: "/analytics",
+      stats: "↗ 24% growth",
     },
     {
       icon: FileText,
-      title: "Document Management",
-      description: "Secure document sharing and compliance tracking",
-      color: "text-green-600",
+      title: "Smart Documents",
+      description: "Auto-generating compliance docs with AI assistance",
+      color: "from-emerald-500 to-teal-500",
+      route: "/documents",
+      stats: "⚡ Instant gen",
     },
     {
       icon: MessageSquare,
-      title: "Team Communication",
-      description: "Integrated messaging and collaboration tools",
-      color: "text-purple-600",
+      title: "Unified Communication",
+      description: "Video calls, chat, and collaboration in one place",
+      color: "from-purple-500 to-pink-500",
+      route: "/communication",
+      stats: "🎥 HD quality",
     },
     {
       icon: Package,
-      title: "Shipment Tracking",
-      description: "Monitor export shipments and delivery status",
-      color: "text-orange-600",
+      title: "Smart Tracking",
+      description: "AI-powered shipment monitoring and predictions",
+      color: "from-orange-500 to-red-500",
+      route: "/shipments",
+      stats: "📍 Live GPS",
     },
     {
       icon: Calendar,
-      title: "Compliance Calendar",
-      description: "Track certificates and regulatory deadlines",
-      color: "text-red-600",
+      title: "Compliance AI",
+      description: "Automated compliance monitoring and alerts",
+      color: "from-indigo-500 to-purple-500",
+      route: "/compliance",
+      stats: "🛡️ 100% secure",
     },
     {
       icon: Settings,
-      title: "Partner Management",
-      description: "Manage team access and permissions",
-      color: "text-gray-600",
+      title: "Partner Hub",
+      description: "Advanced team management and collaboration",
+      color: "from-pink-500 to-rose-500",
+      route: "/partners",
+      stats: "👥 5 partners",
     },
   ];
 
@@ -70,83 +88,118 @@ const Index = () => {
     {
       icon: TrendingUp,
       label: "Export Volume",
-      value: "500+ MT/Year",
-      color: "text-green-600",
+      value: "500+",
+      unit: "MT/Year",
+      color: "from-emerald-400 to-teal-500",
+      change: "+24%",
     },
     {
       icon: Users,
       label: "Active Partners",
-      value: "5 Partners",
-      color: "text-blue-600",
+      value: "50+",
+      unit: "Global",
+      color: "from-blue-400 to-cyan-500",
+      change: "+12%",
     },
     {
       icon: Globe,
-      label: "Export Markets",
-      value: "4+ Countries",
-      color: "text-purple-600",
+      label: "Countries",
+      value: "15+",
+      unit: "Markets",
+      color: "from-purple-400 to-pink-500",
+      change: "+8%",
     },
     {
       icon: Star,
-      label: "Compliance Score",
+      label: "Satisfaction",
       value: "98.5%",
-      color: "text-orange-600",
+      unit: "Rating",
+      color: "from-yellow-400 to-orange-500",
+      change: "+2%",
     },
   ];
 
   return (
-    <>
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary/5 via-background to-accent/5 border-b">
-        <div className="container mx-auto px-4 py-20">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="flex justify-center mb-6">
-              <Badge variant="secondary" className="px-4 py-2">
-                <Lock className="w-4 h-4 mr-2" />
-                Secure Partner Workspace
+    <div className="min-h-screen pt-20">
+      {/* Hero Section with Glassmorphism */}
+      <section className="relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-full blur-3xl animate-float" />
+          <div
+            className="absolute top-3/4 right-1/4 w-80 h-80 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-float"
+            style={{ animationDelay: "2s" }}
+          />
+          <div
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-yellow-500/10 to-red-500/10 rounded-full blur-3xl animate-float"
+            style={{ animationDelay: "4s" }}
+          />
+        </div>
+
+        <div className="container relative z-10 mx-auto px-6 py-24 lg:py-32">
+          <div className="max-w-5xl mx-auto text-center">
+            {/* Badge */}
+            <div className="flex justify-center mb-8">
+              <Badge className="px-6 py-2 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 border border-emerald-500/30 backdrop-blur-xl">
+                <Sparkles className="w-4 h-4 mr-2 text-emerald-400" />
+                <span className="text-emerald-300 font-medium">
+                  Next-Gen Workspace Platform
+                </span>
               </Badge>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-brand-gold-600 bg-clip-text text-transparent">
-              Workspace Dashboard
+            {/* Main Heading */}
+            <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight">
+              <span className="text-gradient">Smart Export</span>
+              <br />
+              <span className="text-white">Workspace</span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-              Collaborate with your partners and manage your spice export
-              business efficiently. Access real-time data, documents, and
-              communication tools in one secure platform.
+            <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
+              Revolutionize your spice export business with AI-powered
+              analytics, seamless communication, and automated compliance
+              management.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button size="lg" className="text-lg px-8" asChild>
-                <Link to="/admin">
-                  <BarChart3 className="mr-2 w-5 h-5" />
-                  Access Dashboard
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Link>
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="text-lg px-8"
-                asChild
-              >
-                <Link to="/communication">
-                  <MessageSquare className="mr-2 w-5 h-5" />
-                  Team Communication
-                </Link>
-              </Button>
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+              <Link to="/admin">
+                <Button className="modern-button text-lg px-8 py-4 h-auto">
+                  <Rocket className="mr-3 w-6 h-6" />
+                  Launch Dashboard
+                  <ArrowRight className="ml-3 w-6 h-6" />
+                </Button>
+              </Link>
+              <Link to="/communication">
+                <Button
+                  variant="outline"
+                  className="text-lg px-8 py-4 h-auto border-white/20 text-white hover:bg-white/10 backdrop-blur-sm rounded-2xl"
+                >
+                  <Play className="mr-3 w-5 h-5" />
+                  Watch Demo
+                </Button>
+              </Link>
             </div>
 
-            {/* Quick Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
               {stats.map((stat, index) => {
                 const Icon = stat.icon;
                 return (
-                  <div key={index} className="text-center">
-                    <Icon className={`w-8 h-8 mx-auto mb-2 ${stat.color}`} />
-                    <div className="text-2xl font-bold">{stat.value}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {stat.label}
+                  <div key={index} className="modern-card text-center group">
+                    <div
+                      className={`w-12 h-12 mx-auto mb-3 rounded-2xl bg-gradient-to-r ${stat.color} p-2.5 group-hover:scale-110 transition-all duration-300`}
+                    >
+                      <Icon className="w-full h-full text-white" />
+                    </div>
+                    <div className="text-2xl md:text-3xl font-bold text-white mb-1">
+                      {stat.value}
+                    </div>
+                    <div className="text-sm text-gray-400 mb-2">
+                      {stat.unit}
+                    </div>
+                    <div className="text-xs text-emerald-400 font-semibold">
+                      {stat.change}
                     </div>
                   </div>
                 );
@@ -157,63 +210,58 @@ const Index = () => {
       </section>
 
       {/* Workspace Features */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Workspace Features
+      <section className="py-24 relative">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-20">
+            <div className="flex justify-center mb-6">
+              <Badge className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 backdrop-blur-xl">
+                <Layers className="w-4 h-4 mr-2 text-purple-400" />
+                <span className="text-purple-300">Advanced Features</span>
+              </Badge>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+              Everything you need to
+              <span className="text-gradient"> scale globally</span>
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Everything you need to manage your spice export business and
-              collaborate with your partners in one secure platform.
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Powerful tools designed for modern spice exporters. From AI
+              analytics to real-time collaboration, we've got you covered.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {workspaceFeatures.map((feature, index) => {
               const Icon = feature.icon;
-              const getFeatureRoute = (title: string) => {
-                switch (title) {
-                  case "Analytics Dashboard":
-                    return "/analytics";
-                  case "Document Management":
-                    return "/documents";
-                  case "Team Communication":
-                    return "/communication";
-                  case "Shipment Tracking":
-                    return "/shipments";
-                  case "Compliance Calendar":
-                    return "/compliance";
-                  case "Partner Management":
-                    return "/partners";
-                  default:
-                    return "/admin";
-                }
-              };
-
               return (
-                <Link key={index} to={getFeatureRoute(feature.title)}>
-                  <Card className="group hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/20 cursor-pointer h-full">
-                    <CardHeader className="text-center">
-                      <div className="mx-auto mb-4 p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                        <Icon
-                          className={`h-8 w-8 ${feature.color} group-hover:scale-110 transition-transform`}
-                        />
+                <Link key={index} to={feature.route} className="group">
+                  <Card className="modern-card h-full border-white/10 hover:border-white/20 transition-all duration-500 group-hover:shadow-2xl overflow-hidden relative">
+                    {/* Animated background gradient */}
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition-all duration-500`}
+                    />
+
+                    <CardHeader className="relative z-10">
+                      <div
+                        className={`w-16 h-16 rounded-3xl bg-gradient-to-r ${feature.color} p-3 mb-4 group-hover:scale-110 transition-all duration-300 shadow-lg`}
+                      >
+                        <Icon className="w-full h-full text-white" />
                       </div>
-                      <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                      <CardTitle className="text-xl font-bold text-white group-hover:text-gradient transition-all duration-300">
                         {feature.title}
                       </CardTitle>
-                      <CardDescription>{feature.description}</CardDescription>
+                      <CardDescription className="text-gray-400 leading-relaxed">
+                        {feature.description}
+                      </CardDescription>
                     </CardHeader>
-                    <CardContent>
-                      <div className="flex justify-center">
+                    <CardContent className="relative z-10">
+                      <div className="flex items-center justify-between">
                         <Badge
                           variant="outline"
-                          className="group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                          className={`border-gradient-to-r ${feature.color} text-xs px-3 py-1 bg-gradient-to-r ${feature.color} bg-opacity-10 text-white border-white/20`}
                         >
-                          <ArrowRight className="w-3 h-3 mr-1" />
-                          Access Now
+                          {feature.stats}
                         </Badge>
+                        <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
                       </div>
                     </CardContent>
                   </Card>
@@ -224,131 +272,203 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Access Control & Security */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8">
-              Secure & Compliant Workspace
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              <div className="flex flex-col items-center">
-                <Shield className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-xl font-semibold mb-2">
-                  Role-Based Access
+      {/* Communication Features */}
+      <section className="py-24 relative">
+        <div className="container mx-auto px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <Badge className="px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 backdrop-blur-xl mb-6 inline-flex">
+                  <Video className="w-4 h-4 mr-2 text-blue-400" />
+                  <span className="text-blue-300">Communication Hub</span>
+                </Badge>
+                <h3 className="text-4xl font-bold text-white mb-6">
+                  Connect with your team
+                  <span className="text-gradient"> anywhere</span>
                 </h3>
-                <p className="text-muted-foreground">
-                  Secure partner access with customizable permissions
+                <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                  High-quality video calls, instant messaging, and file sharing.
+                  Built for international teams and seamless collaboration.
                 </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link to="/communication">
+                    <Button className="modern-button">
+                      <Video className="mr-2 w-5 h-5" />
+                      Start Video Call
+                    </Button>
+                  </Link>
+                  <Link to="/communication">
+                    <Button
+                      variant="outline"
+                      className="border-white/20 text-white hover:bg-white/10 backdrop-blur-sm rounded-2xl"
+                    >
+                      <MessageSquare className="mr-2 w-5 h-5" />
+                      Open Chat
+                    </Button>
+                  </Link>
+                </div>
               </div>
-
-              <div className="flex flex-col items-center">
-                <Award className="w-12 h-12 text-brand-gold-500 mb-4" />
-                <h3 className="text-xl font-semibold mb-2">
-                  Export Compliance
-                </h3>
-                <p className="text-muted-foreground">
-                  Track certifications and regulatory requirements
-                </p>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <Leaf className="w-12 h-12 text-green-600 mb-4" />
-                <h3 className="text-xl font-semibold mb-2">
-                  Business Intelligence
-                </h3>
-                <p className="text-muted-foreground">
-                  Real-time analytics and performance monitoring
-                </p>
+              <div className="relative">
+                <div className="modern-card bg-gradient-to-br from-blue-500/10 to-purple-500/10 p-8">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-4">
+                      <div className="flex items-center space-x-3 p-3 rounded-2xl bg-white/5 backdrop-blur-sm">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-emerald-400 to-blue-500 flex items-center justify-center">
+                          <Phone className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-white text-sm">Audio Call</span>
+                      </div>
+                      <div className="flex items-center space-x-3 p-3 rounded-2xl bg-white/10 backdrop-blur-sm">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-400 to-pink-500 flex items-center justify-center">
+                          <Video className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-white text-sm">Video Chat</span>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="flex items-center space-x-3 p-3 rounded-2xl bg-white/5 backdrop-blur-sm">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center">
+                          <MessageSquare className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-white text-sm">Instant Chat</span>
+                      </div>
+                      <div className="flex items-center space-x-3 p-3 rounded-2xl bg-white/10 backdrop-blur-sm">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-400 to-pink-500 flex items-center justify-center">
+                          <FileText className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-white text-sm">File Share</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <Card className="bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20">
-              <CardContent className="p-8">
-                <div className="flex items-center justify-center mb-4">
-                  <Lock className="w-8 h-8 text-primary mr-3" />
-                  <h3 className="text-2xl font-bold">
-                    Authorized Access Required
-                  </h3>
-                </div>
-                <p className="text-lg text-muted-foreground mb-6">
-                  This workspace is exclusively for Calicut Spice Traders LLP
-                  partners and authorized team members. Secure login required
-                  for access to collaboration tools and business data.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button size="lg" className="mx-auto" asChild>
-                    <Link to="/admin">
-                      <BarChart3 className="mr-2 w-5 h-5" />
-                      Access Workspace Dashboard
-                    </Link>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="mx-auto"
-                    asChild
-                  >
-                    <Link to="/crm">
-                      <Users className="mr-2 w-5 h-5" />
-                      CRM & Sales
-                    </Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </section>
 
+      {/* CTA Section */}
+      <section className="py-24 relative">
+        <div className="container mx-auto px-6">
+          <div className="modern-card max-w-4xl mx-auto text-center bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border-emerald-500/20">
+            <div className="flex justify-center mb-8">
+              <div className="w-20 h-20 rounded-3xl bg-gradient-to-r from-emerald-400 to-blue-600 p-4 animate-glow">
+                <Rocket className="w-full h-full text-white" />
+              </div>
+            </div>
+            <h3 className="text-4xl font-bold text-white mb-6">
+              Ready to transform your
+              <span className="text-gradient"> export business?</span>
+            </h3>
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+              Join thousands of exporters who trust our platform for their
+              international trade operations.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link to="/admin">
+                <Button className="modern-button text-lg px-8 py-4 h-auto">
+                  <Zap className="mr-3 w-6 h-6" />
+                  Get Started Free
+                </Button>
+              </Link>
+              <Link to="/crm">
+                <Button
+                  variant="outline"
+                  className="text-lg px-8 py-4 h-auto border-white/20 text-white hover:bg-white/10 backdrop-blur-sm rounded-2xl"
+                >
+                  <Target className="mr-3 w-5 h-5" />
+                  Explore Features
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Floating Action Button */}
+      <Link to="/communication">
+        <div className="floating-action group">
+          <MessageSquare className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
+        </div>
+      </Link>
+
       {/* Footer */}
-      <footer className="bg-primary text-primary-foreground py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <footer className="border-t border-white/10 bg-black/20 backdrop-blur-xl py-12">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <Leaf className="h-6 w-6" />
-                <span className="text-xl font-bold">
-                  Calicut Spice Traders LLP
+              <div className="flex items-center justify-center md:justify-start space-x-3 mb-4">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-r from-emerald-400 to-blue-600 p-2">
+                  <Sparkles className="w-full h-full text-white" />
+                </div>
+                <span className="text-xl font-bold text-white">
+                  Calicut Spice Traders
                 </span>
               </div>
-              <p className="text-primary-foreground/80">
-                Secure collaboration workspace for partners and team members.
-                Access business intelligence, documents, and communication
-                tools.
+              <p className="text-gray-400 leading-relaxed">
+                Empowering spice exporters with cutting-edge technology and
+                seamless global collaboration.
               </p>
             </div>
 
             <div>
-              <h4 className="text-lg font-semibold mb-4">Workspace Access</h4>
-              <div className="space-y-2 text-primary-foreground/80">
-                <div>Analytics Dashboard</div>
-                <div>Document Management</div>
-                <div>Team Communication</div>
-                <div>Compliance Tracking</div>
+              <h4 className="text-lg font-semibold text-white mb-4">
+                Quick Access
+              </h4>
+              <div className="space-y-3">
+                <Link
+                  to="/analytics"
+                  className="block text-gray-400 hover:text-emerald-400 transition-colors duration-200"
+                >
+                  Analytics Dashboard
+                </Link>
+                <Link
+                  to="/documents"
+                  className="block text-gray-400 hover:text-emerald-400 transition-colors duration-200"
+                >
+                  Smart Documents
+                </Link>
+                <Link
+                  to="/shipments"
+                  className="block text-gray-400 hover:text-emerald-400 transition-colors duration-200"
+                >
+                  Shipment Tracking
+                </Link>
+                <Link
+                  to="/communication"
+                  className="block text-gray-400 hover:text-emerald-400 transition-colors duration-200"
+                >
+                  Communication Hub
+                </Link>
               </div>
             </div>
 
             <div>
-              <h4 className="text-lg font-semibold mb-4">Partner Support</h4>
-              <p className="text-primary-foreground/80 mb-4">
-                Need help accessing the workspace or have questions about your
-                account? Contact our support team.
+              <h4 className="text-lg font-semibold text-white mb-4">Connect</h4>
+              <p className="text-gray-400 mb-4">
+                Join our community of exporters and stay updated with the latest
+                features.
               </p>
-              <Button variant="secondary">Contact Support</Button>
+              <Link to="/settings">
+                <Button className="modern-button w-full">
+                  <Heart className="mr-2 w-4 h-4" />
+                  Get Started Today
+                </Button>
+              </Link>
             </div>
           </div>
 
-          <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center text-primary-foreground/60">
-            <p>
+          <div className="border-t border-white/10 mt-12 pt-8 text-center">
+            <p className="text-gray-400">
               &copy; 2024 Calicut Spice Traders LLP. All rights reserved. |
-              Secure Partner Workspace
+              <span className="text-emerald-400 ml-1">
+                Built with ❤️ for global trade
+              </span>
             </p>
           </div>
         </div>
       </footer>
-    </>
+    </div>
   );
 };
 

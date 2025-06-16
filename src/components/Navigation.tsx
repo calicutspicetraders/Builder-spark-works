@@ -16,34 +16,78 @@ import {
   Home,
   LayoutDashboard,
   Users,
+  Package,
   FileText,
   MessageSquare,
   BarChart3,
-  Package,
   Settings,
   LogOut,
   Bell,
-  Leaf,
+  Sparkles,
   Shield,
+  Moon,
+  Sun,
+  Zap,
 } from "lucide-react";
 
 const Navigation = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   const navigationItems = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/analytics", label: "Analytics", icon: BarChart3 },
-    { href: "/shipments", label: "Shipments", icon: Package },
-    { href: "/crm", label: "CRM & Sales", icon: Users },
-    { href: "/documents", label: "Documents", icon: FileText },
-    { href: "/communication", label: "Communication", icon: MessageSquare },
+    {
+      href: "/",
+      label: "Home",
+      icon: Home,
+      gradient: "from-pink-500 to-violet-500",
+    },
+    {
+      href: "/admin",
+      label: "Dashboard",
+      icon: LayoutDashboard,
+      gradient: "from-blue-500 to-cyan-500",
+    },
+    {
+      href: "/analytics",
+      label: "Analytics",
+      icon: BarChart3,
+      gradient: "from-emerald-500 to-teal-500",
+    },
+    {
+      href: "/shipments",
+      label: "Shipments",
+      icon: Package,
+      gradient: "from-orange-500 to-red-500",
+    },
+    {
+      href: "/crm",
+      label: "CRM & Sales",
+      icon: Users,
+      gradient: "from-purple-500 to-pink-500",
+    },
+    {
+      href: "/documents",
+      label: "Documents",
+      icon: FileText,
+      gradient: "from-yellow-500 to-orange-500",
+    },
+    {
+      href: "/communication",
+      label: "Communication",
+      icon: MessageSquare,
+      gradient: "from-indigo-500 to-purple-500",
+    },
   ];
+
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+    document.documentElement.classList.toggle("light");
+  };
 
   const NavItems = ({ isMobile = false }) => (
     <div
-      className={`flex ${isMobile ? "flex-col space-y-2" : "items-center space-x-1"}`}
+      className={`flex ${isMobile ? "flex-col space-y-1" : "items-center space-x-1"}`}
     >
       {navigationItems.map((item) => {
         const Icon = item.icon;
@@ -54,14 +98,21 @@ const Navigation = () => {
             key={item.href}
             to={item.href}
             onClick={() => isMobile && setIsOpen(false)}
-            className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`group relative flex items-center space-x-3 px-4 py-2.5 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 ${
               isActive
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg`
+                : "text-gray-300 hover:text-white hover:bg-white/10 backdrop-blur-sm"
             }`}
           >
-            <Icon className="h-4 w-4" />
-            <span>{item.label}</span>
+            <Icon
+              className={`h-4 w-4 ${isActive ? "animate-pulse" : "group-hover:animate-bounce"}`}
+            />
+            <span className={isMobile ? "block" : "hidden xl:block"}>
+              {item.label}
+            </span>
+            {isActive && (
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/20 to-transparent animate-pulse" />
+            )}
           </Link>
         );
       })}
@@ -69,31 +120,53 @@ const Navigation = () => {
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
+    <header className="fixed top-0 z-50 w-full glass-nav border-b border-white/10">
+      <div className="container flex h-20 items-center justify-between px-6">
         {/* Logo */}
-        <Link to="/" className="flex items-center space-x-2 font-bold text-xl">
+        <Link to="/" className="flex items-center space-x-3 group">
           <div className="relative">
-            <Leaf className="h-8 w-8 text-primary" />
-            <div className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-brand-gold-400"></div>
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-blue-600 p-2 group-hover:scale-110 transition-all duration-300 animate-glow">
+              <Sparkles className="h-full w-full text-white" />
+            </div>
+            <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 animate-pulse" />
           </div>
-          <span className="hidden sm:inline-block">
-            <span className="text-primary">Calicut</span>
-            <span className="text-brand-gold-500"> Spice Traders</span>
-          </span>
+          <div className="hidden sm:block">
+            <h1 className="text-xl font-bold gradient-text">
+              Calicut Spice Traders
+            </h1>
+            <p className="text-xs text-gray-400">Modern Workspace</p>
+          </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex">
+        <nav className="hidden lg:flex">
           <NavItems />
         </nav>
 
-        {/* Right Side */}
-        <div className="flex items-center space-x-4">
+        {/* Right Side Actions */}
+        <div className="flex items-center space-x-3">
+          {/* Theme Toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="relative w-10 h-10 rounded-2xl hover:bg-white/10 transition-all duration-300 hover:scale-110"
+          >
+            {isDark ? (
+              <Sun className="h-4 w-4 text-yellow-400 animate-spin" />
+            ) : (
+              <Moon className="h-4 w-4 text-blue-400" />
+            )}
+          </Button>
+
           {/* Notifications */}
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell className="h-4 w-4" />
-            <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-500 text-[10px] text-white flex items-center justify-center">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative w-10 h-10 rounded-2xl hover:bg-white/10 transition-all duration-300 hover:scale-110"
+          >
+            <Bell className="h-4 w-4 text-gray-300" />
+            <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-[10px] text-white flex items-center justify-center font-semibold animate-bounce">
               3
             </span>
           </Button>
@@ -101,58 +174,113 @@ const Navigation = () => {
           {/* User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src="/api/placeholder/32/32" alt="User" />
-                  <AvatarFallback>JD</AvatarFallback>
+              <Button
+                variant="ghost"
+                className="relative h-10 w-10 rounded-2xl hover:scale-110 transition-all duration-300"
+              >
+                <Avatar className="h-10 w-10 ring-2 ring-emerald-400/50">
+                  <AvatarImage src="/api/placeholder/40/40" alt="User" />
+                  <AvatarFallback className="bg-gradient-to-br from-emerald-400 to-blue-600 text-white font-semibold">
+                    JD
+                  </AvatarFallback>
                 </Avatar>
+                <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-emerald-400 border-2 border-black animate-pulse" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">John Doe</p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    admin@calicutspicetraders.com
+            <DropdownMenuContent
+              className="w-64 glass-card border-white/20 shadow-2xl"
+              align="end"
+              forceMount
+            >
+              <DropdownMenuLabel className="font-normal p-4">
+                <div className="flex flex-col space-y-2">
+                  <p className="text-sm font-semibold leading-none text-white">
+                    John Doe
                   </p>
+                  <p className="text-xs leading-none text-gray-400">
+                    john@calicutspicetraders.com
+                  </p>
+                  <div className="flex items-center space-x-2 mt-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-xs text-emerald-400">Online</span>
+                  </div>
                 </div>
               </DropdownMenuLabel>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator className="bg-white/10" />
               <Link to="/settings">
-                <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
+                <DropdownMenuItem className="p-3 hover:bg-white/10 rounded-xl m-1 transition-all duration-200">
+                  <Settings className="mr-3 h-4 w-4 text-gray-400" />
+                  <span className="text-white">Settings</span>
                 </DropdownMenuItem>
               </Link>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator className="bg-white/10" />
               <Link to="/superadmin/login">
-                <DropdownMenuItem className="text-red-600 focus:text-red-600">
-                  <Shield className="mr-2 h-4 w-4" />
+                <DropdownMenuItem className="p-3 hover:bg-red-500/20 rounded-xl m-1 transition-all duration-200 text-red-400 focus:text-red-400">
+                  <Shield className="mr-3 h-4 w-4" />
                   <span>SuperAdmin</span>
+                  <Zap className="ml-auto h-3 w-3" />
                 </DropdownMenuItem>
               </Link>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
+              <DropdownMenuSeparator className="bg-white/10" />
+              <DropdownMenuItem className="p-3 hover:bg-white/10 rounded-xl m-1 transition-all duration-200">
+                <LogOut className="mr-3 h-4 w-4 text-gray-400" />
+                <span className="text-white">Log out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
           {/* Mobile Menu */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-4 w-4" />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="w-10 h-10 rounded-2xl hover:bg-white/10"
+                >
+                  <Menu className="h-5 w-5 text-gray-300" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-64">
-                <div className="flex flex-col space-y-4 mt-6">
+              <SheetContent
+                side="right"
+                className="w-80 glass-card border-l border-white/20"
+              >
+                <div className="flex flex-col space-y-6 mt-8">
                   <div className="px-2">
-                    <h2 className="text-lg font-semibold">Navigation</h2>
+                    <h2 className="text-lg font-bold gradient-text mb-2">
+                      Navigation
+                    </h2>
+                    <p className="text-sm text-gray-400">
+                      Access all workspace features
+                    </p>
                   </div>
                   <NavItems isMobile />
+
+                  <div className="pt-6 border-t border-white/10">
+                    <div className="space-y-2">
+                      <Link to="/settings" onClick={() => setIsOpen(false)}>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start rounded-2xl hover:bg-white/10"
+                        >
+                          <Settings className="mr-3 h-4 w-4" />
+                          Settings
+                        </Button>
+                      </Link>
+                      <Link
+                        to="/superadmin/login"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start rounded-2xl hover:bg-red-500/20 text-red-400"
+                        >
+                          <Shield className="mr-3 h-4 w-4" />
+                          SuperAdmin
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
