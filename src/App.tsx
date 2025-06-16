@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Index from "./pages/Index";
+import DynamicHomepage from "./pages/DynamicHomepage";
 import AdminDashboard from "./pages/AdminDashboard";
 import CRM from "./pages/CRM";
 import Documents from "./pages/Documents";
@@ -15,21 +16,13 @@ import PartnerManagement from "./pages/PartnerManagement";
 import Settings from "./pages/Settings";
 import SuperAdmin from "./pages/SuperAdmin";
 import SuperAdminLogin from "./pages/SuperAdminLogin";
+import SuperAdminContentManager from "./pages/SuperAdminContentManager";
 import NotFound from "./pages/NotFound";
 
 // SuperAdmin route protection
-const ProtectedSuperAdminRoute = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const isAuthenticated =
-    localStorage.getItem("superadmin_authenticated") === "true";
-  return isAuthenticated ? (
-    <>{children}</>
-  ) : (
-    <Navigate to="/superadmin/login" replace />
-  );
+const ProtectedSuperAdminRoute = ({ children }: { children: React.ReactNode }) => {
+  const isAuthenticated = localStorage.getItem("superadmin_authenticated") === "true";
+  return isAuthenticated ? <>{children}</> : <Navigate to="/superadmin/login" replace />;
 };
 
 const queryClient = new QueryClient({
@@ -50,7 +43,8 @@ const App = () => {
           <Sonner />
           <Navigation />
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<DynamicHomepage />} />
+            <Route path="/static" element={<Index />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/crm" element={<CRM />} />
             <Route path="/documents" element={<Documents />} />
@@ -63,7 +57,8 @@ const App = () => {
 
             {/* SuperAdmin Routes - Separate Authentication */}
             <Route path="/superadmin/login" element={<SuperAdminLogin />} />
-            <Route
+            <Route path="/superadmin" element={<SuperAdmin />} />
+            <Route path="/superadmin/content" element={<SuperAdminContentManager />} />
               path="/superadmin"
               element={
                 <ProtectedSuperAdminRoute>

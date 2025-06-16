@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import DynamicContentRenderer, {
+  useDynamicContent,
+  getContentValue,
+} from "./DynamicContentRenderer";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -28,6 +32,7 @@ import {
   Moon,
   Sun,
   Zap,
+  Paintbrush,
 } from "lucide-react";
 
 const Navigation = () => {
@@ -124,18 +129,30 @@ const Navigation = () => {
       <div className="container flex h-20 items-center justify-between px-6">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-3 group">
-          <div className="relative">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-blue-600 p-2 group-hover:scale-110 transition-all duration-300 animate-glow">
-              <Sparkles className="h-full w-full text-white" />
-            </div>
-            <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 animate-pulse" />
-          </div>
-          <div className="hidden sm:block">
-            <h1 className="text-xl font-bold gradient-text">
-              Calicut Spice Traders
-            </h1>
-            <p className="text-xs text-gray-400">Modern Workspace</p>
-          </div>
+          <DynamicContentRenderer
+            page="navigation"
+            position="header-left"
+            defaultContent={
+              <div className="relative">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-blue-600 p-2 group-hover:scale-110 transition-all duration-300 animate-glow">
+                  <Sparkles className="h-full w-full text-white" />
+                </div>
+                <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 animate-pulse" />
+              </div>
+            }
+          />
+          <DynamicContentRenderer
+            page="navigation"
+            position="header-center"
+            defaultContent={
+              <div className="hidden sm:block">
+                <h1 className="text-xl font-bold gradient-text">
+                  Calicut Spice Traders
+                </h1>
+                <p className="text-xs text-gray-400">Modern Workspace</p>
+              </div>
+            }
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -145,6 +162,10 @@ const Navigation = () => {
 
         {/* Right Side Actions */}
         <div className="flex items-center space-x-3">
+          <DynamicContentRenderer
+            page="navigation"
+            position="header-right-before"
+          />
           {/* Theme Toggle */}
           <Button
             variant="ghost"
@@ -226,6 +247,13 @@ const Navigation = () => {
                   <Zap className="ml-auto h-3 w-3" />
                 </DropdownMenuItem>
               </Link>
+              <Link to="/superadmin/content">
+                <DropdownMenuItem className="p-3 hover:bg-purple-500/20 rounded-xl m-1 transition-all duration-200 text-purple-400 focus:text-purple-400">
+                  <Paintbrush className="mr-3 h-4 w-4" />
+                  <span>Content Manager</span>
+                  <Sparkles className="ml-auto h-3 w-3" />
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuSeparator className="bg-white/10" />
               <DropdownMenuItem className="p-3 hover:bg-white/10 rounded-xl m-1 transition-all duration-200">
                 <LogOut className="mr-3 h-4 w-4 text-gray-400" />
@@ -290,6 +318,11 @@ const Navigation = () => {
               </SheetContent>
             </Sheet>
           </div>
+
+          <DynamicContentRenderer
+            page="navigation"
+            position="header-right-after"
+          />
         </div>
       </div>
     </header>
