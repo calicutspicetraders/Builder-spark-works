@@ -209,12 +209,17 @@ export const useGoogleAuth = () => {
         }
       } else {
         // Regular login flow (check if user exists or allow domain emails)
-        const allowedDomains = ["calicutspicetraders.com", "gmail.com"];
+        const allowedDomainsStr =
+          import.meta.env.VITE_ALLOWED_DOMAINS ||
+          "calicutspicetraders.com,gmail.com";
+        const allowedDomains = allowedDomainsStr
+          .split(",")
+          .map((d) => d.trim());
         const emailDomain = userInfo.email.split("@")[1];
 
         if (!allowedDomains.includes(emailDomain)) {
           throw new Error(
-            "Access restricted to authorized email domains. Please contact your administrator.",
+            `Access restricted to authorized email domains (${allowedDomains.join(", ")}). Please contact your administrator.`,
           );
         }
 
