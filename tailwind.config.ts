@@ -62,6 +62,40 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Calicut Spice Traders Brand Colors
+        brand: {
+          green: {
+            50: "#f0f9f0",
+            100: "#dcf2dc",
+            200: "#bce5bc",
+            300: "#8dd38d",
+            400: "#57b757",
+            500: "#2d7d32", // Primary deep green
+            600: "#1b5e20",
+            700: "#0d4e11",
+            800: "#0a3e0d",
+            900: "#063109",
+          },
+          gold: {
+            50: "#fffdf0",
+            100: "#fffadc",
+            200: "#fff3b8",
+            300: "#ffe98a",
+            400: "#ffd740", // Accent gold
+            500: "#ffc107",
+            600: "#ff8f00",
+            700: "#ff6f00",
+            800: "#e65100",
+            900: "#bf360c",
+          },
+          spice: {
+            cinnamon: "#8b4513",
+            turmeric: "#e09900",
+            paprika: "#ca3e47",
+            cardamom: "#6b8e23",
+            pepper: "#2c1810",
+          },
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
