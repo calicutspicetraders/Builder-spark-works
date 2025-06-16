@@ -166,13 +166,13 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
 
       {/* Access Control Message */}
       {!inviteCode && (
-        <Alert className="border-orange-200 bg-orange-50">
-          <Shield className="h-4 w-4 text-orange-600" />
-          <AlertDescription className="text-orange-800">
-            <strong>Invitation Required</strong>
+        <Alert className="border-blue-200 bg-blue-50">
+          <Shield className="h-4 w-4 text-blue-600" />
+          <AlertDescription className="text-blue-800">
+            <strong>Existing Users:</strong> Sign in with Google below
             <br />
-            Access to this platform is by invitation only. Please contact your
-            administrator to request access.
+            <strong>New Users:</strong> Contact your administrator for an
+            invitation
           </AlertDescription>
         </Alert>
       )}
