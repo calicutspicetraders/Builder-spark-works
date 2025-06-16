@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,20 +19,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Settings as SettingsIcon,
   User,
+  Settings as SettingsIcon,
   Bell,
   Shield,
-  Palette,
-  Globe,
-  Key,
-  Download,
-  Upload,
   Save,
-  RefreshCw,
+  Upload,
+  Camera,
+  Lock,
+  Globe,
+  Palette,
+  Monitor,
+  Moon,
+  Sun,
 } from "lucide-react";
 
 const Settings = () => {
@@ -108,28 +110,11 @@ const Settings = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 header-safe">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">Settings</h1>
-          <p className="text-muted-foreground">
-            Manage your account settings and preferences
-          </p>
-        </div>
-
-        <div className="flex items-center space-x-3 mt-4 md:mt-0">
-          <Button variant="outline">
-            <Download className="w-4 h-4 mr-2" />
-            Export Data
-          </Button>
-          <Button>
-            <Save className="w-4 h-4 mr-2" />
-            Save Changes
-          </Button>
-        </div>
+      <div className="flex items-center space-x-2 mb-8">
+        <SettingsIcon className="w-8 h-8" />
+        <h1 className="text-3xl font-bold">Settings</h1>
       </div>
 
-      {/* Main Content */}
       <Tabs
         value={activeTab}
         onValueChange={setActiveTab}
@@ -139,11 +124,11 @@ const Settings = () => {
           <TabsTrigger value="profile">Profile</TabsTrigger>
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
-          <TabsTrigger value="appearance">Appearance</TabsTrigger>
           <TabsTrigger value="preferences">Preferences</TabsTrigger>
+          <TabsTrigger value="advanced">Advanced</TabsTrigger>
         </TabsList>
 
-        {/* Profile Settings */}
+        {/* Profile Tab */}
         <TabsContent value="profile">
           <Card>
             <CardHeader>
@@ -152,7 +137,7 @@ const Settings = () => {
                 Profile Information
               </CardTitle>
               <CardDescription>
-                Update your personal information and contact details
+                Manage your personal information and profile settings
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -183,70 +168,88 @@ const Settings = () => {
                     <Input
                       id="full-name"
                       value={formData.fullName}
-                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, fullName: e.target.value })
+                      }
                       placeholder="Enter your full name"
                     />
                   </div>
+
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email Address</Label>
+                    <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
                       type="email"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
                       placeholder="Enter your email"
                     />
                   </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone Number</Label>
                     <Input
                       id="phone"
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
                       placeholder="Enter your phone number"
                     />
                   </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="title">Job Title</Label>
                     <Input
                       id="title"
                       value={formData.jobTitle}
-                      onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, jobTitle: e.target.value })
+                      }
                       placeholder="Enter your job title"
                     />
                   </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="department">Department</Label>
                     <Select
                       value={formData.department}
-                      onValueChange={(value) => setFormData({ ...formData, department: value })}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, department: value })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select department" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="export">
-                          Export Management
-                        </SelectItem>
+                        <SelectItem value="export">Export</SelectItem>
+                        <SelectItem value="import">Import</SelectItem>
                         <SelectItem value="quality">Quality Control</SelectItem>
-                        <SelectItem value="logistics">Logistics</SelectItem>
                         <SelectItem value="finance">Finance</SelectItem>
-                        <SelectItem value="documentation">
-                          Documentation
-                        </SelectItem>
+                        <SelectItem value="logistics">Logistics</SelectItem>
+                        <SelectItem value="sales">Sales</SelectItem>
+                        <SelectItem value="management">Management</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="timezone">Timezone</Label>
                     <Select
                       value={formData.timezone}
-                      onValueChange={(value) => setFormData({ ...formData, timezone: value })}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, timezone: value })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select timezone" />
                       </SelectTrigger>
                       <SelectContent>
+                        <SelectItem value="UTC">
+                          Coordinated Universal Time (UTC)
+                        </SelectItem>
                         <SelectItem value="ist">
                           India Standard Time (IST)
                         </SelectItem>
@@ -269,7 +272,9 @@ const Settings = () => {
                     placeholder="Tell us about yourself..."
                     className="min-h-[100px]"
                     value={formData.bio}
-                    onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, bio: e.target.value })
+                    }
                   />
                 </div>
 
@@ -282,6 +287,13 @@ const Settings = () => {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        {/* Notifications Tab */}
+        <TabsContent value="notifications">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
                 <Bell className="w-5 h-5 mr-2" />
                 Notification Preferences
               </CardTitle>
@@ -301,31 +313,48 @@ const Settings = () => {
                           Get notified about shipment status changes
                         </p>
                       </div>
-                      <Switch defaultChecked />
+                      <Switch />
                     </div>
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="font-medium">Compliance Alerts</p>
+                        <p className="font-medium">Document Alerts</p>
                         <p className="text-sm text-muted-foreground">
-                          Certificate renewals and deadline reminders
+                          Alerts for new documents and approvals
                         </p>
                       </div>
                       <Switch defaultChecked />
                     </div>
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="font-medium">Team Messages</p>
+                        <p className="font-medium">Compliance Reminders</p>
                         <p className="text-sm text-muted-foreground">
-                          Direct messages and mentions
+                          Important compliance deadlines
                         </p>
                       </div>
                       <Switch defaultChecked />
                     </div>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div className="space-y-4">
+                  <h4 className="font-medium">Push Notifications</h4>
+                  <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="font-medium">Weekly Reports</p>
+                        <p className="font-medium">Desktop Notifications</p>
                         <p className="text-sm text-muted-foreground">
-                          Summary of weekly activities and metrics
+                          Show notifications on your desktop
+                        </p>
+                      </div>
+                      <Switch />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">Sound Alerts</p>
+                        <p className="text-sm text-muted-foreground">
+                          Play sound for important notifications
                         </p>
                       </div>
                       <Switch />
@@ -333,39 +362,18 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <h4 className="font-medium">Push Notifications</h4>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">Urgent Alerts</p>
-                        <p className="text-sm text-muted-foreground">
-                          Critical system alerts and emergencies
-                        </p>
-                      </div>
-                      <Switch defaultChecked />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">New Messages</p>
-                        <p className="text-sm text-muted-foreground">
-                          Real-time message notifications
-                  />
+                <div className="pt-6">
+                  <Button className="modern-button">
+                    <Save className="w-4 h-4 mr-2" />
+                    Save Notifications
+                  </Button>
                 </div>
-              </div>
-
-              <div className="pt-6">
-                <Button className="modern-button" onClick={handleSaveProfile}>
-                  <Save className="w-4 h-4 mr-2" />
-                  Save Profile
-                </Button>
               </div>
             </CardContent>
           </Card>
-          </Card>
         </TabsContent>
 
-        {/* Security */}
+        {/* Security Tab */}
         <TabsContent value="security">
           <Card>
             <CardHeader>
@@ -374,15 +382,14 @@ const Settings = () => {
                 Security Settings
               </CardTitle>
               <CardDescription>
-                Manage your account security and privacy
+                Manage your password and security preferences
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {/* Password */}
                 <div className="space-y-4">
-                  <h4 className="font-medium">Password</h4>
-                  <div className="space-y-4">
+                  <h4 className="font-medium">Change Password</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="current-password">Current Password</Label>
                       <Input
@@ -399,116 +406,49 @@ const Settings = () => {
                         placeholder="Enter new password"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="confirm-password">
-                        Confirm New Password
-                      </Label>
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="confirm-password">Confirm Password</Label>
                       <Input
                         id="confirm-password"
                         type="password"
                         placeholder="Confirm new password"
                       />
                     </div>
-                    <Button>Update Password</Button>
                   </div>
-                </div>
-
-                {/* Two-Factor Authentication */}
-                <div className="space-y-4">
-                  <h4 className="font-medium">Two-Factor Authentication</h4>
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div>
-                      <p className="font-medium">Authentication App</p>
-                      <p className="text-sm text-muted-foreground">
-                        Use an authenticator app for enhanced security
-                      </p>
-                    </div>
-                    <Badge variant="outline">Not Set Up</Badge>
-                  </div>
-                  <Button variant="outline">
-                    <Key className="w-4 h-4 mr-2" />
-                    Set Up 2FA
+                  <Button className="modern-button">
+                    <Lock className="w-4 h-4 mr-2" />
+                    Update Password
                   </Button>
                 </div>
 
-                {/* Active Sessions */}
+                <Separator />
+
                 <div className="space-y-4">
-                  <h4 className="font-medium">Active Sessions</h4>
+                  <h4 className="font-medium">Two-Factor Authentication</h4>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium">Enable 2FA</p>
+                      <p className="text-sm text-muted-foreground">
+                        Add an extra layer of security to your account
+                      </p>
+                    </div>
+                    <Button variant="outline">Enable</Button>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div className="space-y-4">
+                  <h4 className="font-medium">Login Sessions</h4>
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div>
                         <p className="font-medium">Current Session</p>
                         <p className="text-sm text-muted-foreground">
-                          Chrome on Windows • Current location
+                          Chrome on Windows • {new Date().toLocaleDateString()}
                         </p>
                       </div>
-                      <Badge className="bg-green-100 text-green-800">
-                        Active
-                      </Badge>
-                    </div>
-                  </div>
-                  <Button variant="outline">
-                    <RefreshCw className="w-4 h-4 mr-2" />
-                    Refresh Sessions
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Appearance */}
-        <TabsContent value="appearance">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Palette className="w-5 h-5 mr-2" />
-                Appearance Settings
-              </CardTitle>
-              <CardDescription>
-                Customize the look and feel of your workspace
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                <div className="space-y-4">
-                  <h4 className="font-medium">Theme</h4>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="p-4 border rounded-lg cursor-pointer hover:border-primary">
-                      <div className="w-full h-20 bg-white border rounded mb-2"></div>
-                      <p className="text-sm font-medium text-center">Light</p>
-                    </div>
-                    <div className="p-4 border rounded-lg cursor-pointer hover:border-primary">
-                      <div className="w-full h-20 bg-gray-900 border rounded mb-2"></div>
-                      <p className="text-sm font-medium text-center">Dark</p>
-                    </div>
-                    <div className="p-4 border rounded-lg cursor-pointer hover:border-primary">
-                      <div className="w-full h-20 bg-gradient-to-br from-white to-gray-900 border rounded mb-2"></div>
-                      <p className="text-sm font-medium text-center">System</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <h4 className="font-medium">Display Settings</h4>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">Compact Layout</p>
-                        <p className="text-sm text-muted-foreground">
-                          Use a more compact interface layout
-                        </p>
-                      </div>
-                      <Switch />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">Animations</p>
-                        <p className="text-sm text-muted-foreground">
-                          Enable smooth transitions and animations
-                        </p>
-                      </div>
-                      <Switch defaultChecked />
+                      <span className="text-sm text-green-600">Active</span>
                     </div>
                   </div>
                 </div>
@@ -517,16 +457,16 @@ const Settings = () => {
           </Card>
         </TabsContent>
 
-        {/* Preferences */}
+        {/* Preferences Tab */}
         <TabsContent value="preferences">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Globe className="w-5 h-5 mr-2" />
-                Workspace Preferences
+                Application Preferences
               </CardTitle>
               <CardDescription>
-                Customize your workspace behavior and defaults
+                Customize your application experience
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -534,34 +474,52 @@ const Settings = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="language">Language</Label>
-                    <Select defaultValue="en">
+                    <Select
+                      value={formData.language}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, language: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select language" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="en">English</SelectItem>
                         <SelectItem value="hi">Hindi</SelectItem>
+                        <SelectItem value="ta">Tamil</SelectItem>
                         <SelectItem value="ar">Arabic</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="currency">Default Currency</Label>
-                    <Select defaultValue="inr">
+                    <Select
+                      value={formData.currency}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, currency: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select currency" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="inr">INR (₹)</SelectItem>
-                        <SelectItem value="usd">USD ($)</SelectItem>
-                        <SelectItem value="eur">EUR (€)</SelectItem>
-                        <SelectItem value="aed">AED (د.إ)</SelectItem>
+                        <SelectItem value="inr">Indian Rupee (INR)</SelectItem>
+                        <SelectItem value="usd">US Dollar (USD)</SelectItem>
+                        <SelectItem value="eur">Euro (EUR)</SelectItem>
+                        <SelectItem value="aed">UAE Dirham (AED)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="date-format">Date Format</Label>
-                    <Select defaultValue="dd-mm-yyyy">
+                    <Select
+                      value={formData.dateFormat}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, dateFormat: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select date format" />
                       </SelectTrigger>
@@ -572,9 +530,15 @@ const Settings = () => {
                       </SelectContent>
                     </Select>
                   </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="time-format">Time Format</Label>
-                    <Select defaultValue="24h">
+                    <Select
+                      value={formData.timeFormat}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, timeFormat: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select time format" />
                       </SelectTrigger>
@@ -586,19 +550,84 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <h4 className="font-medium">Default Dashboard</h4>
-                  <Select defaultValue="overview">
+                <div className="space-y-2">
+                  <Label htmlFor="default-dashboard">Default Dashboard</Label>
+                  <Select
+                    value={formData.defaultDashboard}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, defaultDashboard: value })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select default dashboard" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="overview">Overview</SelectItem>
-                      <SelectItem value="analytics">Analytics</SelectItem>
                       <SelectItem value="shipments">Shipments</SelectItem>
-                      <SelectItem value="crm">CRM</SelectItem>
+                      <SelectItem value="documents">Documents</SelectItem>
+                      <SelectItem value="analytics">Analytics</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
+
+                <div className="pt-6">
+                  <Button
+                    className="modern-button"
+                    onClick={handleSavePreferences}
+                  >
+                    <Save className="w-4 h-4 mr-2" />
+                    Save Preferences
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Advanced Tab */}
+        <TabsContent value="advanced">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Monitor className="w-5 h-5 mr-2" />
+                Advanced Settings
+              </CardTitle>
+              <CardDescription>
+                Advanced configuration and data management
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <h4 className="font-medium">Data Management</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Button variant="outline" className="justify-start">
+                      Export Account Data
+                    </Button>
+                    <Button variant="outline" className="justify-start">
+                      Clear Cache
+                    </Button>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div className="space-y-4">
+                  <h4 className="font-medium">Danger Zone</h4>
+                  <div className="p-4 border border-red-200 rounded-lg">
+                    <div className="space-y-3">
+                      <div>
+                        <h5 className="font-medium text-red-600">
+                          Delete Account
+                        </h5>
+                        <p className="text-sm text-muted-foreground">
+                          Permanently delete your account and all associated
+                          data
+                        </p>
+                      </div>
+                      <Button variant="destructive">Delete Account</Button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>
