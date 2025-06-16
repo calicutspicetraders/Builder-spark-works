@@ -54,68 +54,149 @@ const ProtectedSuperAdminRoute = ({
   return <>{children}</>;
 };
 
-function App() {
+// App content component to handle protected routing
+const AppContent = () => {
+  const { isAuthenticated } = useUser();
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <UserProvider>
-        <BrowserRouter>
-          <div className="min-h-screen bg-background">
-            <Toaster />
-            <Sonner />
-            <Navigation />
-            <Routes>
-              <Route path="/" element={<DynamicHomepage />} />
-              <Route path="/static" element={<Index />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/analytics" element={<Analytics />} />
-              <Route path="/communication" element={<Communication />} />
-              <Route path="/documents" element={<Documents />} />
-              <Route path="/crm" element={<CRM />} />
-              <Route path="/shipments" element={<ShipmentTracking />} />
-              <Route path="/compliance" element={<ComplianceCalendar />} />
-              <Route path="/partners" element={<PartnerManagement />} />
-              <Route path="/settings" element={<Settings />} />
+    <div className="min-h-screen bg-background">
+      <Toaster />
+      <Sonner />
+      {isAuthenticated && <Navigation />}
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={<Login />} />
 
-              {/* SuperAdmin Routes */}
-              <Route path="/superadmin/login" element={<SuperAdminLogin />} />
-              <Route
-                path="/superadmin"
-                element={
-                  <ProtectedSuperAdminRoute>
-                    <SuperAdminDashboard />
-                  </ProtectedSuperAdminRoute>
-                }
-              />
-              <Route
-                path="/superadmin/system"
-                element={
-                  <ProtectedSuperAdminRoute>
-                    <SuperAdmin />
-                  </ProtectedSuperAdminRoute>
-                }
-              />
-              <Route
-                path="/superadmin/content"
-                element={
-                  <ProtectedSuperAdminRoute>
-                    <SuperAdminContentManager />
-                  </ProtectedSuperAdminRoute>
-                }
-              />
-              <Route
-                path="/superadmin/invites"
-                element={
-                  <ProtectedSuperAdminRoute>
-                    <SuperAdminInviteManager />
-                  </ProtectedSuperAdminRoute>
-                }
-              />
+        {/* Protected Routes */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <DynamicHomepage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/static"
+          element={
+            <ProtectedRoute>
+              <Index />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Analytics />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/communication"
+          element={
+            <ProtectedRoute>
+              <Communication />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/documents"
+          element={
+            <ProtectedRoute>
+              <Documents />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/crm"
+          element={
+            <ProtectedRoute>
+              <CRM />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/shipments"
+          element={
+            <ProtectedRoute>
+              <ShipmentTracking />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/compliance"
+          element={
+            <ProtectedRoute>
+              <ComplianceCalendar />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/partners"
+          element={
+            <ProtectedRoute>
+              <PartnerManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
 
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </div>
-        </BrowserRouter>
+            {/* SuperAdmin Routes */}
+            <Route path="/superadmin/login" element={<SuperAdminLogin />} />
+            <Route
+              path="/superadmin"
+              element={
+                <ProtectedSuperAdminRoute>
+                  <SuperAdminDashboard />
+                </ProtectedSuperAdminRoute>
+              }
+            />
+            <Route
+              path="/superadmin/system"
+              element={
+                <ProtectedSuperAdminRoute>
+                  <SuperAdmin />
+                </ProtectedSuperAdminRoute>
+              }
+            />
+            <Route
+              path="/superadmin/content"
+              element={
+                <ProtectedSuperAdminRoute>
+                  <SuperAdminContentManager />
+                </ProtectedSuperAdminRoute>
+              }
+            />
+            <Route
+              path="/superadmin/invites"
+              element={
+                <ProtectedSuperAdminRoute>
+                  <SuperAdminInviteManager />
+                </ProtectedSuperAdminRoute>
+              }
+            />
+
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
       </UserProvider>
     </QueryClientProvider>
   );
