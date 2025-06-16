@@ -1,280 +1,280 @@
 #!/bin/bash
 
-# 🚀 Calicut Spice Traders Workspace - Hostinger Deployment Script
-# This script prepares your application for deployment to Hostinger
+# Hostinger Deployment Script for Calicut Spice Traders Workspace
+# Domain: workspace.calicutspicetraders.com
 
-echo "🌶️  Calicut Spice Traders Workspace Deployment"
-echo "=============================================="
+set -e  # Exit on any error
 
-# Colors for output
+echo "🚀 Starting Hostinger deployment for workspace.calicutspicetraders.com"
+
+# Configuration
+DOMAIN="workspace.calicutspicetraders.com"
+APP_NAME="Calicut Spice Traders Workspace"
+DB_NAME="u272045696_cst"
+BACKUP_DIR="/home/u272045696/backups"
+DEPLOY_DIR="/home/u272045696/domains/workspace.calicutspicetraders.com/public_html"
+
+# Color codes for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Function to print colored output
-print_status() {
-    echo -e "${GREEN}[INFO]${NC} $1"
+# Functions
+log_info() {
+    echo -e "${BLUE}[INFO]${NC} $1"
 }
 
-print_warning() {
+log_success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+log_warning() {
     echo -e "${YELLOW}[WARNING]${NC} $1"
 }
 
-print_error() {
+log_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
-print_step() {
-    echo -e "\n${BLUE}=== $1 ===${NC}"
+# Check if running on Hostinger
+check_environment() {
+    log_info "Checking Hostinger environment..."
+    
+    if [[ ! -d "/home/u272045696" ]]; then
+        log_error "Not running on Hostinger environment"
+        exit 1
+    fi
+    
+    log_success "Hostinger environment confirmed"
 }
 
-# Check if Node.js is installed
-print_step "Checking Prerequisites"
-if ! command -v node &> /dev/null; then
-    print_error "Node.js is not installed. Please install Node.js first."
-    exit 1
-fi
+# Create backup before deployment
+create_backup() {
+    log_info "Creating backup..."
+    
+    # Create backup directory
+    mkdir -p "$BACKUP_DIR/$(date +%Y%m%d_%H%M%S)"
+    BACKUP_PATH="$BACKUP_DIR/$(date +%Y%m%d_%H%M%S)"
+    
+    # Backup database
+    if command -v mysqldump &> /dev/null; then
+        log_info "Backing up database: $DB_NAME"
+        mysqldump -u u272045696_cst -p'Clt@230525' u272045696_cst > "$BACKUP_PATH/database_backup.sql" 2>/dev/null || log_warning "Database backup failed (may not exist yet)"
+    fi
+    
+    # Backup current files
+    if [[ -d "$DEPLOY_DIR" ]]; then
+        log_info "Backing up current files..."
+        tar -czf "$BACKUP_PATH/files_backup.tar.gz" -C "$DEPLOY_DIR" . 2>/dev/null || log_warning "File backup failed"
+    fi
+    
+    log_success "Backup created at: $BACKUP_PATH"
+}
 
-if ! command -v npm &> /dev/null; then
-    print_error "npm is not installed. Please install npm first."
-    exit 1
-fi
+# Build frontend assets
+build_frontend() {
+    log_info "Building frontend assets..."
+    
+    # Check if node_modules exists
+    if [[ ! -d "node_modules" ]]; then
+        log_info "Installing dependencies..."
+        npm install --production
+    fi
+    
+    # Copy production environment
+    cp .env.production .env
+    
+    # Build for production
+    log_info "Building React application..."
+    npm run build
+    
+    # Verify build output
+    if [[ ! -d "dist" ]]; then
+        log_error "Build failed - dist directory not found"
+        exit 1
+    fi
+    
+    log_success "Frontend build completed"
+}
 
-print_status "Node.js version: $(node --version)"
-print_status "npm version: $(npm --version)"
+# Deploy files to Hostinger
+deploy_files() {
+    log_info "Deploying files to Hostinger..."
+    
+    # Create deployment directory if it doesn't exist
+    mkdir -p "$DEPLOY_DIR"
+    
+    # Copy built frontend files
+    log_info "Copying frontend files..."
+    cp -r dist/* "$DEPLOY_DIR/"
+    
+    # Copy API files
+    log_info "Copying API files..."
+    cp -r api "$DEPLOY_DIR/"
+    cp -r config "$DEPLOY_DIR/"
+    
+    # Copy configuration files
+    cp .htaccess "$DEPLOY_DIR/"
+    cp .env.production "$DEPLOY_DIR/.env"
+    
+    # Set proper permissions
+    log_info "Setting file permissions..."
+    find "$DEPLOY_DIR" -type f -exec chmod 644 {} \;
+    find "$DEPLOY_DIR" -type d -exec chmod 755 {} \;
+    
+    # Make API files executable
+    chmod 755 "$DEPLOY_DIR/api"/*.php
+    
+    log_success "Files deployed successfully"
+}
 
-# Install dependencies
-print_step "Installing Dependencies"
-print_status "Running npm install..."
-npm install
+# Run database migrations
+run_migrations() {
+    log_info "Running database migrations..."
+    
+    # Check if we can connect to database
+    if mysql -u u272045696_cst -p'Clt@230525' -e "USE u272045696_cst;" 2>/dev/null; then
+        log_info "Database connection successful"
+        
+        # Run migration script
+        php -f "$DEPLOY_DIR/config/run_migrations.php" 2>/dev/null || log_warning "Migration script not found or failed"
+        
+        log_success "Database migrations completed"
+    else
+        log_warning "Could not connect to database - migrations skipped"
+    fi
+}
 
-if [ $? -ne 0 ]; then
-    print_error "Failed to install dependencies"
-    exit 1
-fi
-
-print_status "Dependencies installed successfully!"
-
-# Run type checking
-print_step "Type Checking"
-print_status "Running TypeScript type check..."
-npm run typecheck
-
-if [ $? -ne 0 ]; then
-    print_warning "Type checking found issues, but continuing with build..."
-fi
-
-# Build the application
-print_step "Building Application"
-print_status "Creating production build..."
-npm run build
-
-if [ $? -ne 0 ]; then
-    print_error "Build failed"
-    exit 1
-fi
-
-print_status "Build completed successfully!"
-
-# Create deployment package
-print_step "Preparing Deployment Package"
-DEPLOY_DIR="hostinger-deployment"
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-PACKAGE_NAME="workspace-deployment-${TIMESTAMP}"
-
-# Remove existing deployment directory
-if [ -d "$DEPLOY_DIR" ]; then
-    rm -rf "$DEPLOY_DIR"
-fi
-
-# Create deployment directory
-mkdir -p "$DEPLOY_DIR"
-
-# Copy build files
-print_status "Copying build files..."
-cp -r dist/* "$DEPLOY_DIR/"
-
-# Create .htaccess file
-print_status "Creating .htaccess configuration..."
-cat > "$DEPLOY_DIR/.htaccess" << 'EOL'
-# Calicut Spice Traders Workspace - Apache Configuration
-
-# Enable compression
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/plain
-    AddOutputFilterByType DEFLATE text/html
-    AddOutputFilterByType DEFLATE text/xml
-    AddOutputFilterByType DEFLATE text/css
-    AddOutputFilterByType DEFLATE application/xml
-    AddOutputFilterByType DEFLATE application/xhtml+xml
-    AddOutputFilterByType DEFLATE application/rss+xml
-    AddOutputFilterByType DEFLATE application/javascript
-    AddOutputFilterByType DEFLATE application/x-javascript
-</IfModule>
-
-# Cache settings
-<IfModule mod_expires.c>
-    ExpiresActive on
-    ExpiresByType text/css "access plus 1 year"
-    ExpiresByType application/javascript "access plus 1 year"
-    ExpiresByType image/png "access plus 1 year"
-    ExpiresByType image/jpg "access plus 1 year"
-    ExpiresByType image/jpeg "access plus 1 year"
-    ExpiresByType image/gif "access plus 1 year"
-    ExpiresByType image/svg+xml "access plus 1 year"
-</IfModule>
-
-# Handle client-side routing (React Router)
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /
-    RewriteRule ^index\.html$ - [L]
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule . /index.html [L]
-</IfModule>
-
-# Force HTTPS
-<IfModule mod_rewrite.c>
-    RewriteCond %{HTTPS} off
-    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-</IfModule>
-
-# Security headers
-<IfModule mod_headers.c>
-    Header always set X-Content-Type-Options nosniff
-    Header always set X-Frame-Options DENY
-    Header always set X-XSS-Protection "1; mode=block"
-    Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
-    Header always set Referrer-Policy "strict-origin-when-cross-origin"
-</IfModule>
-
-# Prevent access to sensitive files
-<Files ".env">
-    Order allow,deny
-    Deny from all
-</Files>
-
-<Files "*.config.js">
-    Order allow,deny
-    Deny from all
-</Files>
-EOL
-
-# Create robots.txt if it doesn't exist
-if [ ! -f "$DEPLOY_DIR/robots.txt" ]; then
-    print_status "Creating robots.txt..."
-    cat > "$DEPLOY_DIR/robots.txt" << 'EOL'
+# Optimize for Hostinger
+optimize_for_hostinger() {
+    log_info "Applying Hostinger optimizations..."
+    
+    # Create optimized PHP configuration
+    cat > "$DEPLOY_DIR/.user.ini" << EOF
+; Hostinger PHP optimizations
+memory_limit = 1536M
+max_execution_time = 60
+upload_max_filesize = 50M
+post_max_size = 50M
+max_input_vars = 3000
+display_errors = Off
+log_errors = On
+error_log = error.log
+session.gc_maxlifetime = 3600
+opcache.enable = 1
+opcache.memory_consumption = 128
+opcache.max_accelerated_files = 4000
+opcache.revalidate_freq = 60
+EOF
+    
+    # Create robots.txt for SEO
+    cat > "$DEPLOY_DIR/robots.txt" << EOF
 User-agent: *
 Allow: /
-
 Sitemap: https://workspace.calicutspicetraders.com/sitemap.xml
-EOL
-fi
-
-# Create a simple sitemap.xml
-print_status "Creating sitemap.xml..."
-cat > "$DEPLOY_DIR/sitemap.xml" << 'EOL'
+EOF
+    
+    # Create sitemap.xml
+    cat > "$DEPLOY_DIR/sitemap.xml" << EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://workspace.calicutspicetraders.com/</loc>
-    <lastmod>2024-12-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://workspace.calicutspicetraders.com/admin</loc>
-    <lastmod>2024-12-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://workspace.calicutspicetraders.com/analytics</loc>
-    <lastmod>2024-12-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://workspace.calicutspicetraders.com/communication</loc>
-    <lastmod>2024-12-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://workspace.calicutspicetraders.com/documents</loc>
-    <lastmod>2024-12-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://workspace.calicutspicetraders.com/crm</loc>
-    <lastmod>2024-12-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
+    <url>
+        <loc>https://workspace.calicutspicetraders.com/</loc>
+        <lastmod>$(date +%Y-%m-%d)</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
 </urlset>
-EOL
+EOF
+    
+    log_success "Hostinger optimizations applied"
+}
 
-# Create ZIP package for easy upload
-print_step "Creating Deployment Package"
-if command -v zip &> /dev/null; then
-    print_status "Creating ZIP package..."
-    cd "$DEPLOY_DIR"
-    zip -r "../${PACKAGE_NAME}.zip" .
-    cd ..
-    print_status "Deployment package created: ${PACKAGE_NAME}.zip"
-else
-    print_warning "ZIP command not found. You'll need to manually compress the hostinger-deployment folder."
-fi
-
-# Generate file size report
-print_step "Deployment Summary"
-TOTAL_SIZE=$(du -sh "$DEPLOY_DIR" | cut -f1)
-FILE_COUNT=$(find "$DEPLOY_DIR" -type f | wc -l)
-
-print_status "Deployment directory: $DEPLOY_DIR"
-print_status "Total files: $FILE_COUNT"
-print_status "Total size: $TOTAL_SIZE"
-
-echo ""
-echo "📁 Files ready for upload:"
-echo "   • All files in the '$DEPLOY_DIR' directory"
-if [ -f "${PACKAGE_NAME}.zip" ]; then
-    echo "   • Or use the ZIP package: ${PACKAGE_NAME}.zip"
-fi
-
-echo ""
-echo "🚀 Next Steps:"
-echo "   1. Login to your Hostinger control panel"
-echo "   2. Navigate to File Manager"
-echo "   3. Go to public_html/workspace/ (create if needed)"
-echo "   4. Upload all files from '$DEPLOY_DIR' directory"
-echo "   5. Set up subdomain: workspace.calicutspicetraders.com"
-echo "   6. Enable SSL certificate"
-echo "   7. Test the deployment"
-
-echo ""
-echo "���� For detailed instructions, see: DEPLOYMENT-HOSTINGER.md"
-
-echo ""
-print_status "Deployment preparation completed successfully! 🎉"
-
-# Optional: Open deployment guide
-if command -v xdg-open &> /dev/null; then
-    read -p "Would you like to open the deployment guide? (y/n): " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        xdg-open "DEPLOYMENT-HOSTINGER.md" 2>/dev/null
+# Health check
+run_health_check() {
+    log_info "Running health checks..."
+    
+    # Check if site is accessible
+    if curl -f -s "https://$DOMAIN" > /dev/null; then
+        log_success "Website is accessible"
+    else
+        log_warning "Website may not be accessible yet (DNS propagation needed)"
     fi
-elif command -v open &> /dev/null; then
-    read -p "Would you like to open the deployment guide? (y/n): " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        open "DEPLOYMENT-HOSTINGER.md" 2>/dev/null
+    
+    # Check API endpoints
+    if curl -f -s "https://$DOMAIN/api/test.php" > /dev/null; then
+        log_success "API endpoints are working"
+    else
+        log_warning "API endpoints may not be working"
     fi
-fi
+    
+    # Check database connection
+    if php -f "$DEPLOY_DIR/config/health_check.php" 2>/dev/null; then
+        log_success "Database connection is working"
+    else
+        log_warning "Database connection may have issues"
+    fi
+}
 
-exit 0
+# Cleanup old files
+cleanup() {
+    log_info "Cleaning up temporary files..."
+    
+    # Remove old backups (keep only last 5)
+    if [[ -d "$BACKUP_DIR" ]]; then
+        ls -1t "$BACKUP_DIR" | tail -n +6 | xargs -I {} rm -rf "$BACKUP_DIR/{}" 2>/dev/null || true
+    fi
+    
+    # Clear any temporary files
+    rm -f "$DEPLOY_DIR"/.env.* 2>/dev/null || true
+    
+    log_success "Cleanup completed"
+}
+
+# Generate deployment report
+generate_report() {
+    local deploy_time=$(date)
+    local git_commit=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+    
+    cat > "$DEPLOY_DIR/deployment_info.json" << EOF
+{
+    "deployment_date": "$deploy_time",
+    "git_commit": "$git_commit",
+    "domain": "$DOMAIN",
+    "app_name": "$APP_NAME",
+    "database": "$DB_NAME",
+    "php_version": "$(php -v | head -n1)",
+    "status": "deployed"
+}
+EOF
+    
+    log_success "Deployment report generated"
+}
+
+# Main deployment process
+main() {
+    log_info "=========================================="
+    log_info "  $APP_NAME - Hostinger Deployment"
+    log_info "=========================================="
+    
+    check_environment
+    create_backup
+    build_frontend
+    deploy_files
+    run_migrations
+    optimize_for_hostinger
+    run_health_check
+    cleanup
+    generate_report
+    
+    log_success "=========================================="
+    log_success "  Deployment completed successfully!"
+    log_success "  Domain: https://$DOMAIN"
+    log_success "  Time: $(date)"
+    log_success "=========================================="
+}
+
+# Run deployment
+main "$@"
