@@ -26,6 +26,17 @@ import "./App.css";
 
 const queryClient = new QueryClient();
 
+// Protected route component for regular users
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated } = useUser();
+
+  if (!isAuthenticated) {
+    return <Login />;
+  }
+
+  return <>{children}</>;
+};
+
 // Protected route component for SuperAdmin
 const ProtectedSuperAdminRoute = ({
   children,
