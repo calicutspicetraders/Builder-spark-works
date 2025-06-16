@@ -240,7 +240,7 @@ const Navigation = () => {
                 </DropdownMenuItem>
               </Link>
               <DropdownMenuSeparator className="bg-white/10" />
-              <Link to="/superadmin/login">
+              <Link to="/superadmin">
                 <DropdownMenuItem className="p-3 hover:bg-red-500/20 rounded-xl m-1 transition-all duration-200 text-red-400 focus:text-red-400">
                   <Shield className="mr-3 h-4 w-4" />
                   <span>SuperAdmin</span>
@@ -310,10 +310,7 @@ const Navigation = () => {
                           Settings
                         </Button>
                       </Link>
-                      <Link
-                        to="/superadmin/login"
-                        onClick={() => setIsOpen(false)}
-                      >
+                      <Link to="/superadmin" onClick={() => setIsOpen(false)}>
                         <Button
                           variant="ghost"
                           className="w-full justify-start rounded-2xl hover:bg-red-500/20 text-red-400"
