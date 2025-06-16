@@ -350,14 +350,18 @@ const Settings = () => {
                         <p className="font-medium">New Messages</p>
                         <p className="text-sm text-muted-foreground">
                           Real-time message notifications
-                        </p>
-                      </div>
-                      <Switch defaultChecked />
-                    </div>
-                  </div>
+                  />
                 </div>
               </div>
+
+              <div className="pt-6">
+                <Button className="modern-button" onClick={handleSaveProfile}>
+                  <Save className="w-4 h-4 mr-2" />
+                  Save Profile
+                </Button>
+              </div>
             </CardContent>
+          </Card>
           </Card>
         </TabsContent>
 
