@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -35,6 +36,49 @@ import {
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const navigate = useNavigate();
+
+  // Handler functions for button clicks
+  const handleExportReport = () => {
+    // Generate and download a sample export report
+    const reportData = {
+      date: new Date().toISOString().split("T")[0],
+      totalShipments: 0,
+      totalVolume: "0 MT",
+      activeShipments: 0,
+      revenue: "$0",
+      exportDestinations: [],
+      summary:
+        "No shipments recorded yet. Start by creating your first shipment.",
+    };
+
+    const dataStr = JSON.stringify(reportData, null, 2);
+    const dataUri =
+      "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+
+    const exportFileDefaultName = `export-report-${reportData.date}.json`;
+
+    const linkElement = document.createElement("a");
+    linkElement.setAttribute("href", dataUri);
+    linkElement.setAttribute("download", exportFileDefaultName);
+    linkElement.click();
+  };
+
+  const handleNewShipment = () => {
+    navigate("/shipments");
+  };
+
+  const handleCreateFirstShipment = () => {
+    navigate("/shipments");
+  };
+
+  const handleUploadCertificates = () => {
+    navigate("/compliance");
+  };
+
+  const handleInviteTeam = () => {
+    navigate("/partners");
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 header-safe">
@@ -49,11 +93,18 @@ const AdminDashboard = () => {
         </div>
 
         <div className="flex items-center space-x-3 mt-4 md:mt-0">
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            onClick={handleExportReport}
+            className="hover:scale-105 active:scale-95 transition-transform duration-200"
+          >
             <Download className="w-4 h-4 mr-2" />
             Export Report
           </Button>
-          <Button>
+          <Button
+            onClick={handleNewShipment}
+            className="hover:scale-105 active:scale-95 transition-transform duration-200"
+          >
             <Plus className="w-4 h-4 mr-2" />
             New Shipment
           </Button>
@@ -165,7 +216,10 @@ const AdminDashboard = () => {
                   <p className="text-muted-foreground mb-4">
                     Create your first shipment to start tracking exports
                   </p>
-                  <Button>
+                  <Button
+                    onClick={handleNewShipment}
+                    className="hover:scale-105 active:scale-95 transition-transform duration-200"
+                  >
                     <Plus className="w-4 h-4 mr-2" />
                     New Shipment
                   </Button>
@@ -215,7 +269,10 @@ const AdminDashboard = () => {
                 <p className="text-muted-foreground mb-4">
                   Start tracking your export shipments here
                 </p>
-                <Button>
+                <Button
+                  onClick={handleCreateFirstShipment}
+                  className="hover:scale-105 active:scale-95 transition-transform duration-200"
+                >
                   <Plus className="w-4 h-4 mr-2" />
                   Create First Shipment
                 </Button>
@@ -242,7 +299,10 @@ const AdminDashboard = () => {
                 <p className="text-muted-foreground mb-4">
                   Upload certificates and set renewal reminders
                 </p>
-                <Button>
+                <Button
+                  onClick={handleUploadCertificates}
+                  className="hover:scale-105 active:scale-95 transition-transform duration-200"
+                >
                   <Upload className="w-4 h-4 mr-2" />
                   Upload Certificates
                 </Button>
@@ -272,7 +332,10 @@ const AdminDashboard = () => {
                 <p className="text-muted-foreground mb-4">
                   Add your partners to start collaborating
                 </p>
-                <Button>
+                <Button
+                  onClick={handleInviteTeam}
+                  className="hover:scale-105 active:scale-95 transition-transform duration-200"
+                >
                   <Plus className="w-4 h-4 mr-2" />
                   Invite Team
                 </Button>
