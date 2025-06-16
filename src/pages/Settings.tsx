@@ -165,10 +165,11 @@ const Settings = () => {
                       {user?.initials || "U"}
                     </AvatarFallback>
                   </Avatar>
-                  <Button className="modern-button" onClick={handleSaveProfile}>
-                    <Save className="w-4 h-4 mr-2" />
-                    Save Profile
-                  </Button>
+                  <div>
+                    <Button className="modern-button">
+                      <Upload className="w-4 h-4 mr-2" />
+                      Change Avatar
+                    </Button>
                     <p className="text-sm text-muted-foreground">
                       JPG, PNG or GIF. Max size 2MB.
                     </p>
@@ -182,7 +183,9 @@ const Settings = () => {
                     <Input
                       id="full-name"
                       value={formData.fullName}
-                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, fullName: e.target.value })
+                      }
                       placeholder="Enter your full name"
                     />
                   </div>
@@ -192,7 +195,9 @@ const Settings = () => {
                       id="email"
                       type="email"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
                       placeholder="Enter your email"
                     />
                   </div>
@@ -201,7 +206,9 @@ const Settings = () => {
                     <Input
                       id="phone"
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
                       placeholder="Enter your phone number"
                     />
                   </div>
@@ -210,7 +217,9 @@ const Settings = () => {
                     <Input
                       id="title"
                       value={formData.jobTitle}
-                      onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, jobTitle: e.target.value })
+                      }
                       placeholder="Enter your job title"
                     />
                   </div>
@@ -218,7 +227,9 @@ const Settings = () => {
                     <Label htmlFor="department">Department</Label>
                     <Select
                       value={formData.department}
-                      onValueChange={(value) => setFormData({ ...formData, department: value })}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, department: value })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select department" />
@@ -240,7 +251,9 @@ const Settings = () => {
                     <Label htmlFor="timezone">Timezone</Label>
                     <Select
                       value={formData.timezone}
-                      onValueChange={(value) => setFormData({ ...formData, timezone: value })}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, timezone: value })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select timezone" />
@@ -268,7 +281,9 @@ const Settings = () => {
                     placeholder="Tell us about yourself..."
                     className="min-h-[100px]"
                     value={formData.bio}
-                    onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, bio: e.target.value })
+                    }
                   />
                 </div>
               </div>
