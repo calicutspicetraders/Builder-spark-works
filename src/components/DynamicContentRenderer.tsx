@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 
+// Development fallback - skip API calls in development when API isn't available
+const isDevelopment = import.meta.env.DEV;
+const skipAPIFetch = isDevelopment && !import.meta.env.VITE_API_BASE_URL;
+
 interface ContentBlock {
   id: string;
   type: "text" | "image" | "logo" | "plugin" | "custom";
@@ -51,6 +55,11 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
   const { data: contentData, isLoading } = useQuery({
     queryKey: ["content-blocks", page, position],
     queryFn: async () => {
+      // In development without API setup, return empty data immediately
+      if (skipAPIFetch) {
+        return { content_blocks: [], plugins: [], settings: {} };
+      }
+
       // Check if we're in development and API might not be available
       try {
         const controller = new AbortController();
@@ -73,11 +82,6 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
         return response.json();
       } catch (error: any) {
         // Silently handle fetch errors - common in development when API isn't running
-        if (error.name === "AbortError") {
-          // Request was aborted due to timeout
-          return { content_blocks: [], plugins: [], settings: {} };
-        }
-        // Network error, CORS error, etc. - don't log in production
         return { content_blocks: [], plugins: [], settings: {} };
       }
     },
@@ -86,6 +90,7 @@ const DynamicContentRenderer: React.FC<DynamicContentRendererProps> = ({
     retry: false, // Don't retry failed requests
     retryOnMount: false,
     refetchOnReconnect: false,
+    enabled: !skipAPIFetch, // Disable query completely in development without API
   });
 
   // Get content blocks for this position
@@ -352,6 +357,11 @@ export const useDynamicContent = (page: string, position?: string) => {
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["dynamic-content", page, position],
     queryFn: async () => {
+      // In development without API setup, return empty data immediately
+      if (skipAPIFetch) {
+        return { content_blocks: [], plugins: [], settings: {} };
+      }
+
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
@@ -373,11 +383,6 @@ export const useDynamicContent = (page: string, position?: string) => {
         return response.json();
       } catch (error: any) {
         // Silently handle fetch errors - common in development when API isn't running
-        if (error.name === "AbortError") {
-          // Request was aborted due to timeout
-          return { content_blocks: [], plugins: [], settings: {} };
-        }
-        // Network error, CORS error, etc. - return empty data silently
         return { content_blocks: [], plugins: [], settings: {} };
       }
     },
@@ -386,6 +391,7 @@ export const useDynamicContent = (page: string, position?: string) => {
     retryOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    enabled: !skipAPIFetch, // Disable query completely in development without API
   });
 
   const contentBlocks = useMemo(() => {
